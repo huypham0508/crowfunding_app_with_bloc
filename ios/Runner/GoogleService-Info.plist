@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBTJFBwpDCF3pLc5qelBnVtU8-dlojXt_0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>469319339415</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.crowfundingAppWithBloc</string>
+	<key>PROJECT_ID</key>
+	<string>crowfunding-app-13789</string>
+	<key>STORAGE_BUCKET</key>
+	<string>crowfunding-app-13789.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:469319339415:ios:7793e1cab4c1342b0e88d2</string>
+</dict>
+</plist>
