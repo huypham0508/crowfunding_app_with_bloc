@@ -1,5 +1,5 @@
 import 'package:crowfunding_app_with_bloc/app/data/adapters/repository_adapter.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/rest.dart';
+import 'package:crowfunding_app_with_bloc/app/data/provider/rest/rest.dart';
 
 class ApiServiceRepository implements IApiDeviceRepository {
   final RestAPIClient _restAPIClient;

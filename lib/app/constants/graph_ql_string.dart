@@ -1,16 +1,23 @@
 // ignore: file_names
 import 'package:crowfunding_app_with_bloc/app/constants/app_string.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 
 abstract class ConfigGraphQl {
   // httpLink
-  static final HttpLink httpLink = HttpLink(ConfigApi.GRAPH_QL_APIURL);
+  static const String httpLink = ConfigApi.GRAPH_QL_APIURL;
 
   // query string
-  static const String getUserQuery = "";
+  static const String getAllUserQuery = r'''
+    query getUser {
+      getUser {
+        userName
+        email
+        avatar
+      }
+    }
+  ''';
 
   // mutation string
-  static const String loginMutation = """
+  static const String loginMutation = '''
     mutation login(\$loginInput: LoginInput!) {
         login(loginInput: \$loginInput) {
         success
@@ -18,5 +25,6 @@ abstract class ConfigGraphQl {
         code
         accessToken
     }
-  """;
+  }
+  ''';
 }

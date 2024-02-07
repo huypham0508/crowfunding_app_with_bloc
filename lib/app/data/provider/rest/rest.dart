@@ -1,7 +1,7 @@
 import 'package:crowfunding_app_with_bloc/app/constants/app_string.dart';
 import 'package:dio/dio.dart';
 
-import '../exceptions.dart';
+import '../../exceptions.dart';
 
 const baseUrl = ConfigApi.BASEURL;
 const appKey = ConfigApi.APPKEY;

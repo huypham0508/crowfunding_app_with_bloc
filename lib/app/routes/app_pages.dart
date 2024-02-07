@@ -1,4 +1,5 @@
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/views/auth_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/views/lo_to_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/login/views/login_view.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,19 @@ class AppRouter {
       navigatorKey: navigatorKey,
       routes: [
         GoRoute(
-          name: 'loto',
-          path: Routes.LOTO,
-          builder: (context, state) => const LoToView(),
+          name: 'auth',
+          path: Routes.AUTH,
+          builder: (context, state) => const AuthView(),
         ),
         GoRoute(
           name: 'login',
           path: Routes.LOGIN,
           builder: (context, state) => LoginView(),
+        ),
+        GoRoute(
+          name: 'loto',
+          path: Routes.LOTO,
+          builder: (context, state) => const LoToView(),
         ),
       ],
       redirect: (context, state) async {
@@ -28,7 +34,7 @@ class AppRouter {
         if (checkAuth == AuthStatus.loginSuccess) {
           return Routes.LOTO;
         }
-        return Routes.LOGIN;
+        return Routes.AUTH;
       },
     );
     return router;

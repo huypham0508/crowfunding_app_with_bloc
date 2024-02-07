@@ -19,6 +19,10 @@ class AuthRepository {
         }
       },
     );
-    return true;
+    if (result['login']['success'] == true) {
+      localDataSource.saveToken(result['login']['accessToken']);
+      return true;
+    }
+    return false;
   }
 }

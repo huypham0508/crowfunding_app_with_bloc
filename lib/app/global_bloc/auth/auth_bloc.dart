@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/graph_ql_string.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graph_QL.dart';
+import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_dto.dart';
 
 part 'auth_events.dart';
