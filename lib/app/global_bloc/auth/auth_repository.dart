@@ -9,7 +9,7 @@ class AuthRepository {
     required this.localDataSource,
   });
 
-  Future<bool> login(LoginModel loginModel) async {
+  Future<LoginResponse> login(LoginModel loginModel) async {
     final result = await graphQLClient.performMutation(
       ConfigGraphQl.loginMutation,
       {
@@ -21,8 +21,7 @@ class AuthRepository {
     );
     if (result['login']['success'] == true) {
       localDataSource.saveToken(result['login']['accessToken']);
-      return true;
     }
-    return false;
+    return LoginResponse.fromJson(result['login']);
   }
 }
