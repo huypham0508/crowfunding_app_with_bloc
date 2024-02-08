@@ -1,0 +1,27 @@
+{
+  "lang": "en",
+  "home": {
+    "test": "troidatoi"
+  },
+  "auth": {
+    "sign_up": {
+      "title": "Sign up",
+      "username": "User name",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "have_account": "You already have an account !",
+      "email_empty": "Please enter your email address!",
+      "email_invalid": "Email address is invalid!",
+      "passwords_least": "Passwords must be at least 6 characters!"
+    },
+    "sign_in": {
+      "title": "Sign In",
+      "username": "User name",
+      "password": "Password",
+      "do_not_have_account": "You don't have an account!",
+      "email_empty": "Please enter your email address!",
+      "email_invalid": "Email address is invalid!",
+      "password_empty": "Please enter your password!"
+    }
+  }
+}

@@ -7,16 +7,21 @@ import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/firebase/firebase_data.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
 import 'package:crowfunding_app_with_bloc/firebase_options.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -24,8 +29,13 @@ void main() async {
 
   /// Use preferences like expected.
   final sf = await SharedPreferences.getInstance();
-  runApp(MainApp(
-    sharedPreferences: sf,
+  runApp(EasyLocalization(
+    supportedLocales: const [Locale('en')],
+    path: 'assets/translations',
+    fallbackLocale: const Locale('en'),
+    child: MainApp(
+      sharedPreferences: sf,
+    ),
   ));
 }
 
@@ -35,8 +45,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     LocalDataSource localDataSource = LocalDataSource(sharedPreferences);
-
     return MultiRepositoryProvider(
       providers: [
         //Create a LocalDataSource
@@ -63,6 +73,7 @@ class MainApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => AuthBloc(
+              localDataSource: context.read<LocalDataSource>(),
               authRepository: AuthRepository(
                 graphQLClient: context.read<GraphQLService>(),
                 localDataSource: context.read<LocalDataSource>(),
@@ -77,6 +88,23 @@ class MainApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            FlutterI18nDelegate(
+              translationLoader: FileTranslationLoader(
+                basePath: "assets/translations",
+                forcedLocale: const Locale("en"),
+              ),
+            ),
+          ],
+          title: 'Crow Funding App',
+          theme: ThemeData(
+            textTheme: GoogleFonts.epilogueTextTheme(textTheme).copyWith(
+              bodyMedium: GoogleFonts.rubik(textStyle: textTheme.bodyMedium),
+            ),
+          ),
           debugShowCheckedModeBanner: false,
           routerConfig: AppRouter.returnRouter(navigatorKey),
         ),

@@ -6,8 +6,9 @@ class InitialAuthEvent extends AuthEvent {}
 
 class StartedLoginAuthEvent extends AuthEvent {
   final LoginModel loginModel;
+  final BuildContext context;
 
-  StartedLoginAuthEvent({required this.loginModel});
+  StartedLoginAuthEvent({required this.context, required this.loginModel});
 
   String? validate() {
     List<String?> validates = [_validateEmail(), _validatePassword()];
@@ -22,18 +23,23 @@ class StartedLoginAuthEvent extends AuthEvent {
 
   String? _validateEmail() {
     if (loginModel.email.isEmpty) {
-      return 'Please enter your email address!';
+      return FlutterI18n.translate(context, "auth.sign_in.email_empty");
     } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
         .hasMatch(loginModel.email)) {
-      return 'Email address is invalid!';
+      return FlutterI18n.translate(context, "auth.sign_in.email_invalid");
     }
     return null;
   }
 
   String? _validatePassword() {
     if (loginModel.password.isEmpty) {
-      return 'Please enter your password';
+      return FlutterI18n.translate(context, "auth.sign_in.password_empty");
     }
     return null;
   }
+}
+
+class SwitchAuthPageEvent extends AuthEvent {
+  final AuthPage authPage;
+  SwitchAuthPageEvent({required this.authPage});
 }

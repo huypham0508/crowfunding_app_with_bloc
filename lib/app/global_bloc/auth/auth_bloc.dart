@@ -7,6 +7,8 @@ import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dar
 import 'package:crowfunding_app_with_bloc/app/models/auth_dto.dart';
 import 'package:crowfunding_app_with_bloc/app/models/login_response_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 part 'auth_events.dart';
 part 'auth_repository.dart';
@@ -14,9 +16,27 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
+  final LocalDataSource localDataSource;
 
-  AuthBloc({required this.authRepository}) : super(authInitialState) {
+  AuthBloc({
+    required this.authRepository,
+    required this.localDataSource,
+  }) : super(authInitialState) {
+    on<InitialAuthEvent>(_initial);
     on<StartedLoginAuthEvent>(_login);
+    on<SwitchAuthPageEvent>(_switchAuthPage);
+  }
+
+  void _initial(InitialAuthEvent event, Emitter<AuthState> emit) async {
+    await Future.delayed(700.milliseconds);
+    var checkToken = await localDataSource.getToken();
+    await Future.delayed(500.milliseconds);
+    if (checkToken != null) {
+      emit(state.copyWith(status: AuthStatus.loginSuccess));
+    }
+    if (checkToken == null) {
+      emit(state.copyWith(authPage: AuthPage.signIn));
+    }
   }
 
   void _login(StartedLoginAuthEvent event, Emitter<AuthState> emit) async {
@@ -38,6 +58,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
       }
     }
+  }
+
+  void _switchAuthPage(SwitchAuthPageEvent event, Emitter<AuthState> emit) {
+    emit(state.copyWith(authPage: event.authPage, errorMessage: ''));
   }
 
   Future _backDialog(Emitter<AuthState> emit) async {

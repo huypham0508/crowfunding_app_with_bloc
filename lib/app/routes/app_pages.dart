@@ -1,4 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/views/auth_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/views/home_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/views/lo_to_view.dart';
@@ -13,25 +13,50 @@ class AppRouter {
     GoRouter router = GoRouter(
       navigatorKey: navigatorKey,
       routes: [
+        // GoRoute(
+        //   name: Routes.SPLASH,
+        //   path: Routes.SPLASH,
+        //   builder: (context, state) => const SplashView(),
+        // ),
         GoRoute(
-          name: 'auth',
+          name: Routes.AUTH,
           path: Routes.AUTH,
-          builder: (context, state) => AuthView(),
+          // builder: (context, state) => const AuthView(),
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: const AuthView(),
+              transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+              ) {
+                return FadeTransition(
+                  opacity: CurveTween(
+                    curve: Curves.linear,
+                  ).animate(
+                    animation,
+                  ),
+                  child: child,
+                );
+              },
+            );
+          },
         ),
         GoRoute(
-          name: 'loto',
+          name: Routes.LOTO,
           path: Routes.LOTO,
           builder: (context, state) => const LoToView(),
         ),
         GoRoute(
-          name: 'home',
+          name: Routes.HOME,
           path: Routes.HOME,
           builder: (context, state) => const HomeView(),
         ),
       ],
       redirect: (context, state) async {
-        var checkToken = await context.read<LocalDataSource>().getToken();
-        if (checkToken != null) {
+        var checkAuth = context.read<AuthBloc>().state.status;
+        if (checkAuth == AuthStatus.loginSuccess) {
           return Routes.HOME;
         }
         return Routes.AUTH;
