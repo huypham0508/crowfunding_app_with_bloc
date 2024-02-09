@@ -2,7 +2,7 @@
     <application
         android:label="crowfunding_app_with_bloc"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

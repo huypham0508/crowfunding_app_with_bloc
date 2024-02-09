@@ -54,6 +54,7 @@ dependencies:
   auto_size_text: ^3.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
   flutter_test:
     sdk: flutter
 
