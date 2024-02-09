@@ -13,11 +13,6 @@ class AppRouter {
     GoRouter router = GoRouter(
       navigatorKey: navigatorKey,
       routes: [
-        // GoRoute(
-        //   name: Routes.SPLASH,
-        //   path: Routes.SPLASH,
-        //   builder: (context, state) => const SplashView(),
-        // ),
         GoRoute(
           name: Routes.AUTH,
           path: Routes.AUTH,
@@ -51,7 +46,24 @@ class AppRouter {
         GoRoute(
           name: Routes.HOME,
           path: Routes.HOME,
-          builder: (context, state) => const HomeView(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const HomeView(),
+            transitionsBuilder: (
+              context,
+              animation,
+              secondaryAnimation,
+              child,
+            ) {
+              return FadeTransition(
+                opacity: CurveTween(
+                  curve: Curves.linear,
+                ).animate(
+                  animation,
+                ),
+                child: child,
+              );
+            },
+          ),
         ),
       ],
       redirect: (context, state) async {

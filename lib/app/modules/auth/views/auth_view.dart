@@ -1,7 +1,7 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/views/sign_in_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/views/sign_up_view.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/views/sign_in_view.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/views/sign_up_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_background.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class _AuthViewState extends State<AuthView> {
 
   @override
   void initState() {
-    authBloc = context.read<AuthBloc>()..add(InitialAuthEvent());
+    authBloc = context.read<AuthBloc>();
     super.initState();
   }
 
@@ -36,18 +36,8 @@ class _AuthViewState extends State<AuthView> {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               switch (state.status) {
-                case AuthStatus.loading:
-                  showDialog(
-                    context: context,
-                    barrierColor: AppColors.lightBlack.withOpacity(0.2),
-                    builder: (context) => loading(),
-                  );
-                  break;
                 case AuthStatus.loginSuccess:
                   context.pushReplacement(Routes.LOTO);
-                  break;
-                case AuthStatus.backDialog:
-                  context.pop();
                   break;
                 default:
               }

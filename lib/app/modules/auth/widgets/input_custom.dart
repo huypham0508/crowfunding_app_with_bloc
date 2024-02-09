@@ -5,12 +5,16 @@ class InputAuthCustom extends StatelessWidget {
   final TextEditingController textController;
   final String hinText;
   final Icon icon;
+  final bool obscureText;
+  final EdgeInsets margin;
   final Function(String)? onChange;
   const InputAuthCustom({
     super.key,
     required this.textController,
     required this.hinText,
     required this.icon,
+    this.obscureText = false,
+    this.margin = const EdgeInsets.only(left: 16.0, right: 32.0),
     this.onChange,
   });
 
@@ -18,9 +22,11 @@ class InputAuthCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return FadeScale(
       child: Container(
-        margin: const EdgeInsets.only(left: 16.0, right: 32.0),
+        margin: margin,
         child: TextField(
           controller: textController,
+          cursorColor: Colors.black,
+          obscureText: obscureText,
           decoration: InputDecoration(
             border: InputBorder.none,
             icon: icon,

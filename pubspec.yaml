@@ -51,6 +51,7 @@ dependencies:
   flutter_localization: ^0.2.0
   flutter_animate: ^4.5.0
   bloc_test: ^9.1.5
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

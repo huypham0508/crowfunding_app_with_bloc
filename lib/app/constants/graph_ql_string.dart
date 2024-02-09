@@ -20,11 +20,21 @@ abstract class ConfigGraphQl {
   static const String loginMutation = '''
     mutation login(\$loginInput: LoginInput!) {
         login(loginInput: \$loginInput) {
-        success
-        message
-        code
-        accessToken
+          success
+          message
+          code
+          accessToken
     }
+  }
+  ''';
+
+  static const String registerMutation = '''
+    mutation register(\$registerInput: RegisterInput!) {
+        register(registerInput: \$registerInput) {
+          success
+          message
+          code
+      }
   }
   ''';
 }

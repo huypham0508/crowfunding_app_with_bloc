@@ -1,4 +1,4 @@
-part of 'auth_bloc.dart';
+part of '../../global_bloc/auth/auth_bloc.dart';
 
 class AuthRepository {
   final GraphQLService graphQLClient;
@@ -23,5 +23,19 @@ class AuthRepository {
       localDataSource.saveToken(result['login']['accessToken']);
     }
     return LoginResponse.fromJson(result['login']);
+  }
+
+  Future<RegisterResponse> register(RegisterModel registerModel) async {
+    final result = await graphQLClient.performMutation(
+      ConfigGraphQl.registerMutation,
+      {
+        'registerInput': {
+          'userName': registerModel.username,
+          'email': registerModel.email,
+          'password': registerModel.password,
+        }
+      },
+    );
+    return RegisterResponse.fromJson(result['register']);
   }
 }

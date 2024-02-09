@@ -74,11 +74,7 @@ class MainApp extends StatelessWidget {
           BlocProvider(
             create: (context) => AuthBloc(
               localDataSource: context.read<LocalDataSource>(),
-              authRepository: AuthRepository(
-                graphQLClient: context.read<GraphQLService>(),
-                localDataSource: context.read<LocalDataSource>(),
-              ),
-            ),
+            )..add(InitialAuthEvent()),
           ),
           BlocProvider(
             create: (context) => LoToBloc(

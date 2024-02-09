@@ -15,8 +15,10 @@ class ButtonAuthCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
+    return Positioned(
+      top: 0,
+      bottom: 0,
+      right: 10,
       child: GestureDetector(
         onTap: onTap,
         child: Container(

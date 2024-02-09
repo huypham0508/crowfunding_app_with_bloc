@@ -6,17 +6,22 @@
   "auth": {
     "sign_up": {
       "title": "Sign up",
+      "email": "Email",
       "username": "User name",
       "password": "Password",
       "confirm_password": "Confirm Password",
       "have_account": "You already have an account !",
+      "username_empty": "Please enter your username!",
       "email_empty": "Please enter your email address!",
       "email_invalid": "Email address is invalid!",
-      "passwords_least": "Passwords must be at least 6 characters!"
+      "password_empty": "Please enter your password!",
+      "passwords_least": "Passwords must be at least 6 characters!",
+      "confirm_password_empty": "Please enter your confirm password!",
+      "confirm_password_not_match": "Your confirm password is not match!"
     },
     "sign_in": {
       "title": "Sign In",
-      "username": "User name",
+      "email": "Email",
       "password": "Password",
       "do_not_have_account": "You don't have an account!",
       "email_empty": "Please enter your email address!",
