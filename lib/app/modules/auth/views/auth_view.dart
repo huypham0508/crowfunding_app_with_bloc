@@ -67,7 +67,7 @@ class _AuthViewState extends State<AuthView> {
   }
 
   Widget loading() {
-    return Center(
+    return const Center(
       child: IntrinsicWidth(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

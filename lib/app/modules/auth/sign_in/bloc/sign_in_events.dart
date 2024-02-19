@@ -1,41 +1,54 @@
 part of 'sign_in_bloc.dart';
 
+enum StartedLoginEventEnum {
+  email,
+  password,
+  submitted,
+}
+
 abstract class SignInEvent {}
 
 class InitialSignInEvent extends SignInEvent {}
 
-class StartedLoginEvent extends SignInEvent {
+class StartedLoginEvent extends SignInEvent with Validate {
+  final StartedLoginEventEnum type;
   final LoginModel loginModel;
-  final BuildContext context;
+  final List<String?> _validates = [];
 
-  StartedLoginEvent({required this.context, required this.loginModel});
+  StartedLoginEvent({
+    this.type = StartedLoginEventEnum.submitted,
+    required BuildContext context,
+    required this.loginModel,
+  }) {
+    setContext = context;
+  }
 
   String? validate() {
-    List<String?> validates = [_validateEmail(), _validatePassword()];
-    var value = validates.firstWhere((element) {
-      return element.runtimeType == String;
-    }, orElse: () => null);
-    if (value.runtimeType == String) {
-      return value;
-    }
-    return null;
+    _generateValidations();
+    return _validates.firstWhere(
+      (element) => element != null,
+      orElse: () => null,
+    );
   }
 
-  String? _validateEmail() {
-    if (loginModel.email.isEmpty) {
-      return FlutterI18n.translate(context, "auth.sign_in.email_empty");
-    } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-        .hasMatch(loginModel.email)) {
-      return FlutterI18n.translate(context, "auth.sign_in.email_invalid");
-    }
-    return null;
-  }
+  List<String?> _generateValidations() {
+    String email = loginModel.email.trim();
+    String password = loginModel.password.trim();
 
-  String? _validatePassword() {
-    if (loginModel.password.isEmpty) {
-      return FlutterI18n.translate(context, "auth.sign_in.password_empty");
+    switch (type) {
+      case StartedLoginEventEnum.email:
+        _validates.add(validateEmail(email));
+        break;
+      case StartedLoginEventEnum.password:
+        _validates.add(validatePassword(password));
+        break;
+      default:
+        _validates.addAll([
+          validateEmail(email),
+          validatePassword(password),
+        ]);
     }
-    return null;
+    return _validates;
   }
 }
 

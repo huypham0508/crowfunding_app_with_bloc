@@ -52,6 +52,7 @@ dependencies:
   flutter_animate: ^4.5.0
   bloc_test: ^9.1.5
   auto_size_text: ^3.0.0
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"

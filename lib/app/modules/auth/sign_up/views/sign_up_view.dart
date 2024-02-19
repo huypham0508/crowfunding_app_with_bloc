@@ -3,7 +3,7 @@ import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_dto.dart';
+import 'package:crowfunding_app_with_bloc/app/models/auth_modals.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/bloc/sign_up_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_switch_page_button.dart';
@@ -82,6 +82,7 @@ class SignUpView extends StatelessWidget {
               child: Stack(
                 children: [
                   _authInputsLoginContainer(
+                    context,
                     state.signUpUsernameController,
                     state.signUpEmailSController,
                     state.signUpPasswordController,
@@ -123,10 +124,11 @@ class SignUpView extends StatelessWidget {
   }
 
   Widget _authInputsLoginContainer(
-    usernameController,
-    emailController,
-    passwordController,
-    confirmPasswordController,
+    BuildContext context,
+    TextEditingController usernameController,
+    TextEditingController emailController,
+    TextEditingController passwordController,
+    TextEditingController confirmPasswordController,
   ) {
     return FadeLinearToEaseOut(
       child: Container(
@@ -154,27 +156,55 @@ class SignUpView extends StatelessWidget {
           children: [
             InputAuthCustom(
               textController: usernameController,
-              hinText: 'Username',
+              hinText: FlutterI18n.translate(context, "auth.sign_up.username"),
               icon: const Icon(Icons.account_circle_rounded),
               margin: const EdgeInsets.only(
                 left: 16.0,
                 right: 32.0,
                 bottom: 10,
               ),
+              onChange: (value) {
+                context.read<SignUpBloc>().add(
+                      StartedSignUpEvent(
+                        context: context,
+                        type: StartedSignUpEventEnum.username,
+                        registerModel: RegisterModel(
+                          username: value,
+                          email: emailController.text,
+                          password: passwordController.text,
+                          confirmPw: confirmPasswordController.text,
+                        ),
+                      ),
+                    );
+              },
             ),
             InputAuthCustom(
               textController: emailController,
-              hinText: 'Your email',
+              hinText: FlutterI18n.translate(context, "auth.sign_up.email"),
               icon: const Icon(Icons.email),
               margin: const EdgeInsets.only(
                 left: 16.0,
                 right: 32.0,
                 bottom: 10,
               ),
+              onChange: (value) {
+                context.read<SignUpBloc>().add(
+                      StartedSignUpEvent(
+                        context: context,
+                        type: StartedSignUpEventEnum.email,
+                        registerModel: RegisterModel(
+                          username: usernameController.text,
+                          email: value,
+                          password: passwordController.text,
+                          confirmPw: confirmPasswordController.text,
+                        ),
+                      ),
+                    );
+              },
             ),
             InputAuthCustom(
               textController: passwordController,
-              hinText: 'Your password',
+              hinText: FlutterI18n.translate(context, "auth.sign_up.password"),
               icon: const Icon(Icons.lock),
               margin: const EdgeInsets.only(
                 left: 16.0,
@@ -182,12 +212,43 @@ class SignUpView extends StatelessWidget {
                 bottom: 10,
               ),
               obscureText: true,
+              onChange: (value) {
+                context.read<SignUpBloc>().add(
+                      StartedSignUpEvent(
+                        context: context,
+                        type: StartedSignUpEventEnum.password,
+                        registerModel: RegisterModel(
+                          username: usernameController.text,
+                          email: emailController.text,
+                          password: value,
+                          confirmPw: confirmPasswordController.text,
+                        ),
+                      ),
+                    );
+              },
             ),
             InputAuthCustom(
               textController: confirmPasswordController,
-              hinText: 'Confirm password',
+              hinText: FlutterI18n.translate(
+                context,
+                "auth.sign_up.confirm_password",
+              ),
               icon: const Icon(Icons.lock),
               obscureText: true,
+              onChange: (value) {
+                context.read<SignUpBloc>().add(
+                      StartedSignUpEvent(
+                        context: context,
+                        type: StartedSignUpEventEnum.confirmPassword,
+                        registerModel: RegisterModel(
+                          username: usernameController.text,
+                          email: emailController.text,
+                          password: passwordController.text,
+                          confirmPw: value,
+                        ),
+                      ),
+                    );
+              },
             ),
           ],
         ),

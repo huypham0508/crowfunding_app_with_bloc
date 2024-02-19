@@ -7,7 +7,7 @@ class InputAuthCustom extends StatelessWidget {
   final Icon icon;
   final bool obscureText;
   final EdgeInsets margin;
-  final Function(String)? onChange;
+  final Function(String value)? onChange;
   const InputAuthCustom({
     super.key,
     required this.textController,

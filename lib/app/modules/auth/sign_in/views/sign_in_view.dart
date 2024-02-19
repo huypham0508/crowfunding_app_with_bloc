@@ -3,7 +3,7 @@ import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_dto.dart';
+import 'package:crowfunding_app_with_bloc/app/models/auth_modals.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_switch_page_button.dart';
@@ -97,9 +97,9 @@ class SignInView extends StatelessWidget {
   }
 
   Widget _authInputsLoginContainer(
-    context,
-    emailController,
-    passwordController,
+    BuildContext context,
+    TextEditingController emailController,
+    TextEditingController passwordController,
   ) {
     return FadeLinearToEaseOut(
       child: Container(
@@ -134,12 +134,34 @@ class SignInView extends StatelessWidget {
                 right: 32.0,
                 bottom: 10,
               ),
+              onChange: (value) {
+                context.read<SignInBloc>().add(
+                      StartedLoginEvent(
+                        context: context,
+                        type: StartedLoginEventEnum.email,
+                        loginModel: LoginModel(
+                          email: value,
+                          password: passwordController.text,
+                        ),
+                      ),
+                    );
+              },
             ),
             InputAuthCustom(
               textController: passwordController,
               hinText: FlutterI18n.translate(context, "auth.sign_in.password"),
               icon: const Icon(Icons.lock),
               obscureText: true,
+              onChange: (value) => context.read<SignInBloc>().add(
+                    StartedLoginEvent(
+                      context: context,
+                      type: StartedLoginEventEnum.password,
+                      loginModel: LoginModel(
+                        email: emailController.text,
+                        password: value,
+                      ),
+                    ),
+                  ),
             ),
           ],
         ),
@@ -148,7 +170,7 @@ class SignInView extends StatelessWidget {
   }
 
   Widget loading() {
-    return Center(
+    return const Center(
       child: IntrinsicWidth(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +179,7 @@ class SignInView extends StatelessWidget {
               color: AppColors.black,
               strokeWidth: 1.8,
             ),
-            const SizedBox(
+            SizedBox(
               height: 10,
             ),
             Text(

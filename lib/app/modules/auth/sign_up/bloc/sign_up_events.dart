@@ -1,71 +1,67 @@
 part of 'sign_up_bloc.dart';
 
+enum StartedSignUpEventEnum {
+  username,
+  email,
+  password,
+  confirmPassword,
+  submitted,
+}
+
 abstract class SignUpEvent {}
 
 class InitialSignUpEvent extends SignUpEvent {}
 
-class StartedSignUpEvent extends SignUpEvent {
+class StartedSignUpEvent extends SignUpEvent with Validate {
+  final StartedSignUpEventEnum type;
   final RegisterModel registerModel;
-  final BuildContext context;
+  final List<String?> _validates = [];
 
-  StartedSignUpEvent({required this.context, required this.registerModel});
+  StartedSignUpEvent({
+    this.type = StartedSignUpEventEnum.submitted,
+    required BuildContext context,
+    required this.registerModel,
+  }) {
+    setContext = context;
+  }
 
   String? validate() {
-    List<String?> validates = [
-      _validateUsername(),
-      _validateEmail(),
-      _validatePassword(),
-      _validateConfirmPassword(),
-    ];
-    var value = validates.firstWhere((element) {
-      return element.runtimeType == String;
-    }, orElse: () => null);
-    if (value.runtimeType == String) {
-      return value;
-    }
-    return null;
+    _generateValidations();
+    return _validates.firstWhere(
+      (element) => element != null,
+      orElse: () => null,
+    );
   }
 
-  String? _validateUsername() {
-    if (registerModel.username.isEmpty) {
-      return FlutterI18n.translate(context, "auth.sign_up.username_empty");
-    }
-    return null;
-  }
+  List<String?> _generateValidations() {
+    String username = registerModel.username;
+    String email = registerModel.email;
+    String password = registerModel.password;
+    String confirmPw = registerModel.confirmPw;
 
-  String? _validateEmail() {
-    if (registerModel.email.isEmpty) {
-      return FlutterI18n.translate(context, "auth.sign_up.email_empty");
-    } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(
-      registerModel.email,
-    )) {
-      return FlutterI18n.translate(context, "auth.sign_in.email_invalid");
+    switch (type) {
+      case StartedSignUpEventEnum.username:
+        _validates.add(validateUsername(username));
+        break;
+      case StartedSignUpEventEnum.email:
+        _validates.add(validateEmail(email));
+        break;
+      case StartedSignUpEventEnum.password:
+        _validates.add(validatePasswordStrength(password));
+        break;
+      case StartedSignUpEventEnum.confirmPassword:
+        _validates.add(validateConfirmPassword(confirmPw, password));
+        break;
+      default:
+        _validates.addAll([
+          validateUsername(username),
+          validateEmail(email),
+          validatePasswordStrength(password),
+          validateConfirmPassword(confirmPw, password),
+        ]);
     }
-    return null;
-  }
 
-  String? _validatePassword() {
-    if (registerModel.password.isEmpty) {
-      return FlutterI18n.translate(context, "auth.sign_up.password_empty");
-    } else if (registerModel.password.length < 6) {
-      return FlutterI18n.translate(context, "auth.sign_up.passwords_least");
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword() {
-    if (registerModel.confirmPw.isEmpty) {
-      return FlutterI18n.translate(
-        context,
-        "auth.sign_up.confirm_password_empty",
-      );
-    } else if (registerModel.confirmPw != registerModel.password) {
-      return FlutterI18n.translate(
-        context,
-        "auth.sign_up.confirm_password_not_match",
-      );
-    }
-    return null;
+    return _validates;
   }
 }
 
