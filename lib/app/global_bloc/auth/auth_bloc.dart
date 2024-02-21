@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _initial(InitialAuthEvent event, Emitter<AuthState> emit) async {
     var checkToken = await localDataSource.getToken();
-    await Future.delayed(500.milliseconds);
+    await Future.delayed(1500.milliseconds);
     if (checkToken != null) {
       emit(state.copyWith(status: AuthStatus.loginSuccess));
     }

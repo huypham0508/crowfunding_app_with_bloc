@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 class GlobalStyles {
   static const EdgeInsets paddingAll = EdgeInsets.all(12);
-  static const SizedBox sizedBoxHeight_10 = SizedBox(height: 10);
-  static const SizedBox sizedBoxHeight_5 = SizedBox(height: 5);
   static const SizedBox sizedBoxHeight = SizedBox(height: 15);
+  static const SizedBox sizedBoxHeight_5 = SizedBox(height: 5);
+  static const SizedBox sizedBoxHeight_10 = SizedBox(height: 10);
+  static const SizedBox sizedBoxHeight_24 = SizedBox(height: 24);
   static const SizedBox sizedBoxHeight_30 = SizedBox(height: 30);
 
   static const EdgeInsets paddingPageLeftRight = EdgeInsets.symmetric(

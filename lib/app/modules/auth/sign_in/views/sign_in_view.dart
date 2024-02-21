@@ -36,7 +36,7 @@ class SignInView extends StatelessWidget {
           case SignInStatus.loading:
             showDialog(
               context: context,
-              barrierColor: AppColors.lightBlack.withOpacity(0.2),
+              barrierColor: AppColors.black300.withOpacity(0.2),
               builder: (context) => loading(),
             );
             break;
@@ -108,14 +108,14 @@ class SignInView extends StatelessWidget {
           right: 70,
         ),
         decoration: BoxDecoration(
-          color: AppColors.lightWhite,
+          color: AppColors.whitish100,
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(100),
             bottomRight: Radius.circular(100),
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.gray_4.withOpacity(0.5),
+              color: AppColors.neutral400.withOpacity(0.5),
               spreadRadius: 0,
               blurRadius: 10,
               offset: const Offset(0, 4),
@@ -176,7 +176,7 @@ class SignInView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              color: AppColors.black,
+              color: AppColors.black500,
               strokeWidth: 1.8,
             ),
             SizedBox(
@@ -186,7 +186,7 @@ class SignInView extends StatelessWidget {
               'Loading...',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.lightWhite,
+                color: AppColors.whitish100,
                 decoration: TextDecoration.none,
                 fontWeight: FontWeight.w400,
               ),

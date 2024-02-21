@@ -14,10 +14,10 @@ class AuthTitle extends StatelessWidget {
           margin: const EdgeInsets.only(right: 32.0, bottom: 24),
           child: Text(
             titleString,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w600,
-              color: AppColors.black,
+              color: AppColors.black500,
             ),
           ),
         ),

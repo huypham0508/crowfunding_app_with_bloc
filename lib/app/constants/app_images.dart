@@ -1,3 +1,6 @@
 abstract class AppImages {
-  static const String icLogo = 'assets/images/images/logo.png';
+  static const String _path = "assets/images";
+
+  static const String icLogo = '$_path/images/logo.png';
+  static const String icSearch = '$_path/icons/search.png';
 }
