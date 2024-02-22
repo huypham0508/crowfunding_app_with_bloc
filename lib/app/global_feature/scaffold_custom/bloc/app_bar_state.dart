@@ -1,11 +1,11 @@
 part of 'app_bar_bloc.dart';
 
 AppBarState appBarInitialState = AppBarState(
-  status: AppBarStatus.searching,
+  status: AppBarStatus.initial,
   searchDynamicStatus: SearchDynamicStatus.nothing,
   searchController: TextEditingController(),
   focusNode: FocusNode(),
-  searchResults: ['123'],
+  searchResults: [],
 );
 
 enum AppBarStatus {
