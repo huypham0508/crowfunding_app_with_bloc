@@ -20,12 +20,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.localDataSource,
   }) : super(authInitialState) {
     on<InitialAuthEvent>(_initial);
+    on<CheckAuthEvent>(_checkAuth);
     on<SwitchAuthPageEvent>(_switchAuthPage);
   }
 
   void _initial(InitialAuthEvent event, Emitter<AuthState> emit) async {
-    var checkToken = await localDataSource.getToken();
     await Future.delayed(1500.milliseconds);
+    add(CheckAuthEvent());
+  }
+
+  void _checkAuth(CheckAuthEvent event, Emitter<AuthState> emit) async {
+    var checkToken = await localDataSource.getToken();
     if (checkToken != null) {
       emit(state.copyWith(status: AuthStatus.loginSuccess));
     }

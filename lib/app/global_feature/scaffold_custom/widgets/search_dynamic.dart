@@ -1,14 +1,14 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/app_bar/app_bar_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/global_widget/search_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AppBarDynamic extends StatelessWidget {
-  const AppBarDynamic({
+class SearchDynamic extends StatelessWidget {
+  const SearchDynamic({
     super.key,
   });
 
@@ -18,6 +18,8 @@ class AppBarDynamic extends StatelessWidget {
     return BlocConsumer<AppBarBloc, AppBarState>(
       listener: (context, state) {},
       builder: (context, state) {
+        bool isLoadingSearch =
+            state.searchDynamicStatus == SearchDynamicStatus.loading;
         return Positioned.fill(
           child: GestureDetector(
             onTap: () {
@@ -40,14 +42,15 @@ class AppBarDynamic extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const FadeLinearToEaseOut(
-                            child: Icon(Icons.menu, color: AppColors.black500)),
-                        FittedBox(
+                        _fakeButtonMenuSize(),
+                        Expanded(
                           child: SearchInput(
+                            focusNode: state.focusNode,
                             controller: state.searchController,
-                            onSearch: () {
-                              print(state.searchController.text);
-                            },
+                            loading: isLoadingSearch,
+                            onSearch: () => appBarBloc.add(
+                              SubmitSearchAppBarEvent(),
+                            ),
                             onFocusChange: (value) {
                               if (value) {
                                 appBarBloc.add(
@@ -59,40 +62,49 @@ class AppBarDynamic extends StatelessWidget {
                             },
                           ),
                         ),
-                        const FadeLinearToEaseOut(
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              'https://images.unsplash.com/photo-1707345512638-997d31a10eaa?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8',
-                            ),
-                          ),
-                        )
+                        _fakeAvatarSize(),
                       ],
                     ),
                   ),
-                  // if (state.status == AppBarStatus.searching)
-                  //   Expanded(
-                  //     child: LayoutBuilder(builder: (context, constraints) {
-                  //       double height = MediaQuery.of(context).size.height;
-                  //       double keyboardHeight = height - constraints.maxHeight;
-                  //       return Container(
-                  //         height: keyboardHeight - 40,
-                  //         margin: const EdgeInsets.symmetric(
-                  //           horizontal: 24,
-                  //           vertical: 12,
-                  //         ),
-                  //         decoration: BoxDecoration(
-                  //           color: AppColors.whitish100,
-                  //           borderRadius: BorderRadius.circular(20),
-                  //         ),
-                  //       );
-                  //     }),
-                  //   )
+                  if (state.searchResults.isNotEmpty &&
+                      state.status == AppBarStatus.searching)
+                    const SearchResult()
                 ],
               ),
             ),
           ),
         );
       },
+    );
+  }
+
+  Visibility _fakeAvatarSize() {
+    return Visibility(
+      visible: false,
+      maintainAnimation: true,
+      maintainSize: true,
+      maintainState: true,
+      child: Container(
+        margin: GlobalStyles.paddingPageLeftRight_24,
+        child: const CircleAvatar(),
+      ),
+    );
+  }
+
+  Visibility _fakeButtonMenuSize() {
+    return Visibility(
+      visible: false,
+      maintainAnimation: true,
+      maintainSize: true,
+      maintainState: true,
+      child: Container(
+        margin: GlobalStyles.paddingPageLeftRight_24,
+        child: const Icon(
+          Icons.menu,
+          color: AppColors.black500,
+          size: 28,
+        ),
+      ),
     );
   }
 }

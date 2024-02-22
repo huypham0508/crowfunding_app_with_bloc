@@ -9,11 +9,16 @@ class SearchInput extends StatelessWidget {
     this.controller,
     this.onSearch,
     this.onFocusChange,
+    this.focusNode,
+    this.loading = false,
   });
 
   final TextEditingController? controller;
   final Function()? onSearch;
   final Function(bool)? onFocusChange;
+  final FocusNode? focusNode;
+  final bool loading;
+
   @override
   Widget build(BuildContext context) {
     return FadeScale(
@@ -38,6 +43,7 @@ class SearchInput extends StatelessWidget {
                 child: Focus(
                   onFocusChange: onFocusChange,
                   child: TextField(
+                    focusNode: focusNode,
                     controller: controller,
                     maxLines: 1,
                     textAlignVertical: TextAlignVertical.center,
@@ -80,12 +86,25 @@ class SearchInput extends StatelessWidget {
                       30.0,
                     ),
                   ),
-                  child: Image.asset(AppImages.icSearch),
+                  child: loading
+                      ? _loadingButton()
+                      : Image.asset(AppImages.icSearch),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  SizedBox _loadingButton() {
+    return const SizedBox(
+      height: 14.33,
+      width: 14.33,
+      child: CircularProgressIndicator(
+        color: AppColors.whitish100,
+        strokeWidth: 0.5,
       ),
     );
   }

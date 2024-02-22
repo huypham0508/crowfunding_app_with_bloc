@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/firebase_database.dart';
 import 'package:crowfunding_app_with_bloc/app/data/firebase/firebase_api.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
@@ -13,7 +14,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -95,7 +95,7 @@ class MainApp extends StatelessWidget {
               ),
             ),
           ],
-          title: 'Crow Funding App',
+          title: 'CrowFunding App',
           theme: ThemeData(
             textTheme: GoogleFonts.epilogueTextTheme(textTheme).copyWith(
               bodyMedium: GoogleFonts.rubik(textStyle: textTheme.bodyMedium),

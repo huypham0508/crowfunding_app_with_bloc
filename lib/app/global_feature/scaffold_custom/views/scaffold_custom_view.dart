@@ -1,7 +1,8 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/app_bar/app_bar_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_widget/appbar_dynamic.dart';
-import 'package:crowfunding_app_with_bloc/app/global_widget/search_input.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/action_button.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/primary_content.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_dynamic.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -125,59 +126,20 @@ class CustomChild extends StatelessWidget {
         children: [
           const Indexed(
             index: 1,
-            child: AppBarDynamic(),
+            child: ActionButtons(),
+          ),
+          const Indexed(
+            index: 2,
+            child: SearchDynamic(),
           ),
           BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
             return Indexed(
-              index: state.status == AppBarStatus.searching ? 0 : 2,
+              index: state.status == AppBarStatus.searching ? 1 : 3,
               child: PrimaryContent(body: body),
             );
           })
         ],
       ),
     );
-  }
-}
-
-class PrimaryContent extends StatelessWidget {
-  const PrimaryContent({
-    super.key,
-    required this.body,
-  });
-
-  final Widget body;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
-      return Positioned.fill(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 20),
-              width: double.maxFinite,
-              child: const SafeArea(
-                bottom: false,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Visibility(
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      visible: false,
-                      child: SearchInput(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(child: body),
-            )
-          ],
-        ),
-      );
-    });
   }
 }

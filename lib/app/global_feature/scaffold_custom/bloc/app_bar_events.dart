@@ -8,3 +8,7 @@ class ChangeStatusAppBarEvent extends AppBarEvent {
   ChangeStatusAppBarEvent({required this.status});
   final AppBarStatus status;
 }
+
+class SubmitSearchAppBarEvent extends AppBarEvent {
+  SubmitSearchAppBarEvent();
+}

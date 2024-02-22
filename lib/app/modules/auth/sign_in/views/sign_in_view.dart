@@ -41,7 +41,7 @@ class SignInView extends StatelessWidget {
             );
             break;
           case SignInStatus.loginSuccess:
-            authBloc.add(InitialAuthEvent());
+            authBloc.add(CheckAuthEvent());
             break;
           case SignInStatus.backDialog:
             context.pop();
