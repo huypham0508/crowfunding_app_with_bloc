@@ -63,7 +63,7 @@ class _LoToViewState extends State<LoToView> {
   }
 
   Widget loading() {
-    return Center(
+    return const Center(
       child: IntrinsicWidth(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +72,7 @@ class _LoToViewState extends State<LoToView> {
               color: AppColors.greenMoss,
               strokeWidth: 1.8,
             ),
-            const SizedBox(
+            SizedBox(
               height: 10,
             ),
             Text(
@@ -100,7 +100,7 @@ class _LoToViewState extends State<LoToView> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 ...[
-                  Text(
+                  const Text(
                     'Không đánh lô tô, đời không nể',
                     style: TextStyle(
                       color: AppColors.greenMoss,
@@ -111,7 +111,7 @@ class _LoToViewState extends State<LoToView> {
                   ),
                   Text(
                     state.count.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.black,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -136,7 +136,7 @@ class _LoToViewState extends State<LoToView> {
             children: [
               ...[
                 DrawerHeader(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.greenMoss,
                   ),
                   child: Text(
@@ -153,7 +153,7 @@ class _LoToViewState extends State<LoToView> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
                     user,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.greenMoss,
                       fontSize: 20,
                     ),
@@ -180,8 +180,8 @@ class _LoToViewState extends State<LoToView> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
               child: Text(
                 'Những người có máu cờ bạc cần có 1 cái tên...',
                 style: TextStyle(
@@ -199,12 +199,12 @@ class _LoToViewState extends State<LoToView> {
             Material(
               child: TextField(
                 controller: _userNameController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.greenMoss),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 10,
                   ),
@@ -225,13 +225,13 @@ class _LoToViewState extends State<LoToView> {
                     horizontal: 20,
                     vertical: 15,
                   ),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.greenMoss,
-                    borderRadius: const BorderRadius.all(
+                    borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Hoàn thành đặt tên',
                     style: TextStyle(
                       color: AppColors.lightWhite,

@@ -53,6 +53,11 @@ dependencies:
   bloc_test: ^9.1.5
   auto_size_text: ^3.0.0
   rxdart: ^0.27.7
+  indexed: ^0.0.8
+  highlight_text: ^1.7.0
+  socket_io_client: ^2.0.3+1
+  flutter_local_notifications: ^16.3.2
+  flutter_timezone: ^1.0.8
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"

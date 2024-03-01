@@ -4,16 +4,16 @@ import 'package:dio/dio.dart';
 import '../../exceptions.dart';
 
 const baseUrl = ConfigApi.BASEURL;
-const appKey = ConfigApi.APPKEY;
-const version = ConfigApi.VERSION;
-const option = ConfigApi.OPTION;
+// const appKey = ConfigApi.APPKEY;
+// const version = ConfigApi.VERSION;
+// const option = ConfigApi.OPTION;
 
 class RestAPIClient {
   final Dio httpClient;
   final Map<String, dynamic> _defaultBody = {
-    'app_key': appKey,
-    'ver': version,
-    'op': option,
+    // 'app_key': appKey,
+    // 'ver': version,
+    // 'op': option,
   };
 
   RestAPIClient({required this.httpClient});

@@ -8,3 +8,5 @@ class SwitchAuthPageEvent extends AuthEvent {
   final AuthPage authPage;
   SwitchAuthPageEvent({required this.authPage});
 }
+
+class CheckAuthEvent extends AuthEvent {}

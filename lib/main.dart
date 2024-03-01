@@ -1,5 +1,4 @@
 import 'package:crowfunding_app_with_bloc/app/constants/firebase_database.dart';
-import 'package:crowfunding_app_with_bloc/app/data/firebase/firebase_api.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
@@ -18,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+// FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,10 +25,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseApi().initNotification();
+  // await FirebaseApi().initNotification();
 
   /// Use preferences like expected.
   final sf = await SharedPreferences.getInstance();
+
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en')],
     path: 'assets/translations',
@@ -37,6 +38,13 @@ void main() async {
       sharedPreferences: sf,
     ),
   ));
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   print('Got a message whilst in the foreground!');
+  //   print('Message data: ${message.data}');
+  //   if (message.notification != null) {
+  //     print('Message also contained a notification: ${message.notification}');
+  //   }
+  // });
 }
 
 class MainApp extends StatelessWidget {

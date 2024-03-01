@@ -37,7 +37,7 @@ class _AuthViewState extends State<AuthView> {
             listener: (context, state) {
               switch (state.status) {
                 case AuthStatus.loginSuccess:
-                  context.pushReplacement(Routes.LOTO);
+                  context.pushReplacement(Routes.HOME);
                   break;
                 default:
               }

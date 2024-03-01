@@ -27,11 +27,11 @@ class Utils {
                 width: double.maxFinite,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: AppColors.gray,
+                  color: AppColors.neutral400,
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.black.withOpacity(0.3),
+                      color: AppColors.black500.withOpacity(0.3),
                       spreadRadius: 5,
                       blurRadius: 7,
                       offset: const Offset(0, 3),

@@ -7,6 +7,9 @@ class GlobalStyles {
   static const SizedBox sizedBoxHeight_5 = SizedBox(height: 5);
   static const SizedBox sizedBoxHeight = SizedBox(height: 15);
   static const SizedBox sizedBoxHeight_30 = SizedBox(height: 30);
+  static const SizedBox sizedBoxHeight_24 = SizedBox(height: 24);
+
+  static const SizedBox sizedBoxWidth = SizedBox(width: 15);
 
   static const EdgeInsets paddingPageLeftRight = EdgeInsets.symmetric(
     horizontal: 12,
@@ -16,5 +19,8 @@ class GlobalStyles {
   );
   static const EdgeInsets paddingPageLeftRight_25 = EdgeInsets.symmetric(
     horizontal: 25,
+  );
+  static const EdgeInsets paddingPageLeftRight_24 = EdgeInsets.symmetric(
+    horizontal: 24,
   );
 }
