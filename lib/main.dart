@@ -5,6 +5,7 @@ import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/firebase/firebase_data.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
+import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
 import 'package:crowfunding_app_with_bloc/firebase_options.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,10 +26,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await FirebaseApi().initNotification();
 
   /// Use preferences like expected.
   final sf = await SharedPreferences.getInstance();
+
+  await NotificationsService.init();
+  // await FirebaseApi().initNotification();
 
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en')],

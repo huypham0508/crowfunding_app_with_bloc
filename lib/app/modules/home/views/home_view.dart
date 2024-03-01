@@ -4,6 +4,7 @@ import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/wid
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
+import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -21,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     socket = IO.io(
-      'http://192.168.2.3:4000/',
+      'http://172.17.11.109:4000/',
       IO.OptionBuilder().setTransports(['websocket']).build(),
     );
     socket.connect();
@@ -37,13 +38,17 @@ class _HomeViewState extends State<HomeView> {
       setState(() {
         count += 1;
       });
+      NotificationsService.showSimpleNotification(
+        body: "123123",
+        payload: "123123",
+        title: "123123123",
+      );
     });
     // socket.emit("login", "username");
   }
 
   // @override
   // void dispose() {
-  //   // TODO: implement dispose
   //   super.dispose();
   // }
 
