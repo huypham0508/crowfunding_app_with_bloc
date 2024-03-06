@@ -195,9 +195,9 @@ class SearchResultContainer extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(
                   horizontal: 24,
                 ),
-                decoration: const BoxDecoration(
-                  color: AppColors.whitish100,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundPrimary(context),
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),

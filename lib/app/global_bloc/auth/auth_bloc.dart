@@ -4,10 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/graph_ql_string.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/theme/theme_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_modals.dart';
 import 'package:crowfunding_app_with_bloc/app/models/login_response_model.dart';
 import 'package:crowfunding_app_with_bloc/app/models/register_response.model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_events.dart';
 part 'auth_state.dart';
@@ -27,6 +30,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _initial(InitialAuthEvent event, Emitter<AuthState> emit) async {
     await Future.delayed(1500.milliseconds);
     add(CheckAuthEvent());
+    // ignore: use_build_context_synchronously
+    event.context.read<ThemeBloc>().add(InitialThemeEvent());
   }
 
   void _checkAuth(CheckAuthEvent event, Emitter<AuthState> emit) async {

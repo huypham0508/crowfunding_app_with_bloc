@@ -28,4 +28,16 @@ class LocalDataSource {
   Future<void> deleteToken() async {
     await sf.remove('token');
   }
+
+  String? getThemeMode() {
+    return sf.getString('themeMode');
+  }
+
+  Future<String?> saveThemeMode(String token) async {
+    return sf.getString('themeMode');
+  }
+
+  Future<void> deleteThemeMode() async {
+    await sf.remove('themeMode');
+  }
 }

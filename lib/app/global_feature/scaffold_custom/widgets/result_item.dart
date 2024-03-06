@@ -42,13 +42,13 @@ class ResultItem extends StatelessWidget {
                           textStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
-                            color: AppColors.black100,
+                            color: AppColors.textPrimary,
                           ),
                         )
                       },
                       textStyle: const TextStyle(
                         fontSize: 12,
-                        color: AppColors.black100,
+                        color: AppColors.textPrimary200,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -59,7 +59,7 @@ class ResultItem extends StatelessWidget {
                       // overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.neutral300,
+                        color: AppColors.textPrimary200,
                       ),
                     ),
                   ],

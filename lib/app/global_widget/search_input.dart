@@ -32,7 +32,7 @@ class SearchInput extends StatelessWidget {
           ),
           width: MediaQuery.of(context).size.width / 1.5,
           decoration: BoxDecoration(
-            color: AppColors.whitish100,
+            color: AppColors.backgroundPrimary(context),
             borderRadius: BorderRadius.circular(
               30.0,
             ),
@@ -62,14 +62,14 @@ class SearchInput extends StatelessWidget {
                     hintStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.neutral400,
+                      color: AppColors.textPrimary200,
                     ),
                     // labelText: "Do fundrise now",
                     hintText: "Do fundrise now",
                     labelStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.neutral400,
+                      color: AppColors.textPrimary200,
                     ),
                   ),
                 ),
@@ -104,7 +104,7 @@ class SearchInput extends StatelessWidget {
       height: 14.33,
       width: 14.33,
       child: CircularProgressIndicator(
-        color: AppColors.whitish100,
+        color: AppColors.textPrimary200,
         strokeWidth: 0.5,
       ),
     );

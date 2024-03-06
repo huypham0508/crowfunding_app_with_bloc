@@ -4,6 +4,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/firebase_database.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/theme/theme_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/firebase/firebase_data.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
@@ -116,9 +117,14 @@ class _MainAppState extends State<MainApp> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
+            create: (context) => ThemeBloc(
+              localDataSource: context.read<LocalDataSource>(),
+            ),
+          ),
+          BlocProvider(
             create: (context) => AuthBloc(
               localDataSource: context.read<LocalDataSource>(),
-            )..add(InitialAuthEvent()),
+            )..add(InitialAuthEvent(context: context)),
           ),
           BlocProvider(
             create: (context) => LoToBloc(
@@ -127,27 +133,29 @@ class _MainAppState extends State<MainApp> {
             ),
           ),
         ],
-        child: MaterialApp.router(
-          localizationsDelegates: [
-            GlobalCupertinoLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            FlutterI18nDelegate(
-              translationLoader: FileTranslationLoader(
-                basePath: "assets/translations",
-                forcedLocale: const Locale("en"),
+        child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+          return MaterialApp.router(
+            localizationsDelegates: [
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              FlutterI18nDelegate(
+                translationLoader: FileTranslationLoader(
+                  basePath: "assets/translations",
+                  forcedLocale: const Locale("en"),
+                ),
+              ),
+            ],
+            title: 'Crow Funding App',
+            theme: ThemeData(
+              textTheme: GoogleFonts.epilogueTextTheme(textTheme).copyWith(
+                bodyMedium: GoogleFonts.rubik(textStyle: textTheme.bodyMedium),
               ),
             ),
-          ],
-          title: 'Crow Funding App',
-          theme: ThemeData(
-            textTheme: GoogleFonts.epilogueTextTheme(textTheme).copyWith(
-              bodyMedium: GoogleFonts.rubik(textStyle: textTheme.bodyMedium),
-            ),
-          ),
-          debugShowCheckedModeBanner: false,
-          routerConfig: AppRouter.returnRouter(navigatorKey),
-        ),
+            debugShowCheckedModeBanner: false,
+            routerConfig: AppRouter.returnRouter(navigatorKey),
+          );
+        }),
       ),
     );
   }

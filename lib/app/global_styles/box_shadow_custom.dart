@@ -7,14 +7,7 @@ class BoxShadowCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: AppColors.black500.withOpacity(0.1),
-          spreadRadius: 5,
-          blurRadius: 25,
-          offset: const Offset(0, 0), // changes position of shadow
-        ),
-      ]),
+      decoration: BoxDecoration(boxShadow: AppColors.shadowPrimary),
       child: child,
     );
   }

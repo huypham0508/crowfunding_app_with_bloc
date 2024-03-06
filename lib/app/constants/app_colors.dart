@@ -1,4 +1,7 @@
+import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/theme/theme_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class AppColors {
   static const Color primary600 = Color(0xff1DC071);
@@ -36,4 +39,31 @@ abstract class AppColors {
   static const Color red500 = Color(0xffEB5757);
 
   static const Color transparent = Colors.transparent;
+
+  static List<BoxShadow> shadowPrimary = [
+    BoxShadow(
+      color: black500.withOpacity(0.1),
+      spreadRadius: 5,
+      blurRadius: 25,
+      offset: const Offset(0, 0), // changes position of shadow
+    ),
+  ];
+
+  //================================================================
+  // static const Color backgroundPrimary = whitish100;
+  static Color backgroundPrimary(BuildContext context) {
+    String? themeLocalStorage = context.read<LocalDataSource>().getThemeMode();
+    bool isDark = themeLocalStorage == ThemeMode.dark.toString();
+    print(themeLocalStorage);
+    return isDark ? black500 : whitish100;
+  }
+
+  static const Color backgroundPrimary200 = neutral300;
+
+  static const Color textPrimary = black500;
+  static const Color textPrimary200 = neutral400;
+
+  Future<bool> checkDarkTheme() async {
+    return true;
+  }
 }

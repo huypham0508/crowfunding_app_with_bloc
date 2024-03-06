@@ -150,7 +150,7 @@ class _CustomChildState extends State<CustomChild> {
         WipeScaffoldEndAppBarEvent(),
       ),
       child: Container(
-        color: AppColors.whitish100,
+        color: AppColors.backgroundPrimary(context),
         child: Indexer(
           children: [
             const Indexed(
@@ -187,7 +187,7 @@ class _CustomChildState extends State<CustomChild> {
                     height: height,
                     duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
                     width: state.drawerWidth > 150 ? width : state.drawerWidth,
-                    color: AppColors.whitish100.withOpacity(
+                    color: AppColors.backgroundPrimary(context).withOpacity(
                       state.drawerWidth > 150
                           ? 1
                           : calculateOpacity(
@@ -202,7 +202,7 @@ class _CustomChildState extends State<CustomChild> {
                           child: AnimatedContainer(
                             duration: 300.ms,
                             curve: Curves.linear,
-                            color: AppColors.whitish100,
+                            color: AppColors.backgroundPrimary(context),
                             height: height / 6 * 4,
                             width: width,
                             margin: const EdgeInsets.symmetric(
@@ -219,10 +219,12 @@ class _CustomChildState extends State<CustomChild> {
                                             20,
                                           ),
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           "123",
                                           style: TextStyle(
-                                            color: AppColors.whitish100,
+                                            color: AppColors.backgroundPrimary(
+                                              context,
+                                            ),
                                           ),
                                         ),
                                       ),
