@@ -38,7 +38,7 @@ class _LoToViewState extends State<LoToView> {
           case LotoStatus.loading:
             showDialog(
               context: context,
-              barrierColor: AppColors.lightBlack.withOpacity(0.2),
+              barrierColor: AppColors.black300.withOpacity(0.2),
               builder: (context) => loading(),
             );
             break;
@@ -69,7 +69,7 @@ class _LoToViewState extends State<LoToView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              color: AppColors.greenMoss,
+              color: AppColors.black100,
               strokeWidth: 1.8,
             ),
             SizedBox(
@@ -79,7 +79,7 @@ class _LoToViewState extends State<LoToView> {
               'Đang tải...',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.lightWhite,
+                color: AppColors.whitish100,
                 decoration: TextDecoration.none,
                 fontWeight: FontWeight.w400,
               ),
@@ -103,7 +103,7 @@ class _LoToViewState extends State<LoToView> {
                   const Text(
                     'Không đánh lô tô, đời không nể',
                     style: TextStyle(
-                      color: AppColors.greenMoss,
+                      color: AppColors.black100,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
                     ),
@@ -112,7 +112,7 @@ class _LoToViewState extends State<LoToView> {
                   Text(
                     state.count.toString(),
                     style: const TextStyle(
-                      color: AppColors.black,
+                      color: AppColors.black500,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
                     ),
@@ -137,7 +137,7 @@ class _LoToViewState extends State<LoToView> {
               ...[
                 DrawerHeader(
                   decoration: const BoxDecoration(
-                    color: AppColors.greenMoss,
+                    color: AppColors.black100,
                   ),
                   child: Text(
                     'Tên của bạn là: \n${state.userName}',
@@ -154,7 +154,7 @@ class _LoToViewState extends State<LoToView> {
                   child: Text(
                     user,
                     style: const TextStyle(
-                      color: AppColors.greenMoss,
+                      color: AppColors.black100,
                       fontSize: 20,
                     ),
                     textAlign: TextAlign.left,
@@ -174,7 +174,7 @@ class _LoToViewState extends State<LoToView> {
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: AppColors.lightWhite,
+          color: AppColors.whitish100,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -186,7 +186,7 @@ class _LoToViewState extends State<LoToView> {
                 'Những người có máu cờ bạc cần có 1 cái tên...',
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.greenMoss,
+                  color: AppColors.black100,
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.bold,
                 ),
@@ -202,7 +202,7 @@ class _LoToViewState extends State<LoToView> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.greenMoss),
+                    borderSide: BorderSide(color: AppColors.black100),
                   ),
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 10,
@@ -226,7 +226,7 @@ class _LoToViewState extends State<LoToView> {
                     vertical: 15,
                   ),
                   decoration: const BoxDecoration(
-                    color: AppColors.greenMoss,
+                    color: AppColors.black100,
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
@@ -234,7 +234,7 @@ class _LoToViewState extends State<LoToView> {
                   child: const Text(
                     'Hoàn thành đặt tên',
                     style: TextStyle(
-                      color: AppColors.lightWhite,
+                      color: AppColors.whitish100,
                     ),
                     textAlign: TextAlign.center,
                   ),

@@ -17,10 +17,10 @@ class SwitchPageButton extends StatelessWidget {
             margin: const EdgeInsets.only(left: 16, top: 24),
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: AppColors.black,
+                color: AppColors.black500,
               ),
             ),
           ),

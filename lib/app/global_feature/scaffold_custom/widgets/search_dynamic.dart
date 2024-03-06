@@ -49,14 +49,12 @@ class SearchDynamic extends StatelessWidget {
                           onSearch: () => appBarBloc.add(
                             SubmitSearchAppBarEvent(),
                           ),
-                          onFocusChange: (value) {
-                            if (value) {
-                              appBarBloc.add(
-                                ChangeStatusAppBarEvent(
-                                  status: AppBarStatus.searching,
-                                ),
-                              );
-                            }
+                          onFocusChange: () {
+                            appBarBloc.add(
+                              ChangeStatusAppBarEvent(
+                                status: AppBarStatus.searching,
+                              ),
+                            );
                           },
                           loading: state.searchDynamicStatus ==
                               SearchDynamicStatus.loading,

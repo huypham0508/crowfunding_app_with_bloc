@@ -28,18 +28,18 @@ class ButtonAuthCustom extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withOpacity(0.3),
+                color: AppColors.black500.withOpacity(0.3),
                 spreadRadius: 5,
                 blurRadius: 7,
                 offset: const Offset(0, 3),
               ),
             ],
             shape: BoxShape.circle,
-            color: backgroundColor ?? AppColors.black,
+            color: backgroundColor ?? AppColors.black500,
           ),
           child: Icon(
             Icons.arrow_forward_outlined,
-            color: textColor ?? AppColors.lightWhite,
+            color: textColor ?? AppColors.whitish100,
             size: 32,
           ),
         ).animate().fade(duration: 500.ms).scale(delay: 500.ms),

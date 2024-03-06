@@ -73,17 +73,17 @@ class _AuthViewState extends State<AuthView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              color: AppColors.black,
+              color: AppColors.black500,
               strokeWidth: 1.8,
             ),
-            const SizedBox(
+            SizedBox(
               height: 10,
             ),
             Text(
               'Loading...',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.lightWhite,
+                color: AppColors.whitish100,
                 decoration: TextDecoration.none,
                 fontWeight: FontWeight.w400,
               ),

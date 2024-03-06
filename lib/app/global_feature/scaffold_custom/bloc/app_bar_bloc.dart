@@ -17,6 +17,7 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     ChangeStatusAppBarEvent event,
     Emitter<AppBarState> emit,
   ) async {
+    // print(object);
     emit(
       state.copyWith(
         status: event.status,
@@ -27,11 +28,9 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     );
 
     if (event.status == AppBarStatus.initial) {
+      await Future.delayed(300.milliseconds);
+      emit(state.copyWith(hiddenSearchResults: true));
       state.focusNode.unfocus();
-      if (state.hiddenSearchResults == false) {
-        await Future.delayed(300.milliseconds);
-        emit(state.copyWith(hiddenSearchResults: true));
-      }
     }
   }
 

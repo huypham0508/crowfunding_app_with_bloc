@@ -11,7 +11,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 part 'auth_events.dart';
 part 'auth_state.dart';
-part '../../data/repository/auth_repository.dart';
+part '../../data/repository/graphql/auth_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LocalDataSource localDataSource;

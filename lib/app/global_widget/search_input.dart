@@ -15,7 +15,7 @@ class SearchInput extends StatelessWidget {
 
   final TextEditingController? controller;
   final Function()? onSearch;
-  final Function(bool)? onFocusChange;
+  final Function()? onFocusChange;
   final FocusNode? focusNode;
   final bool loading;
 
@@ -40,38 +40,36 @@ class SearchInput extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Focus(
-                  onFocusChange: onFocusChange,
-                  child: TextField(
-                    focusNode: focusNode,
-                    controller: controller,
-                    maxLines: 1,
-                    textAlignVertical: TextAlignVertical.center,
-                    textAlign: TextAlign.left,
-                    cursorColor: AppColors.black500,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.black500,
+                child: TextField(
+                  onTap: onFocusChange,
+                  focusNode: focusNode,
+                  controller: controller,
+                  maxLines: 1,
+                  textAlignVertical: TextAlignVertical.center,
+                  textAlign: TextAlign.left,
+                  cursorColor: AppColors.black500,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColors.black500,
+                  ),
+                  decoration: const InputDecoration(
+                    isCollapsed: true,
+                    border: InputBorder.none,
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
                     ),
-                    decoration: const InputDecoration(
-                      isCollapsed: true,
-                      border: InputBorder.none,
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      hintStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.neutral400,
-                      ),
-                      // labelText: "Do fundrise now",
-                      hintText: "Do fundrise now",
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.neutral400,
-                      ),
+                    hintStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.neutral400,
+                    ),
+                    // labelText: "Do fundrise now",
+                    hintText: "Do fundrise now",
+                    labelStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.neutral400,
                     ),
                   ),
                 ),
@@ -91,7 +89,7 @@ class SearchInput extends StatelessWidget {
                   ),
                   child: loading
                       ? _loadingButton()
-                      : Image.asset(AppImages.icSearch),
+                      : Image.asset(AppImages.icSearch, width: 14.33),
                 ),
               ),
             ],

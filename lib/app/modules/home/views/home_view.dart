@@ -21,12 +21,12 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    socket = IO.io(
-      'http://172.17.11.109:4000/',
-      IO.OptionBuilder().setTransports(['websocket']).build(),
-    );
-    socket.connect();
-    _connectSocket();
+    // socket = IO.io(
+    //   'http://localhost:4000/',
+    //   IO.OptionBuilder().setTransports(['websocket']).build(),
+    // );
+    // socket.connect();
+    // _connectSocket();
     super.initState();
   }
 
@@ -46,11 +46,6 @@ class _HomeViewState extends State<HomeView> {
     });
     // socket.emit("login", "username");
   }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {

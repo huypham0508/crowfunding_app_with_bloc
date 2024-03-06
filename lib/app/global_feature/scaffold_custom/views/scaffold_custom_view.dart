@@ -4,6 +4,7 @@ import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/wid
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/primary_content.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_dynamic.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
+import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -184,7 +185,7 @@ class _CustomChildState extends State<CustomChild> {
                   child: AnimatedContainer(
                     curve: Curves.linear,
                     height: height,
-                    duration: state.drawerWidth > 150 ? 350.ms : 100.ms,
+                    duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
                     width: state.drawerWidth > 150 ? width : state.drawerWidth,
                     color: AppColors.whitish100.withOpacity(
                       state.drawerWidth > 150
@@ -208,8 +209,24 @@ class _CustomChildState extends State<CustomChild> {
                               horizontal: 50,
                             ),
                             child: state.drawerWidth > 150
-                                ? const Center(
-                                    child: Text("123"),
+                                ? FadeScale(
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary600,
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "123",
+                                          style: TextStyle(
+                                            color: AppColors.whitish100,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   )
                                 : null,
                           ),
