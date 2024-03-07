@@ -13,6 +13,7 @@ AppBarState appBarInitialState = AppBarState(
 enum AppBarStatus {
   searching,
   showDrawer,
+  showEndDrawer,
   initial,
 }
 
@@ -42,6 +43,7 @@ class AppBarState {
   AppBarState copyWith({
     bool? hiddenSearchResults,
     double? drawerWidth,
+    double? drawerEndWidth,
     AppBarStatus? status,
     SearchDynamicStatus? searchDynamicStatus,
     List? searchResults,

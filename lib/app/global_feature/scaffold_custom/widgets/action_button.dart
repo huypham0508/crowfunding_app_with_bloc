@@ -7,8 +7,10 @@ class ActionButtons extends StatelessWidget {
   const ActionButtons({
     super.key,
     this.onTapMenu,
+    this.onTapAvatar,
   });
   final Function()? onTapMenu;
+  final Function()? onTapAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,15 @@ class ActionButtons extends StatelessWidget {
                   child: SearchInput(),
                 ),
               ),
-              Container(
-                margin: GlobalStyles.paddingPageLeftRight_24,
-                child: const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1707345512638-997d31a10eaa?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8',
+              GestureDetector(
+                onTap: onTapAvatar,
+                child: Container(
+                  margin: GlobalStyles.paddingPageLeftRight_24,
+                  child: const CircleAvatar(
+                    backgroundColor: AppColors.secondary500,
+                    backgroundImage: AssetImage(
+                      AppImages.imAvatar,
+                    ),
                   ),
                 ),
               ),

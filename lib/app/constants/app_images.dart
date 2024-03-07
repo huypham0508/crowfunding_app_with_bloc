@@ -7,4 +7,6 @@ abstract class AppImages {
   static const String icSearch = 'assets/images/icons/icon_search.png';
 
   static const String icClose = 'assets/images/icons/icon_close.png';
+
+  static const String imAvatar = 'assets/images/images/avatar.png';
 }

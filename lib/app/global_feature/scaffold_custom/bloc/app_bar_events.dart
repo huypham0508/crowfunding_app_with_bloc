@@ -13,9 +13,9 @@ class SubmitSearchAppBarEvent extends AppBarEvent {
   SubmitSearchAppBarEvent();
 }
 
-class WipeScaffoldAppBarEvent extends AppBarEvent {
+class WipeLeftToRightAppBarEvent extends AppBarEvent {
   final double wipeDx;
-  WipeScaffoldAppBarEvent({
+  WipeLeftToRightAppBarEvent({
     required this.wipeDx,
   });
 }

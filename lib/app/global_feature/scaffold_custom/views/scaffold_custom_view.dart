@@ -1,11 +1,10 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/action_button.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/drawer_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/primary_content.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_dynamic.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -37,10 +36,10 @@ class ScaffoldCustom extends StatelessWidget {
   final double? bottomAppBarElevation;
   final Color? bottomAppBarColor;
   final NotchedShape? bottomAppBarShape;
-  final bool drawerEnableOpenDragGesture;
+  // final bool drawerEnableOpenDragGesture;
 
   final Color? drawerScrimColor;
-  final bool endDrawerEnableOpenDragGesture;
+  // final bool endDrawerEnableOpenDragGesture;
   final void Function(bool)? onDrawerChanged;
   final void Function(bool)? onEndDrawerChanged;
   final AlignmentDirectional persistentFooterAlignment;
@@ -72,9 +71,9 @@ class ScaffoldCustom extends StatelessWidget {
     this.bottomAppBarElevation,
     this.bottomAppBarColor,
     this.bottomAppBarShape,
-    this.drawerEnableOpenDragGesture = true,
+    // this.drawerEnableOpenDragGesture = true,
     this.drawerScrimColor,
-    this.endDrawerEnableOpenDragGesture = true,
+    // this.endDrawerEnableOpenDragGesture = true,
     this.onDrawerChanged,
     this.onEndDrawerChanged,
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
@@ -91,7 +90,10 @@ class ScaffoldCustom extends StatelessWidget {
       ],
       child: Scaffold(
         key: key,
-        body: CustomChild(body: body),
+        body: CustomChild(
+          body: body,
+          drawer: drawer,
+        ),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
         floatingActionButtonAnimator: floatingActionButtonAnimator,
@@ -107,9 +109,9 @@ class ScaffoldCustom extends StatelessWidget {
         extendBody: extendBody,
         extendBodyBehindAppBar: extendBodyBehindAppBar,
         drawerEdgeDragWidth: drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
+        // drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
         drawerScrimColor: drawerScrimColor,
-        endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
+        // endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
         onDrawerChanged: onDrawerChanged,
         onEndDrawerChanged: onEndDrawerChanged,
         persistentFooterAlignment: persistentFooterAlignment,
@@ -120,8 +122,9 @@ class ScaffoldCustom extends StatelessWidget {
 }
 
 class CustomChild extends StatefulWidget {
-  const CustomChild({super.key, required this.body});
+  const CustomChild({super.key, required this.body, required this.drawer});
   final Widget body;
+  final Widget? drawer;
 
   @override
   State<CustomChild> createState() => _CustomChildState();
@@ -142,104 +145,84 @@ class _CustomChildState extends State<CustomChild> {
     double width = MediaQuery.of(context).size.width;
     return Listener(
       onPointerMove: (PointerMoveEvent event) => appBarBloc.add(
-        WipeScaffoldAppBarEvent(
+        WipeLeftToRightAppBarEvent(
           wipeDx: event.delta.dx,
         ),
       ),
       onPointerUp: (PointerUpEvent event) => appBarBloc.add(
         WipeScaffoldEndAppBarEvent(),
       ),
-      child: Container(
-        color: AppColors.whitish100,
-        child: Indexer(
-          children: [
-            const Indexed(
-              index: 2,
-              child: SearchDynamic(),
-            ),
-            BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
-              return Indexed(
-                index: state.status == AppBarStatus.searching ? 1 : 3,
-                child: ActionButtons(
-                  onTapMenu: () {
-                    appBarBloc.add(
-                      WipeScaffoldAppBarEvent(
-                        wipeDx: 160,
-                      ),
-                    );
-                  },
-                ),
-              );
-            }),
-            BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
-              return Indexed(
-                index: state.status == AppBarStatus.searching ? 1 : 3,
-                child: PrimaryContent(body: widget.body),
-              );
-            }),
-            Indexed(
-              index: 4,
-              child: BlocBuilder<AppBarBloc, AppBarState>(
-                  builder: (context, state) {
-                return FadeLinearToEaseOut(
-                  child: AnimatedContainer(
-                    curve: Curves.linear,
-                    height: height,
-                    duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
-                    width: state.drawerWidth > 150 ? width : state.drawerWidth,
-                    color: AppColors.whitish100.withOpacity(
-                      state.drawerWidth > 150
-                          ? 1
-                          : calculateOpacity(
-                              state.drawerWidth,
-                            ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        BoxShadowCustom(
-                          child: AnimatedContainer(
-                            duration: 300.ms,
-                            curve: Curves.linear,
-                            color: AppColors.whitish100,
-                            height: height / 6 * 4,
-                            width: width,
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 50,
-                            ),
-                            child: state.drawerWidth > 150
-                                ? FadeScale(
-                                    child: Center(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.primary600,
-                                          borderRadius: BorderRadius.circular(
-                                            20,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          "123",
-                                          style: TextStyle(
-                                            color: AppColors.whitish100,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ],
-        ),
+      child: Indexer(
+        children: [
+          const Indexed(
+            index: 2,
+            child: SearchDynamic(),
+          ),
+          actionButtonWidget(),
+          primaryContent(),
+          drawerWrapper(height, width),
+        ],
       ),
+    );
+  }
+
+  BlocBuilder<AppBarBloc, AppBarState> primaryContent() {
+    return BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
+      return Indexed(
+        index: state.status == AppBarStatus.searching ? 1 : 3,
+        child: PrimaryContent(body: widget.body),
+      );
+    });
+  }
+
+  BlocBuilder<AppBarBloc, AppBarState> actionButtonWidget() {
+    return BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
+      return Indexed(
+        index: state.status == AppBarStatus.searching ? 1 : 3,
+        child: ActionButtons(
+          onTapMenu: () {
+            appBarBloc.add(
+              WipeLeftToRightAppBarEvent(
+                wipeDx: 160,
+              ),
+            );
+          },
+          // onTapAvatar: () {
+          //   appBarBloc.add(
+          //     WipeLeftToRightAppBarEvent(
+          //       wipeDx: 160,
+          //     ),
+          //   );
+          // },
+        ),
+      );
+    });
+  }
+
+  Indexed drawerWrapper(double height, double width) {
+    return Indexed(
+      index: 4,
+      child: BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
+        return FadeLinearToEaseOut(
+          child: AnimatedContainer(
+            curve: Curves.linear,
+            height: height,
+            duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
+            width: state.drawerWidth > 150 ? width : state.drawerWidth,
+            color: AppColors.whitish100.withOpacity(
+              state.drawerWidth > 150
+                  ? 1
+                  : calculateOpacity(
+                      state.drawerWidth,
+                    ),
+            ),
+            child: Visibility(
+              visible: state.drawerWidth > 150,
+              child: widget.drawer ?? const DrawerCustom(),
+            ),
+          ),
+        );
+      }),
     );
   }
 
