@@ -12,6 +12,7 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     on<SubmitSearchAppBarEvent>(_submitSearch);
     on<WipeLeftToRightAppBarEvent>(_wipeScaffoldLeftToRight);
     on<WipeScaffoldEndAppBarEvent>(_wipeScaffoldEnd);
+    on<WipeScaffoldStartAppBarEvent>(_wipeScaffoldStart);
   }
   _changeStatus(
     ChangeStatusAppBarEvent event,
@@ -76,8 +77,18 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
   ) {
     if (state.status != AppBarStatus.searching) {
       if (state.drawerWidth < 150) {
-        emit(state.copyWith(drawerWidth: 0));
+        emit(state.copyWith(drawerWidth: 0, positionTouches: 0));
       }
+    }
+  }
+
+  _wipeScaffoldStart(
+    WipeScaffoldStartAppBarEvent event,
+    Emitter<AppBarState> emit,
+  ) {
+    print('object');
+    if (state.status != AppBarStatus.searching) {
+      emit(state.copyWith(positionTouches: event.position));
     }
   }
 }

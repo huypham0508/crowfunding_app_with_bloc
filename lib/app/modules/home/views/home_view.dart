@@ -4,7 +4,6 @@ import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/wid
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -30,22 +29,22 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
-  _connectSocket() {
-    socket.onConnect((data) => print('Connection established'));
-    socket.onConnectError((data) => print('Connect Error: $data'));
-    socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-    socket.on('connected', (data) {
-      setState(() {
-        count += 1;
-      });
-      NotificationsService.showSimpleNotification(
-        body: "123123",
-        payload: "123123",
-        title: "123123123",
-      );
-    });
-    // socket.emit("login", "username");
-  }
+  // _connectSocket() {
+  //   socket.onConnect((data) => print('Connection established'));
+  //   socket.onConnectError((data) => print('Connect Error: $data'));
+  //   socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+  //   socket.on('connected', (data) {
+  //     setState(() {
+  //       count += 1;
+  //     });
+  //     NotificationsService.showSimpleNotification(
+  //       body: "123123",
+  //       payload: "123123",
+  //       title: "123123123",
+  //     );
+  //   });
+  // socket.emit("login", "username");
+  // }
 
   @override
   Widget build(BuildContext context) {

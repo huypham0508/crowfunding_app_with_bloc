@@ -16,11 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
-final navigatorKey = GlobalKey<NavigatorState>();
 
 void connectToSocketInIsolate(_) async {
   IO.Socket socket = IO.io(
@@ -82,8 +81,11 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  late GoRouter _appRoutes;
+
   @override
   void initState() {
+    _appRoutes = AppRouter.returnRouter();
     super.initState();
   }
 
@@ -146,7 +148,9 @@ class _MainAppState extends State<MainApp> {
             ),
           ),
           debugShowCheckedModeBanner: false,
-          routerConfig: AppRouter.returnRouter(navigatorKey),
+          routeInformationParser: _appRoutes.routeInformationParser,
+          routeInformationProvider: _appRoutes.routeInformationProvider,
+          routerDelegate: _appRoutes.routerDelegate,
         ),
       ),
     );

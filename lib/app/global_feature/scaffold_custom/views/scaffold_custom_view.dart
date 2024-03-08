@@ -2,13 +2,16 @@ import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/action_button.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/drawer_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/event_wapper.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/primary_content.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_dynamic.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
+import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:indexed/indexed.dart';
 
 class ScaffoldCustom extends StatelessWidget {
@@ -32,6 +35,7 @@ class ScaffoldCustom extends StatelessWidget {
   final double drawerWidth;
   final double endDrawerEdgeDragWidth;
   final double? bottomNavigationBarHeight;
+  final bool actionButtons;
   final Clip? bottomNavigationBarClipBehavior;
   final double? bottomAppBarElevation;
   final Color? bottomAppBarColor;
@@ -58,6 +62,7 @@ class ScaffoldCustom extends StatelessWidget {
     this.bottomSheet,
     this.backgroundColor,
     this.resizeToAvoidBottomInset = true,
+    this.actionButtons = true,
     this.primary = true,
     this.drawerDragStartBehavior = DragStartBehavior.start,
     this.extendBody = false,
@@ -93,6 +98,7 @@ class ScaffoldCustom extends StatelessWidget {
         body: CustomChild(
           body: body,
           drawer: drawer,
+          actionButtons: actionButtons,
         ),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
@@ -122,9 +128,15 @@ class ScaffoldCustom extends StatelessWidget {
 }
 
 class CustomChild extends StatefulWidget {
-  const CustomChild({super.key, required this.body, required this.drawer});
+  const CustomChild({
+    super.key,
+    required this.body,
+    required this.drawer,
+    required this.actionButtons,
+  });
   final Widget body;
   final Widget? drawer;
+  final bool actionButtons;
 
   @override
   State<CustomChild> createState() => _CustomChildState();
@@ -143,26 +155,16 @@ class _CustomChildState extends State<CustomChild> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Listener(
-      onPointerMove: (PointerMoveEvent event) => appBarBloc.add(
-        WipeLeftToRightAppBarEvent(
-          wipeDx: event.delta.dx,
+    return Indexer(
+      children: [
+        const Indexed(
+          index: 2,
+          child: SearchDynamic(),
         ),
-      ),
-      onPointerUp: (PointerUpEvent event) => appBarBloc.add(
-        WipeScaffoldEndAppBarEvent(),
-      ),
-      child: Indexer(
-        children: [
-          const Indexed(
-            index: 2,
-            child: SearchDynamic(),
-          ),
-          actionButtonWidget(),
-          primaryContent(),
-          drawerWrapper(height, width),
-        ],
-      ),
+        if (widget.actionButtons) actionButtonWidget(),
+        primaryContent(),
+        drawerWrapper(height, width),
+      ],
     );
   }
 
@@ -170,7 +172,9 @@ class _CustomChildState extends State<CustomChild> {
     return BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
       return Indexed(
         index: state.status == AppBarStatus.searching ? 1 : 3,
-        child: PrimaryContent(body: widget.body),
+        child: PrimaryContent(
+          body: widget.body,
+        ),
       );
     });
   }
@@ -187,13 +191,11 @@ class _CustomChildState extends State<CustomChild> {
               ),
             );
           },
-          // onTapAvatar: () {
-          //   appBarBloc.add(
-          //     WipeLeftToRightAppBarEvent(
-          //       wipeDx: 160,
-          //     ),
-          //   );
-          // },
+          onTapAvatar: () {
+            if (GoRouterState.of(context).name != Routes.PROFILE) {
+              context.pushNamed(RouteChild.PROFILE);
+            }
+          },
         ),
       );
     });
@@ -204,21 +206,23 @@ class _CustomChildState extends State<CustomChild> {
       index: 4,
       child: BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
         return FadeLinearToEaseOut(
-          child: AnimatedContainer(
-            curve: Curves.linear,
-            height: height,
-            duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
-            width: state.drawerWidth > 150 ? width : state.drawerWidth,
-            color: AppColors.whitish100.withOpacity(
-              state.drawerWidth > 150
-                  ? 1
-                  : calculateOpacity(
-                      state.drawerWidth,
-                    ),
-            ),
-            child: Visibility(
-              visible: state.drawerWidth > 150,
-              child: widget.drawer ?? const DrawerCustom(),
+          child: EventWrapper(
+            child: AnimatedContainer(
+              curve: Curves.linear,
+              height: height,
+              duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
+              width: state.drawerWidth > 150 ? width : state.drawerWidth,
+              color: AppColors.whitish100.withOpacity(
+                state.drawerWidth > 150
+                    ? 1
+                    : calculateOpacity(
+                        state.drawerWidth,
+                      ),
+              ),
+              child: Visibility(
+                visible: state.drawerWidth > 150,
+                child: widget.drawer ?? const DrawerCustom(),
+              ),
             ),
           ),
         );
