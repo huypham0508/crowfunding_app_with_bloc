@@ -10,6 +10,7 @@ import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_switch_p
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_title.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/error_message.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/input_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,10 +36,9 @@ class SignInView extends StatelessWidget {
         switch (state.status) {
           case SignInStatus.loading:
             showDialog(
-              context: context,
-              barrierColor: AppColors.black300.withOpacity(0.2),
-              builder: (context) => loading(),
-            );
+                context: context,
+                barrierColor: AppColors.black300.withOpacity(0.2),
+                builder: (context) => Utils.loading(loading: 'Loading...'));
             break;
           case SignInStatus.loginSuccess:
             authBloc.add(CheckAuthEvent());
@@ -163,34 +163,6 @@ class SignInView extends StatelessWidget {
                     ),
                   ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget loading() {
-    return const Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black500,
-              strokeWidth: 1.8,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.whitish100,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
           ],
         ),
       ),

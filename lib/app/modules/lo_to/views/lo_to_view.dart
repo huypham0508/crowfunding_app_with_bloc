@@ -1,5 +1,6 @@
 import 'package:crowfunding_app_with_bloc/app/constants/app_colors.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -37,10 +38,9 @@ class _LoToViewState extends State<LoToView> {
         switch (state.status) {
           case LotoStatus.loading:
             showDialog(
-              context: context,
-              barrierColor: AppColors.black300.withOpacity(0.2),
-              builder: (context) => loading(),
-            );
+                context: context,
+                barrierColor: AppColors.black300.withOpacity(0.2),
+                builder: (context) => Utils.loading(loading: 'Loading...'));
             break;
           case LotoStatus.userNameFailure:
             showDialog(
@@ -58,34 +58,6 @@ class _LoToViewState extends State<LoToView> {
         appBar: AppBar(),
         body: content(),
         drawer: drawer(),
-      ),
-    );
-  }
-
-  Widget loading() {
-    return const Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black100,
-              strokeWidth: 1.8,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Đang tải...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.whitish100,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

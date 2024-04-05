@@ -71,4 +71,32 @@ class Utils {
       context.pop();
     }, 2000);
   }
+
+  static Widget loading({required String loading}) {
+    return Center(
+      child: IntrinsicWidth(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(
+              color: AppColors.black500,
+              strokeWidth: 1.8,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              loading,
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.whitish100,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }

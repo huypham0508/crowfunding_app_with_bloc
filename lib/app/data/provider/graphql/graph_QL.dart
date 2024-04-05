@@ -1,4 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/graph_ql_string.dart';
+import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:graphql/client.dart';
 
@@ -19,12 +19,12 @@ class GraphQLService {
       final Link httpLink = HttpLink(_url);
       Link link = authLink.concat(httpLink);
       graphQLClient = GraphQLClient(
-        cache: GraphQLCache(),
         defaultPolicies: DefaultPolicies(
           query: Policies(
             fetch: FetchPolicy.networkOnly,
           ),
         ),
+        cache: GraphQLCache(),
         link: link,
       );
     } catch (e) {

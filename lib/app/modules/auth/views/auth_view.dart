@@ -66,34 +66,6 @@ class _AuthViewState extends State<AuthView> {
     );
   }
 
-  Widget loading() {
-    return const Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black500,
-              strokeWidth: 1.8,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.whitish100,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _appLogo(Size size) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       return AnimatedPositioned(

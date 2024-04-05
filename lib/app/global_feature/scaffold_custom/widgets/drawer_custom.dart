@@ -31,7 +31,10 @@ class DrawerCustom extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AvatarCustom(widthAvatarBox: widthAvatarBox),
+                  AvatarCustom(
+                    widthAvatarBox: widthAvatarBox,
+                    image: AppImages.imAvatar6,
+                  ),
                 ],
               ),
             ),

@@ -9,4 +9,20 @@ abstract class AppImages {
   static const String icClose = 'assets/images/icons/icon_close.png';
 
   static const String imAvatar = 'assets/images/images/avatar.png';
+  static const String imAvatar2 = 'assets/images/images/avatar2.png';
+  static const String imAvatar3 = 'assets/images/images/avatar3.png';
+  static const String imAvatar4 = 'assets/images/images/avatar4.png';
+  static const String imAvatar5 = 'assets/images/images/avatar5.png';
+  static const String imAvatar6 = 'assets/images/images/avatar6.png';
+  static const String imAvatar7 = 'assets/images/images/avatar7.png';
+  static const String imAvatar8 = 'assets/images/images/avatar8.png';
+  static const String imAvatar9 = 'assets/images/images/avatar9.png';
+  static const String imAvatar10 = 'assets/images/images/avatar10.png';
+  static const String imAvatar11 = 'assets/images/images/avatar11.png';
+  static const String imAvatar12 = 'assets/images/images/avatar12.png';
+  static const String imAvatar13 = 'assets/images/images/avatar13.png';
+  static const String imAvatar14 = 'assets/images/images/avatar14.png';
+  static const String imAvatar15 = 'assets/images/images/avatar15.png';
+  static const String imAvatar16 = 'assets/images/images/avatar16.png';
+  static const String imAvatar17 = 'assets/images/images/avatar17.png';
 }

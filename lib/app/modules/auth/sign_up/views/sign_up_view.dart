@@ -36,10 +36,9 @@ class SignUpView extends StatelessWidget {
         switch (state.status) {
           case SignUpStatus.loading:
             showDialog(
-              context: context,
-              barrierColor: AppColors.black300.withOpacity(0.2),
-              builder: (context) => loading(),
-            );
+                context: context,
+                barrierColor: AppColors.black300.withOpacity(0.2),
+                builder: (context) => Utils.loading(loading: 'Loading...'));
             break;
           case SignUpStatus.registerSuccess:
             Utils.dialogNotification(
@@ -250,34 +249,6 @@ class SignUpView extends StatelessWidget {
                     );
               },
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget loading() {
-    return const Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black500,
-              strokeWidth: 1.8,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.whitish100,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
           ],
         ),
       ),

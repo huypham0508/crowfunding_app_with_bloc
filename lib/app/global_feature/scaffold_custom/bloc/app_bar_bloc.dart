@@ -86,7 +86,6 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     WipeScaffoldStartAppBarEvent event,
     Emitter<AppBarState> emit,
   ) {
-    print('object');
     if (state.status != AppBarStatus.searching) {
       emit(state.copyWith(positionTouches: event.position));
     }
