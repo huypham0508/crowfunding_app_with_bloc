@@ -30,6 +30,14 @@
       "email_invalid": "Email address is invalid!",
       "password_empty": "Please enter your password!",
       "login_google": "Sign in with google"
+    },
+    "forgot_password": {
+      "title": "Forgot Password",
+      "title_verify": "Email Verification",
+      "title_create_password": "Create Password",
+      "submit": "Submit",
+      "email": "Email",
+      "password": "Password"
     }
   }
 }

@@ -16,3 +16,16 @@ class RegisterModel {
     this.confirmPw = "",
   });
 }
+
+class ForgotPasswordModel {
+  final String email;
+  final String? OTP;
+  final String? token;
+  final String? password;
+  ForgotPasswordModel({
+    required this.email,
+    this.token,
+    this.OTP = '',
+    this.password = '',
+  });
+}

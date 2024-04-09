@@ -24,6 +24,26 @@ mixin Validate {
     return null;
   }
 
+  String? validateOTP(String otp) {
+    if (otp.isEmpty) {
+      return FlutterI18n.translate(
+        _context,
+        "auth.otp_empty",
+      );
+    } else if (otp.length != 4) {
+      return FlutterI18n.translate(
+        _context,
+        "auth.otp_length",
+      );
+    } else if (!RegExp(r'^[0-9]+$').hasMatch(otp)) {
+      return FlutterI18n.translate(
+        _context,
+        "auth.otp_invalid",
+      );
+    }
+    return null;
+  }
+
   String? validatePassword(String password) {
     if (password.isEmpty) {
       return FlutterI18n.translate(_context, "auth.sign_in.password_empty");
