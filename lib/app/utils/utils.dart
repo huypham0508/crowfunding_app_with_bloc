@@ -52,14 +52,24 @@ class Utils {
                         maxLines: 2,
                         maxFontSize: 14,
                         minFontSize: 10,
-                      ),
+                        style: TextStyle(color: AppColors.whitish100),
+                      ).animate().fade(delay: 400.milliseconds),
                     )
                   ],
                 ),
-              ).animate().scaleX(
+              )
+                  .animate()
+                  .scaleX(
+                    delay: 200.milliseconds,
                     duration: 500.milliseconds,
                     curve: Curves.easeInOut,
-                    begin: 0,
+                    begin: 0.3,
+                    end: 1,
+                  )
+                  .scaleY(
+                    duration: 200.milliseconds,
+                    curve: Curves.easeInOut,
+                    begin: -1,
                     end: 1,
                   ),
             ],

@@ -52,6 +52,5 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         errorMessage: result.message,
       ));
     }
-    await _backDialog(emit);
   }
 }

@@ -2,7 +2,6 @@ import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/views/sign_in_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/views/sign_up_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_background.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -28,16 +27,16 @@ class _AuthViewState extends State<AuthView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: [
-          _background(),
-          _appLogo(size),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               switch (state.status) {
                 case AuthStatus.loginSuccess:
-                  context.pushReplacement(Routes.HOME);
+                  context.canPop();
+                  context.replace(Routes.HOME);
                   break;
                 default:
               }
@@ -49,7 +48,7 @@ class _AuthViewState extends State<AuthView> {
                 case AuthPage.signUp:
                   return SignUpView(authBloc: authBloc);
                 default:
-                  return const SizedBox();
+                  return _appLogo(size);
               }
             },
           ),
@@ -58,13 +57,13 @@ class _AuthViewState extends State<AuthView> {
     );
   }
 
-  Widget _background() {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) => state.authPage == AuthPage.signUp
-          ? const BackgroundDark()
-          : const Background(),
-    );
-  }
+  // // Widget _background() {
+  // //   return BlocBuilder<AuthBloc, AuthState>(
+  // //     builder: (context, state) => state.authPage == AuthPage.signUp
+  // //         ? const BackgroundDark()
+  // //         : const Background(),
+  // //   );
+  // // }
 
   Widget _appLogo(Size size) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
