@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_modals.dart';
+import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
 import 'package:crowfunding_app_with_bloc/app/utils/validate.dart';
 import 'package:flutter/material.dart';
 

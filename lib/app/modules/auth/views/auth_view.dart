@@ -37,7 +37,7 @@ class _AuthViewState extends State<AuthView> {
             listener: (context, state) {
               switch (state.status) {
                 case AuthStatus.loginSuccess:
-                  context.pushReplacement(Routes.LOTO);
+                  context.pushReplacement(Routes.HOME);
                   break;
                 default:
               }
@@ -63,34 +63,6 @@ class _AuthViewState extends State<AuthView> {
       builder: (context, state) => state.authPage == AuthPage.signUp
           ? const BackgroundDark()
           : const Background(),
-    );
-  }
-
-  Widget loading() {
-    return const Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black,
-              strokeWidth: 1.8,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.lightWhite,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 

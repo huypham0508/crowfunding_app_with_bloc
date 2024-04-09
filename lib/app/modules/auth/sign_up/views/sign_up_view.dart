@@ -3,7 +3,7 @@ import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_modals.dart';
+import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/bloc/sign_up_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_switch_page_button.dart';
@@ -36,10 +36,9 @@ class SignUpView extends StatelessWidget {
         switch (state.status) {
           case SignUpStatus.loading:
             showDialog(
-              context: context,
-              barrierColor: AppColors.lightBlack.withOpacity(0.2),
-              builder: (context) => loading(),
-            );
+                context: context,
+                barrierColor: AppColors.black300.withOpacity(0.2),
+                builder: (context) => Utils.loading(loading: 'Loading...'));
             break;
           case SignUpStatus.registerSuccess:
             Utils.dialogNotification(
@@ -47,13 +46,13 @@ class SignUpView extends StatelessWidget {
               'User registered successfully!!!',
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.green_2,
+                  color: AppColors.primary100,
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: const Icon(
                   Icons.check,
                   size: 20,
-                  color: AppColors.lightWhite,
+                  color: AppColors.whitish100,
                 ),
               ),
             );
@@ -89,8 +88,8 @@ class SignUpView extends StatelessWidget {
                     state.signUpConfirmPwController,
                   ),
                   ButtonAuthCustom(
-                    textColor: AppColors.black,
-                    backgroundColor: AppColors.lightWhite,
+                    textColor: AppColors.black500,
+                    backgroundColor: AppColors.whitish100,
                     onTap: () {
                       context.read<SignUpBloc>().add(
                             StartedSignUpEvent(
@@ -137,14 +136,14 @@ class SignUpView extends StatelessWidget {
           right: 70,
         ),
         decoration: BoxDecoration(
-          color: AppColors.lightWhite,
+          color: AppColors.whitish100,
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(100),
             bottomRight: Radius.circular(100),
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.gray_4.withOpacity(0.5),
+              color: AppColors.black400.withOpacity(0.5),
               spreadRadius: 0,
               blurRadius: 10,
               offset: const Offset(0, 4),
@@ -250,34 +249,6 @@ class SignUpView extends StatelessWidget {
                     );
               },
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget loading() {
-    return Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black,
-              strokeWidth: 1.8,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.lightWhite,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
           ],
         ),
       ),

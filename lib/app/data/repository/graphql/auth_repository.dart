@@ -1,4 +1,4 @@
-part of '../../global_bloc/auth/auth_bloc.dart';
+part of '../../../global_bloc/auth/auth_bloc.dart';
 
 class AuthRepository {
   final GraphQLService graphQLClient;

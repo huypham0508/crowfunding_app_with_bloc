@@ -11,8 +11,8 @@ class ErrorMessage extends StatelessWidget {
       margin: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 8.0),
       child: Text(
         errorMessage ?? "",
-        style: TextStyle(
-          color: AppColors.red,
+        style: const TextStyle(
+          color: AppColors.red500,
           fontWeight: FontWeight.bold,
           fontSize: 14,
         ),

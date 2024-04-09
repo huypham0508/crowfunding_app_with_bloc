@@ -3,13 +3,14 @@ import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_linear_to_ease_out.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_modals.dart';
+import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_switch_page_button.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_title.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/error_message.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/input_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,13 +36,12 @@ class SignInView extends StatelessWidget {
         switch (state.status) {
           case SignInStatus.loading:
             showDialog(
-              context: context,
-              barrierColor: AppColors.lightBlack.withOpacity(0.2),
-              builder: (context) => loading(),
-            );
+                context: context,
+                barrierColor: AppColors.black300.withOpacity(0.2),
+                builder: (context) => Utils.loading(loading: 'Loading...'));
             break;
           case SignInStatus.loginSuccess:
-            authBloc.add(InitialAuthEvent());
+            authBloc.add(CheckAuthEvent());
             break;
           case SignInStatus.backDialog:
             context.pop();
@@ -108,14 +108,14 @@ class SignInView extends StatelessWidget {
           right: 70,
         ),
         decoration: BoxDecoration(
-          color: AppColors.lightWhite,
+          color: AppColors.whitish100,
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(100),
             bottomRight: Radius.circular(100),
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.gray_4.withOpacity(0.5),
+              color: AppColors.black400.withOpacity(0.5),
               spreadRadius: 0,
               blurRadius: 10,
               offset: const Offset(0, 4),
@@ -163,34 +163,6 @@ class SignInView extends StatelessWidget {
                     ),
                   ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget loading() {
-    return const Center(
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.black,
-              strokeWidth: 1.8,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.lightWhite,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
-              ),
-            )
           ],
         ),
       ),

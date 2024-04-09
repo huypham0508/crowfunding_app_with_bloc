@@ -10,7 +10,7 @@ class Background extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Center(
       child: Container(
-        color: AppColors.lightWhite,
+        color: AppColors.whitish100,
         child: CustomPaint(
           size: Size(size.width, size.height),
           painter: _Curved(),
@@ -30,15 +30,15 @@ class _Curved extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var rect = Offset.zero & size;
     Paint paint = Paint();
-    paint.shader = LinearGradient(
+    paint.shader = const LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      stops: const [.01, .25],
+      stops: [.01, .25],
       colors: [
         // AppColors.lightBlack,
         // AppColors.black,
-        AppColors.lightWhite,
-        AppColors.gray_6,
+        AppColors.whitish100,
+        AppColors.black300,
       ],
     ).createShader(rect);
 
@@ -106,7 +106,7 @@ class BackgroundDark extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Center(
       child: Container(
-        color: AppColors.lightWhite,
+        color: AppColors.whitish100,
         child: CustomPaint(
           size: Size(size.width, size.height),
           painter: _CurvedDark(),
@@ -126,13 +126,13 @@ class _CurvedDark extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var rect = Offset.zero & size;
     Paint paint = Paint();
-    paint.shader = LinearGradient(
+    paint.shader = const LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      stops: const [.01, .25],
+      stops: [.01, .25],
       colors: [
-        AppColors.lightBlack,
-        AppColors.black,
+        AppColors.black300,
+        AppColors.black500,
         // AppColors.lightWhite,
         // AppColors.gray_6,
       ],
