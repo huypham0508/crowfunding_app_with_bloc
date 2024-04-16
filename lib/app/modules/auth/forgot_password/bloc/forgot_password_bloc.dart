@@ -3,23 +3,24 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/forgot_password_response.dart';
 import 'package:crowfunding_app_with_bloc/app/utils/validate.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'forgot_password_events.dart';
 part 'forgot_password_state.dart';
 
-class ForgotPasswordBloc
-    extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
+class ForgotPwBloc extends Bloc<ForgotPwEvent, ForgotPwState> {
   final AuthRepository authRepository;
 
-  ForgotPasswordBloc({
+  ForgotPwBloc({
     required this.authRepository,
-  }) : super(forgotPasswordInitialState) {
-    on<StartedForgotPasswordEvent>(
-      _forgotPassword,
+  }) : super(ForgotPwInitialState) {
+    on<BackModelForgotPwEvent>(_backDialog);
+    on<ClosePopupForgotPwEvent>(_closePopup);
+    on<StartedForgotPwEvent>(
+      _ForgotPw,
       transformer: (events, mapper) {
         return events
             .debounceTime(const Duration(milliseconds: 300))
@@ -28,40 +29,80 @@ class ForgotPasswordBloc
     );
   }
 
-  void _forgotPassword(
-    StartedForgotPasswordEvent event,
-    Emitter<ForgotPasswordState> emit,
+  void _ForgotPw(
+    StartedForgotPwEvent event,
+    Emitter<ForgotPwState> emit,
   ) async {
     String? valueValidation = event.validate();
     _emitErrorMessage(emit, valueValidation);
-
-    bool checkType = (event.type == StartedForgotPasswordEventEnum.submitted);
+    // print(event.ForgotPwModel.toString() + " |||| ${valueValidation}");
+    bool checkType = (event.type == StartedForgotPwEventEnum.submitted);
     if (checkType && valueValidation == null) {
-      await _processForgotPassword(event, emit);
+      await _processForgotPw(event, emit);
     }
   }
 
-  void _emitErrorMessage(
-    Emitter<ForgotPasswordState> emit,
-    String? errorMessage,
-  ) {
+  void _emitErrorMessage(Emitter<ForgotPwState> emit, String? errorMessage) {
     emit(state.copyWith(errorMessage: errorMessage ?? ""));
   }
 
-  _processForgotPassword(
-    StartedForgotPasswordEvent event,
-    Emitter<ForgotPasswordState> emit,
+  _processForgotPw(
+    StartedForgotPwEvent event,
+    Emitter<ForgotPwState> emit,
   ) async {
-    emit(state.copyWith(status: ForgotPasswordStatus.loading));
-    await Future.delayed(1.seconds);
-    emit(state.copyWith(
-      step: event.step,
-      status: ForgotPasswordStatus.backDialog,
-    ));
+    emit(state.copyWith(status: ForgotPwStatus.loading));
+
+    Map<int, CallToServerStatus> statusMap = {
+      0: CallToServerStatus.sendMailSuccess,
+      1: CallToServerStatus.sendOtpSuccess,
+      2: CallToServerStatus.sendNewPasswordSuccess,
+    };
+
+    late final ForgotPwResponse result;
+
+    switch (event.step) {
+      case 0:
+        result = await authRepository.getOtpWithEmail(event.forgotPwModel);
+        break;
+      case 1:
+        result = await authRepository.submitOTP(event.forgotPwModel);
+        break;
+      case 2:
+        event.forgotPwModel.token = state.token;
+        result = await authRepository.resetPassword(event.forgotPwModel);
+        break;
+    }
+    if (result.success == true) {
+      emit(state.copyWith(
+        step: event.step + 1,
+        textButton: event.textNext,
+        status: ForgotPwStatus.nothing,
+        callApiStatus: statusMap[event.step],
+        token: result.accessToken,
+      ));
+    } else {
+      emit(state.copyWith(
+        status: ForgotPwStatus.nothing,
+        errorMessage: result.message ?? "",
+        callApiStatus: CallToServerStatus.failed,
+      ));
+    }
+
+    add(BackModelForgotPwEvent());
+  }
+
+  Future _closePopup(
+    ClosePopupForgotPwEvent event,
+    Emitter<ForgotPwState> emit,
+  ) async {
+    emit(state.copyWith(callApiStatus: CallToServerStatus.normal));
   }
 
   //local function
-  Future _backDialog(Emitter<ForgotPasswordState> emit) async {
-    emit(state.copyWith(status: ForgotPasswordStatus.backDialog));
+  Future _backDialog(
+    BackModelForgotPwEvent event,
+    Emitter<ForgotPwState> emit,
+  ) async {
+    emit(state.copyWith(status: ForgotPwStatus.backDialog));
   }
 }

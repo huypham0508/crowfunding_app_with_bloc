@@ -7,9 +7,12 @@ import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.da
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/bloc/sign_up_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_title.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/error_message.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/input_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/login_with_google.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/to_page.dart';
 import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,11 +77,19 @@ class SignUpView extends StatelessWidget {
           builder: (context, state) {
             return ContainerSignUp(
               children: [
-                _titlePage(context),
+                AuthTitle(
+                  titleString: FlutterI18n.translate(
+                    context,
+                    "auth.sign_up.title",
+                  ),
+                ),
                 _question(context),
+                GlobalStyles.sizedBoxHeight_24,
                 LoginGoogleButton(),
                 ..._inputs(state, context),
-                _buttonSubmit(
+                ButtonAuthCustom(
+                  context: context,
+                  text: 'Create my account',
                   onTap: () {
                     context.read<SignUpBloc>().add(
                           StartedSignUpEvent(
@@ -102,20 +113,6 @@ class SignUpView extends StatelessWidget {
     );
   }
 
-  Text _titlePage(BuildContext context) {
-    return Text(
-      FlutterI18n.translate(
-        context,
-        "auth.sign_up.title",
-      ),
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: AppColors.black100,
-      ),
-    );
-  }
-
   Row _question(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +129,8 @@ class SignUpView extends StatelessWidget {
             color: AppColors.neutral300,
           ),
         ),
-        _toSignIn(
+        ToPage(
+          text: " " + FlutterI18n.translate(context, "auth.sign_up.sign_in"),
           onPressed: () {
             authBloc.add(
               SwitchAuthPageEvent(
@@ -140,11 +138,7 @@ class SignUpView extends StatelessWidget {
               ),
             );
           },
-          text: FlutterI18n.translate(
-            context,
-            "auth.sign_up.sign_in",
-          ),
-        )
+        ),
       ],
     );
   }
@@ -242,53 +236,6 @@ class SignUpView extends StatelessWidget {
       ),
       GlobalStyles.sizedBoxHeight_24,
     ];
-  }
-
-  Widget _buttonSubmit({void Function()? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        child: Container(
-          width: double.maxFinite,
-          height: 52,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              width: 1,
-              color: AppColors.primary600,
-            ),
-            color: AppColors.primary600,
-          ),
-          child: Center(
-            child: Text(
-              'Create my account',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.whitish100,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _toSignIn({required String text, void Function()? onPressed}) {
-    return Transform.translate(
-      offset: Offset(-7, 1),
-      child: TextButton(
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: AppColors.primary600,
-          ),
-        ),
-      ),
-    );
   }
 }
 

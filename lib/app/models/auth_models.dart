@@ -17,15 +17,20 @@ class RegisterModel {
   });
 }
 
-class ForgotPasswordModel {
+class ForgotPwModel {
   final String email;
   final String? OTP;
-  final String? token;
   final String? password;
-  ForgotPasswordModel({
+  String? token;
+  ForgotPwModel({
     required this.email,
     this.token,
     this.OTP = '',
     this.password = '',
   });
+
+  @override
+  String toString() {
+    return 'email: ${this.email}, token: ${this.token}, password: ${this.password}, otp: ${this.OTP}';
+  }
 }

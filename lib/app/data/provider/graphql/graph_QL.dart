@@ -11,9 +11,15 @@ class GraphQLService {
     _init();
   }
 
-  _init() async {
+  _init({String? tokenParam}) async {
     try {
-      String? token = await localDataSource.getToken();
+      String? token;
+      if (tokenParam != null) {
+        token = tokenParam;
+      } else {
+        token = await localDataSource.getToken();
+      }
+
       final authLink = AuthLink(getToken: () async => 'Bearer $token');
 
       final Link httpLink = HttpLink(_url);
@@ -48,7 +54,10 @@ class GraphQLService {
     }
   }
 
-  Future performMutation(String query, Map<String, dynamic> variables) async {
+  Future performMutation(
+    String query,
+    Map<String, dynamic> variables,
+  ) async {
     try {
       final MutationOptions options = MutationOptions(
         document: gql(query),
@@ -57,8 +66,27 @@ class GraphQLService {
       final QueryResult result = await graphQLClient.mutate(options);
       return result.data;
     } catch (exception) {
-      print('exception');
-      print(exception);
+      // print('exception');
+      // print(exception);
+    }
+  }
+
+  Future performMutationWithToken(
+    String query,
+    Map<String, dynamic> variables,
+    String? token,
+  ) async {
+    _init(tokenParam: token);
+    try {
+      final MutationOptions options = MutationOptions(
+        document: gql(query),
+        variables: variables,
+      );
+      final QueryResult result = await graphQLClient.mutate(options);
+      return result.data;
+    } catch (exception) {
+      // print('exception');
+      // print(exception);
     }
   }
 }

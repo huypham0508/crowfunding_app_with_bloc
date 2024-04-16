@@ -30,7 +30,7 @@ mixin Validate {
         _context,
         "auth.otp_empty",
       );
-    } else if (otp.length != 4) {
+    } else if (otp.length != 6) {
       return FlutterI18n.translate(
         _context,
         "auth.otp_length",

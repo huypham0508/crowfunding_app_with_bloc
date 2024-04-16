@@ -66,9 +66,7 @@ void main() async {
     supportedLocales: const [Locale('en')],
     path: 'assets/translations',
     fallbackLocale: const Locale('en'),
-    child: MainApp(
-      sharedPreferences: sf,
-    ),
+    child: MainApp(sharedPreferences: sf),
   ));
 }
 
@@ -141,7 +139,7 @@ class _MainAppState extends State<MainApp> {
               ),
             ),
           ],
-          title: 'Crow Funding App',
+          title: 'Crown Funding App',
           theme: ThemeData(
             textTheme: GoogleFonts.epilogueTextTheme(textTheme).copyWith(
               bodyMedium: GoogleFonts.rubik(textStyle: textTheme.bodyMedium),

@@ -1,45 +1,67 @@
 part of 'forgot_password_bloc.dart';
 
-ForgotPasswordState forgotPasswordInitialState = ForgotPasswordState(
+ForgotPwState ForgotPwInitialState = ForgotPwState(
   step: 0,
-  status: ForgotPasswordStatus.forgotFailure,
+  status: ForgotPwStatus.nothing,
+  callApiStatus: CallToServerStatus.normal,
   emailSController: TextEditingController(),
   passwordController: TextEditingController(),
   otpController: TextEditingController(),
   errorMessage: '',
+  textButton: 'Forgot Password',
 );
 
-enum ForgotPasswordStatus { loading, forgotSuccess, forgotFailure, backDialog }
+enum ForgotPwStatus { nothing, loading, backDialog }
 
-class ForgotPasswordState {
-  final ForgotPasswordStatus status;
+enum CallToServerStatus {
+  normal,
+  failed,
+  sendMailSuccess,
+  sendOtpSuccess,
+  sendNewPasswordSuccess,
+}
+
+class ForgotPwState {
+  final ForgotPwStatus status;
+  final CallToServerStatus callApiStatus;
   final TextEditingController emailSController;
   final TextEditingController passwordController;
   final TextEditingController otpController;
   final String errorMessage;
+  final String textButton;
   final int step;
-  const ForgotPasswordState({
+  final String? token;
+  const ForgotPwState({
+    this.token,
     required this.step,
     required this.status,
+    required this.callApiStatus,
     required this.emailSController,
     required this.passwordController,
     required this.otpController,
     required this.errorMessage,
+    required this.textButton,
   });
 
-  ForgotPasswordState copyWith({
+  ForgotPwState copyWith({
+    String? token,
     int? step,
-    ForgotPasswordStatus? status,
+    ForgotPwStatus? status,
+    CallToServerStatus? callApiStatus,
     AuthPage? authPage,
     String? errorMessage,
+    String? textButton,
   }) {
-    return ForgotPasswordState(
+    return ForgotPwState(
+      token: token ?? this.token,
       step: step ?? this.step,
+      otpController: otpController,
       status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
       emailSController: emailSController,
       passwordController: passwordController,
-      otpController: otpController,
+      textButton: textButton ?? this.textButton,
+      errorMessage: errorMessage ?? this.errorMessage,
+      callApiStatus: callApiStatus ?? this.callApiStatus,
     );
   }
 }

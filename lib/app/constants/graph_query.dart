@@ -37,4 +37,35 @@ abstract class ConfigGraphQl {
       }
   }
   ''';
+
+  static const String getOtpMutation = '''
+    mutation ForgotPassword(\$email: String!) {
+      forgotPassword(email: \$email) {
+          message
+          success
+          code
+      }
+  }
+  ''';
+
+  static const String submitOTPMutation = '''
+    mutation SubmitOTP(\$otp: String!, \$email: String!) {
+      submitOTP(otp: \$otp, email: \$email) {
+          success
+          code
+          message
+          accessToken
+      }
+  }
+  ''';
+
+  static const String resetPasswordMutation = '''
+    mutation ResetPassword(\$newPassword: String!) {
+      resetPassword(newPassword: \$newPassword) {
+        code
+        message
+        success
+      }
+  }
+  ''';
 }

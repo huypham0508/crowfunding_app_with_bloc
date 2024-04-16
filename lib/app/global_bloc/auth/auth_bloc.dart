@@ -5,8 +5,9 @@ import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
-import 'package:crowfunding_app_with_bloc/app/models/login_response_model.dart';
-import 'package:crowfunding_app_with_bloc/app/models/register_response.model.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/forgot_password_response.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/login_response_model.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/register_response.model.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 part 'auth_events.dart';

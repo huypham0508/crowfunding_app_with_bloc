@@ -1,48 +1,47 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class ButtonAuthCustom extends StatelessWidget {
-  final Color? textColor;
-  final Color? backgroundColor;
-  final Function()? onTap;
   const ButtonAuthCustom({
     super.key,
-    this.textColor,
-    this.backgroundColor,
+    required this.text,
     required this.onTap,
+    required this.context,
+    this.backgroundColor,
   });
+
+  final String text;
+  final void Function()? onTap;
+  final BuildContext context;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      bottom: 0,
-      right: 10,
-      child: GestureDetector(
-        onTap: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
         child: Container(
-          margin: const EdgeInsets.only(right: 24.0),
-          height: 70,
-          width: 70,
+          width: double.maxFinite,
+          height: 52,
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.black500.withOpacity(0.3),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              width: 1,
+              color: backgroundColor ?? AppColors.primary600,
+            ),
+            color: AppColors.primary600,
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.whitish100,
               ),
-            ],
-            shape: BoxShape.circle,
-            color: backgroundColor ?? AppColors.black500,
+            ),
           ),
-          child: Icon(
-            Icons.arrow_forward_outlined,
-            color: textColor ?? AppColors.whitish100,
-            size: 32,
-          ),
-        ).animate().fade(duration: 500.ms).scale(delay: 500.ms),
+        ),
       ),
     );
   }

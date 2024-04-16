@@ -82,6 +82,15 @@ class Utils {
     }, 2000);
   }
 
+  static showLoading(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: AppColors.black300.withOpacity(0.2),
+      builder: (context) => loading(loading: 'Loading...'),
+    );
+  }
+
   static Widget loading({required String loading}) {
     return Center(
       child: IntrinsicWidth(
@@ -108,5 +117,9 @@ class Utils {
         ),
       ),
     );
+  }
+
+  static void closeLoading(BuildContext context) {
+    context.pop();
   }
 }

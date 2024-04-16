@@ -3,89 +3,122 @@ import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/bloc/forgot_password_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/widget/container_forgot_password.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/widget/popup_notify.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_title.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/error_message.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/input_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/to_page.dart';
 import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
-class ForgotPasswordView extends StatelessWidget {
+class ForgotPwView extends StatelessWidget {
   final AuthBloc authBloc;
-  const ForgotPasswordView({super.key, required this.authBloc});
+  const ForgotPwView({super.key, required this.authBloc});
 
   @override
   Widget build(BuildContext context) {
     return FadeMoveLeftToRight(
       child: BlocProvider(
         create: (context) {
-          return ForgotPasswordBloc(
+          return ForgotPwBloc(
             authRepository: AuthRepository(
               graphQLClient: context.read<GraphQLService>(),
               localDataSource: context.read<LocalDataSource>(),
             ),
           );
         },
-        child: BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
-          listener: ((
-            context,
-            state,
-          ) {
+        child: BlocConsumer<ForgotPwBloc, ForgotPwState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: ((context, state) {
             switch (state.status) {
-              case ForgotPasswordStatus.loading:
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  barrierColor: AppColors.black300.withOpacity(0.2),
-                  builder: (context) => Utils.loading(loading: 'Loading...'),
-                );
+              case ForgotPwStatus.loading:
+                Utils.showLoading(context);
                 break;
-              case ForgotPasswordStatus.forgotSuccess:
-                authBloc.add(CheckAuthEvent());
-                break;
-              case ForgotPasswordStatus.backDialog:
-                context.pop();
+              case ForgotPwStatus.backDialog:
+                Utils.closeLoading(context);
                 break;
               default:
             }
           }),
           builder: (context, state) {
-            return ContainerForgotPassword(
+            Map<int, String> buttonText = {
+              0: 'Forgot Password',
+              1: 'Submit OTP',
+              2: 'Reset Password',
+              3: 'Back to Sign In'
+            };
+
+            return Stack(
               children: [
-                _titlePage(context),
-                GlobalStyles.sizedBoxHeight_24,
-                ..._inputs(state, context),
-                _buttonSubmit(
-                  context: context,
-                  onTap: () {
-                    context.read<ForgotPasswordBloc>().add(
-                          StartedForgotPasswordEvent(
-                            context: context,
-                            type: StartedForgotPasswordEventEnum.submitted,
-                            step: state.step + 1,
-                            forgotPasswordModel: ForgotPasswordModel(
-                              email: state.emailSController.text,
-                              OTP: state.otpController.text,
-                              password: state.passwordController.text,
+                ContainerForgotPw(
+                  children: [
+                    AuthTitle(
+                      titleString: FlutterI18n.translate(
+                        context,
+                        "auth.forgot_password.title",
+                      ),
+                    ),
+                    GlobalStyles.sizedBoxHeight_24,
+                    ..._inputs(state, context),
+                    ButtonAuthCustom(
+                        context: context,
+                        text: state.textButton,
+                        onTap: () {
+                          if (state.step == 3) {
+                            authBloc.add(
+                              SwitchAuthPageEvent(
+                                authPage: AuthPage.signIn,
+                              ),
+                            );
+                          } else {
+                            context.read<ForgotPwBloc>().add(
+                                  StartedForgotPwEvent(
+                                    context: context,
+                                    step: state.step,
+                                    textNext: buttonText[state.step + 1],
+                                    type: StartedForgotPwEventEnum.submitted,
+                                    forgotPwModel: ForgotPwModel(
+                                      email: state.emailSController.text,
+                                      OTP: state.otpController.text,
+                                      password: state.passwordController.text,
+                                    ),
+                                  ),
+                                );
+                          }
+                        }),
+                    GlobalStyles.sizedBoxHeight_5,
+                    if (state.step < 3)
+                      ToPage(
+                        text: 'Back to Sign In',
+                        onPressed: () {
+                          authBloc.add(
+                            SwitchAuthPageEvent(
+                              authPage: AuthPage.signIn,
                             ),
-                          ),
-                        );
-                  },
+                          );
+                        },
+                      )
+                  ],
                 ),
-                _toSignIn(
-                    text: 'Back to Sign In',
-                    onPressed: () {
-                      authBloc.add(
-                        SwitchAuthPageEvent(
-                          authPage: AuthPage.signIn,
-                        ),
-                      );
-                    })
+                //show when enter email successfully
+                if (state.callApiStatus == CallToServerStatus.sendMailSuccess)
+                  _sendMailSuccess(context, state.emailSController.text),
+                //show when verify otp successfully
+                if (state.callApiStatus == CallToServerStatus.sendOtpSuccess)
+                  _sendOTPSuccess(context),
+                //show when reset password successfully
+                if (state.callApiStatus ==
+                    CallToServerStatus.sendNewPasswordSuccess)
+                  _sendResetPwSuccess(context),
               ],
             );
           },
@@ -94,77 +127,100 @@ class ForgotPasswordView extends StatelessWidget {
     );
   }
 
-  Widget _titlePage(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: Text(
-        FlutterI18n.translate(
-          context,
-          "auth.forgot_password.title",
-        ),
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-          color: AppColors.black100,
-        ),
+  PopupNotify _sendMailSuccess(BuildContext context, String email) {
+    return PopupNotify(
+      type: popUpType.SUCCESS,
+      textPrimary: FlutterI18n.translate(
+        context,
+        "auth.forgot_password.check_inbox",
+      ),
+      textSecondary: FlutterI18n.translate(
+        context,
+        "auth.forgot_password.send_to_email",
+      ),
+      textSecondaryHighlight: email,
+    );
+  }
+
+  PopupNotify _sendOTPSuccess(BuildContext context) {
+    return PopupNotify(
+      type: popUpType.SUCCESS,
+      textPrimary: FlutterI18n.translate(
+        context,
+        "auth.forgot_password.send_otp_success",
+      ),
+    );
+  }
+
+  PopupNotify _sendResetPwSuccess(BuildContext context) {
+    return PopupNotify(
+      type: popUpType.SUCCESS,
+      textPrimary: FlutterI18n.translate(
+        context,
+        "auth.forgot_password.reset_password_success",
       ),
     );
   }
 
   List<Widget> _inputs(
-    ForgotPasswordState forgotPasswordState,
+    ForgotPwState ForgotPwState,
     BuildContext context,
   ) {
     return [
-      ErrorMessage(errorMessage: forgotPasswordState.errorMessage),
-      if (forgotPasswordState.step == 0)
+      ErrorMessage(errorMessage: ForgotPwState.errorMessage),
+      if (ForgotPwState.step == 0)
         InputAuthCustom(
-          textController: forgotPasswordState.emailSController,
+          textController: ForgotPwState.emailSController,
           hinText: 'example@gmail.com',
           title: 'Email *',
           onChange: (value) {
-            context.read<ForgotPasswordBloc>().add(
-                  StartedForgotPasswordEvent(
+            context.read<ForgotPwBloc>().add(
+                  StartedForgotPwEvent(
                     context: context,
-                    type: StartedForgotPasswordEventEnum.email,
-                    forgotPasswordModel: ForgotPasswordModel(
+                    type: StartedForgotPwEventEnum.email,
+                    forgotPwModel: ForgotPwModel(
                       email: value,
                     ),
                   ),
                 );
           },
         ),
-      if (forgotPasswordState.step == 1)
+      if (ForgotPwState.step == 1)
+        Container(
+          width: double.maxFinite,
+          child: FittedBox(
+            child: OtpTextField(
+              borderWidth: 0.5,
+              numberOfFields: 6,
+              showFieldAsBox: true,
+              cursorColor: AppColors.black100,
+              borderColor: AppColors.neutral300,
+              focusedBorderColor: AppColors.primary600,
+              keyboardType: TextInputType.number,
+              onCodeChanged: (String code) {
+                ForgotPwState.otpController.text = code;
+              },
+              onSubmit: (String verificationCode) {
+                ForgotPwState.otpController.text = verificationCode;
+              }, // end onSubmit
+            ),
+          ),
+        ).animate(delay: 600.ms),
+      if (ForgotPwState.step == 2)
         InputAuthCustom(
-          textController: forgotPasswordState.otpController,
-          hinText: 'OTP',
-          title: 'OTP',
-          onChange: (value) {
-            context.read<ForgotPasswordBloc>().add(
-                  StartedForgotPasswordEvent(
-                    context: context,
-                    type: StartedForgotPasswordEventEnum.otp,
-                    forgotPasswordModel: ForgotPasswordModel(
-                      email: forgotPasswordState.emailSController.text,
-                      OTP: value,
-                    ),
-                  ),
-                );
-          },
-        ),
-      if (forgotPasswordState.step == 2)
-        InputAuthCustom(
-          textController: forgotPasswordState.emailSController,
+          textController: ForgotPwState.passwordController,
           hinText: 'Your password',
           title: 'Password',
+          obscureText: true,
           onChange: (value) {
-            context.read<ForgotPasswordBloc>().add(
-                  StartedForgotPasswordEvent(
+            context.read<ForgotPwBloc>().add(
+                  StartedForgotPwEvent(
                     context: context,
-                    type: StartedForgotPasswordEventEnum.email,
-                    forgotPasswordModel: ForgotPasswordModel(
-                      email: value,
+                    type: StartedForgotPwEventEnum.password,
+                    forgotPwModel: ForgotPwModel(
+                      email: ForgotPwState.emailSController.text,
+                      OTP: ForgotPwState.otpController.text,
+                      password: value,
                     ),
                   ),
                 );
@@ -173,85 +229,5 @@ class ForgotPasswordView extends StatelessWidget {
       const SizedBox(height: 5),
       GlobalStyles.sizedBoxHeight_24,
     ];
-  }
-
-  Widget _toSignIn({required String text, void Function()? onPressed}) {
-    return TextButton(
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-          color: AppColors.primary600,
-        ),
-      ),
-    );
-  }
-
-  Widget _buttonSubmit({
-    void Function()? onTap,
-    required BuildContext context,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        child: Container(
-          width: double.maxFinite,
-          height: 52,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              width: 1,
-              color: AppColors.primary600,
-            ),
-            color: AppColors.primary600,
-          ),
-          child: Center(
-            child: Text(
-              FlutterI18n.translate(
-                context,
-                "auth.forgot_password.title",
-              ),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.whitish100,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ContainerForgotPassword extends StatelessWidget {
-  const ContainerForgotPassword({
-    super.key,
-    required this.children,
-  });
-
-  final List<Widget> children;
-  @override
-  Widget build(BuildContext context) {
-    return BoxShadowCustom(
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 30,
-        ),
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-          color: AppColors.whitish100,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-      ),
-    );
   }
 }

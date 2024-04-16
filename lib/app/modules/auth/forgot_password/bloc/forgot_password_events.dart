@@ -1,27 +1,29 @@
 part of 'forgot_password_bloc.dart';
 
-enum StartedForgotPasswordEventEnum {
+enum StartedForgotPwEventEnum {
   email,
   otp,
   password,
   submitted,
 }
 
-abstract class ForgotPasswordEvent {}
+abstract class ForgotPwEvent {}
 
-class InitialForgotPasswordEvent extends ForgotPasswordEvent {}
+class InitialForgotPwEvent extends ForgotPwEvent {}
 
-class StartedForgotPasswordEvent extends ForgotPasswordEvent with Validate {
-  final StartedForgotPasswordEventEnum type;
+class StartedForgotPwEvent extends ForgotPwEvent with Validate {
   final int step;
-  final ForgotPasswordModel forgotPasswordModel;
+  final String? textNext;
   final List<String?> _validates = [];
+  final StartedForgotPwEventEnum type;
+  final ForgotPwModel forgotPwModel;
 
-  StartedForgotPasswordEvent({
-    this.type = StartedForgotPasswordEventEnum.submitted,
+  StartedForgotPwEvent({
     this.step = 0,
+    this.textNext,
     required BuildContext context,
-    required this.forgotPasswordModel,
+    required this.forgotPwModel,
+    this.type = StartedForgotPwEventEnum.submitted,
   }) {
     setContext = context;
   }
@@ -35,28 +37,28 @@ class StartedForgotPasswordEvent extends ForgotPasswordEvent with Validate {
   }
 
   List<String?> _generateValidations() {
-    String email = forgotPasswordModel.email.trim();
-    String password = forgotPasswordModel.password!.trim();
-    String otp = forgotPasswordModel.OTP!.trim();
+    String email = forgotPwModel.email.trim();
+    String password = forgotPwModel.password!.trim();
+    String otp = forgotPwModel.OTP!.trim();
 
     switch (type) {
-      case StartedForgotPasswordEventEnum.email:
+      case StartedForgotPwEventEnum.email:
         _validates.add(validateEmail(email));
         break;
-      case StartedForgotPasswordEventEnum.otp:
+      case StartedForgotPwEventEnum.otp:
         _validates.add(validateOTP(otp));
         break;
-      case StartedForgotPasswordEventEnum.password:
-        _validates.add(validatePassword(password));
+      case StartedForgotPwEventEnum.password:
+        _validates.add(validatePasswordStrength(password));
         break;
-      case StartedForgotPasswordEventEnum.submitted:
-        if (step == 1) {
+      case StartedForgotPwEventEnum.submitted:
+        if (step == 0) {
           _validates.add(validateEmail(email));
         }
-        if (step == 2) {
+        if (step == 1) {
           _validates.add(validateOTP(otp));
         }
-        if (step == 3) {
+        if (step == 2) {
           _validates.addAll([
             validateEmail(email),
             validatePassword(password),
@@ -69,7 +71,6 @@ class StartedForgotPasswordEvent extends ForgotPasswordEvent with Validate {
   }
 }
 
-class SignInSwitchAuthPageEvent extends ForgotPasswordEvent {
-  final AuthPage authPage;
-  SignInSwitchAuthPageEvent({required this.authPage});
-}
+class ClosePopupForgotPwEvent extends ForgotPwEvent {}
+
+class BackModelForgotPwEvent extends ForgotPwEvent {}

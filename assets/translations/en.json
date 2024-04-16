@@ -37,7 +37,11 @@
       "title_create_password": "Create Password",
       "submit": "Submit",
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "send_to_email": "OTP code has been successfully sent to email ",
+      "check_inbox": "Please check inbox your email ✉️",
+      "send_otp_success": "You have entered otp successfully. Next, you need to enter a new password",
+      "reset_password_success": "You have reset password successfully!"
     }
   }
 }

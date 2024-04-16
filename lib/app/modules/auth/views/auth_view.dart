@@ -32,9 +32,9 @@ class _AuthViewState extends State<AuthView> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        color: AppColors.whitish100,
-        child: SafeArea(
+      body: SafeArea(
+        child: Container(
+          color: AppColors.whitish100,
           child: Center(
             child: FadeMoveLeftToRight(
               child: Container(
@@ -145,9 +145,9 @@ class _AuthViewState extends State<AuthView> {
                 return containerWithLogo(
                   SignUpView(authBloc: authBloc),
                 );
-              case AuthPage.forgotPassword:
+              case AuthPage.ForgotPw:
                 return containerWithLogo(
-                  ForgotPasswordView(authBloc: authBloc),
+                  ForgotPwView(authBloc: authBloc),
                 );
               default:
                 return SizedBox();
