@@ -13,6 +13,7 @@ import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/error_message
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/input_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/login_with_google.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/to_page.dart';
+import 'package:crowfunding_app_with_bloc/app/services/biometric_service.dart';
 import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ class SignInView extends StatelessWidget {
       child: BlocProvider(
         create: (context) {
           return SignInBloc(
+            biometric: BiometricService(),
             authRepository: AuthRepository(
               graphQLClient: context.read<GraphQLService>(),
               localDataSource: context.read<LocalDataSource>(),
@@ -68,15 +70,21 @@ class SignInView extends StatelessWidget {
                 GlobalStyles.sizedBoxHeight_24,
                 LoginGoogleButton(),
                 ..._inputs(state, context),
-                ToPage(
-                  text: 'Forgot password',
-                  onPressed: () {
-                    authBloc.add(
-                      SwitchAuthPageEvent(
-                        authPage: AuthPage.ForgotPw,
-                      ),
-                    );
-                  },
+                Row(
+                  children: [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.fingerprint)),
+                    Spacer(),
+                    ToPage(
+                      text: 'Forgot password',
+                      onPressed: () {
+                        authBloc.add(
+                          SwitchAuthPageEvent(
+                            authPage: AuthPage.ForgotPw,
+                          ),
+                        );
+                      },
+                    )
+                  ],
                 ),
                 GlobalStyles.sizedBoxHeight_24,
                 ButtonAuthCustom(
@@ -137,23 +145,6 @@ class SignInView extends StatelessWidget {
           },
         ),
       ],
-    );
-  }
-
-  Widget _toSignUp({required String text, void Function()? onPressed}) {
-    return Transform.translate(
-      offset: Offset(-7, 1),
-      child: TextButton(
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: AppColors.primary600,
-          ),
-        ),
-      ),
     );
   }
 

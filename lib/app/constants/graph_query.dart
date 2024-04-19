@@ -4,8 +4,15 @@ import 'package:crowfunding_app_with_bloc/app/constants/app_string.dart';
 abstract class ConfigGraphQl {
   // httpLink
   static const String httpLink = ConfigApi.GRAPH_QL_APIURL;
+  static const String baseUrl = ConfigApi.BASEURL;
 
   // query string
+  static const String hello = r'''
+    query hello {
+      hello
+  }
+  ''';
+
   static const String getAllUserQuery = r'''
     query getUser {
       getUser {
@@ -24,6 +31,7 @@ abstract class ConfigGraphQl {
           message
           code
           accessToken
+          refreshToken
     }
   }
   ''';

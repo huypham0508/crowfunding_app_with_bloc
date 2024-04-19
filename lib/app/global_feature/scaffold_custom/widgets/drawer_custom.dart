@@ -1,4 +1,5 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/logout_button.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_widget/avatar_custom.dart';
@@ -35,6 +36,7 @@ class DrawerCustom extends StatelessWidget {
                     widthAvatarBox: widthAvatarBox,
                     image: AppImages.imAvatar6,
                   ),
+                  LogoutButton(),
                 ],
               ),
             ),

@@ -1,10 +1,16 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
+import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
+import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/views/scaffold_custom_view.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/result_item.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
+import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class HomeView extends StatefulWidget {
@@ -26,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
     // );
     // socket.connect();
     // _connectSocket();
+
     super.initState();
   }
 
@@ -59,25 +66,41 @@ class _HomeViewState extends State<HomeView> {
             children: [
               GlobalStyles.sizedBoxHeight_10,
               GlobalStyles.sizedBoxHeight_10,
-              FadeMoveTopToBottom(
-                child: Container(
-                  height: height / ratio,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: const DecorationImage(
-                      fit: BoxFit.fitWidth,
-                      image: NetworkImage(
-                        AppImages.fakeImageNetwork,
+              GestureDetector(
+                onTap: () async {
+                  try {
+                    await AuthRepository(
+                      graphQLClient: context.read<GraphQLService>(),
+                      localDataSource: context.read<LocalDataSource>(),
+                    ).hello();
+                  } catch (e) {
+                    NotificationsService.showSimpleNotification(
+                      body: e.toString(),
+                      payload: "123123",
+                      title: "123123123",
+                    );
+                  }
+                },
+                child: FadeMoveTopToBottom(
+                  child: Container(
+                    height: height / ratio,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: const DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        image: NetworkImage(
+                          AppImages.fakeImageNetwork,
+                        ),
                       ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Education $count',
-                      style: const TextStyle(
-                        color: AppColors.whitish100,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    child: Center(
+                      child: Text(
+                        'Education $count',
+                        style: const TextStyle(
+                          color: AppColors.whitish100,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

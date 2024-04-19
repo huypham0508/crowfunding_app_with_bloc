@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
+import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
@@ -10,9 +11,9 @@ import 'package:crowfunding_app_with_bloc/app/models/response/login_response_mod
 import 'package:crowfunding_app_with_bloc/app/models/response/register_response.model.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+part '../../data/repository/graphql/auth_repository.dart';
 part 'auth_events.dart';
 part 'auth_state.dart';
-part '../../data/repository/graphql/auth_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LocalDataSource localDataSource;
@@ -23,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<InitialAuthEvent>(_initial);
     on<SwitchAuthPageEvent>(_switchAuthPage);
     on<CheckAuthEvent>(_checkAuth);
+    on<SignOutEvent>(_signOut);
   }
 
   void _initial(InitialAuthEvent event, Emitter<AuthState> emit) async {
@@ -40,6 +42,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (checkToken == null) {
       emit(state.copyWith(authPage: AuthPage.signIn));
     }
+  }
+
+  void _signOut(SignOutEvent event, Emitter<AuthState> emit) async {
+    await localDataSource.deleteToken();
+    await localDataSource.deleteRefreshToken();
+    await localDataSource.deleteUserName();
+    emit(state.copyWith(
+      authPage: AuthPage.signIn,
+      status: AuthStatus.signOut,
+    ));
   }
 
   void _switchAuthPage(SwitchAuthPageEvent event, Emitter<AuthState> emit) {

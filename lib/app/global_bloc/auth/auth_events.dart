@@ -10,3 +10,5 @@ class SwitchAuthPageEvent extends AuthEvent {
 }
 
 class CheckAuthEvent extends AuthEvent {}
+
+class SignOutEvent extends AuthEvent {}

@@ -5,7 +5,7 @@ AuthState authInitialState = const AuthState(
   authPage: AuthPage.splash,
 );
 
-enum AuthStatus { loginSuccess, loginFailure }
+enum AuthStatus { loginSuccess, loginFailure, signOut }
 
 enum AuthPage { splash, signIn, signUp, ForgotPw }
 

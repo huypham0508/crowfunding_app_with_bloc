@@ -28,4 +28,16 @@ class LocalDataSource {
   Future<void> deleteToken() async {
     await sf.remove('token');
   }
+
+  Future<void> saveRefreshToken(String token) async {
+    await sf.setString('refreshToken', token);
+  }
+
+  Future<String?> getRefreshToken() async {
+    return sf.getString('refreshToken');
+  }
+
+  Future<void> deleteRefreshToken() async {
+    await sf.remove('refreshToken');
+  }
 }

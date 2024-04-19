@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
+import 'package:crowfunding_app_with_bloc/app/services/biometric_service.dart';
 import 'package:crowfunding_app_with_bloc/app/utils/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,10 +13,13 @@ part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthRepository authRepository;
+  final BiometricService biometric;
 
   SignInBloc({
     required this.authRepository,
+    required this.biometric,
   }) : super(signInInitialState) {
+    on<InitialSignInEvent>(_initial);
     on<StartedLoginEvent>(
       _login,
       transformer: (events, mapper) {
@@ -24,6 +28,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             .asyncExpand(mapper);
       },
     );
+  }
+
+  _initial(InitialSignInEvent event, Emitter<SignInState> emit) async {
+    // emit(state.copyWith(loginBiometric: await biometric.checkSupported()));
   }
 
   void _login(StartedLoginEvent event, Emitter<SignInState> emit) async {
@@ -50,14 +58,22 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     Emitter<SignInState> emit,
   ) async {
     emit(state.copyWith(status: SignInStatus.loading));
-    final result = await authRepository.login(event.loginModel);
-    await _backDialog(emit);
-    if (result.success == true) {
-      emit(state.copyWith(status: SignInStatus.loginSuccess));
-    } else {
+    try {
+      final result = await authRepository.login(event.loginModel);
+      await _backDialog(emit);
+      if (result.success == true) {
+        emit(state.copyWith(status: SignInStatus.loginSuccess));
+      } else {
+        emit(state.copyWith(
+          status: SignInStatus.loginFailure,
+          errorMessage: result.message,
+        ));
+      }
+    } catch (e) {
+      await _backDialog(emit);
       emit(state.copyWith(
         status: SignInStatus.loginFailure,
-        errorMessage: result.message,
+        errorMessage: e.toString(),
       ));
     }
   }
