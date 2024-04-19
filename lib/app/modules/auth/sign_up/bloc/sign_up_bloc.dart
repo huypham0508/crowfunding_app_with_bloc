@@ -41,17 +41,24 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     StartedSignUpEvent event,
     Emitter<SignUpState> emit,
   ) async {
-    emit(state.copyWith(status: SignUpStatus.loading));
-    final result = await authRepository.register(event.registerModel);
-    await _backDialog(emit);
-    if (result.success == true) {
-      emit(state.copyWith(status: SignUpStatus.registerSuccess));
-    } else {
+    try {
+      emit(state.copyWith(status: SignUpStatus.loading));
+      final result = await authRepository.register(event.registerModel);
+      await _backDialog(emit);
+      if (result.success == true) {
+        emit(state.copyWith(status: SignUpStatus.registerSuccess));
+      } else {
+        emit(state.copyWith(
+          status: SignUpStatus.registerFailure,
+          errorMessage: result.message,
+        ));
+      }
+    } catch (e) {
+      await _backDialog(emit);
       emit(state.copyWith(
         status: SignUpStatus.registerFailure,
-        errorMessage: result.message,
+        errorMessage: e.toString(),
       ));
     }
-    await _backDialog(emit);
   }
 }

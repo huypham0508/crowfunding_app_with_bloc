@@ -4,6 +4,7 @@ import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dar
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/bloc/sign_up_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/services/biometric_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,14 +25,19 @@ void main() async {
         setUp(() {
           authBloc = AuthBloc(localDataSource: localDataSource);
           signInBloc = SignInBloc(
+            biometric: BiometricService(),
             authRepository: AuthRepository(
-              graphQLClient: GraphQLService(localDataSource: localDataSource),
+              graphQLClient: GraphQLService.getInstance(
+                localDataSource: localDataSource,
+              ),
               localDataSource: localDataSource,
             ),
           );
           signUpBloc = SignUpBloc(
             authRepository: AuthRepository(
-              graphQLClient: GraphQLService(localDataSource: localDataSource),
+              graphQLClient: GraphQLService.getInstance(
+                localDataSource: localDataSource,
+              ),
               localDataSource: localDataSource,
             ),
           );

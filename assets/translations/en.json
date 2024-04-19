@@ -6,11 +6,12 @@
   "auth": {
     "sign_up": {
       "title": "Sign up",
+      "sign_in": "Sign in",
+      "full_name": "Full name",
       "email": "Email",
-      "username": "User name",
       "password": "Password",
       "confirm_password": "Confirm Password",
-      "have_account": "You already have an account !",
+      "have_account": "You already have an account!",
       "username_empty": "Please enter your username!",
       "email_empty": "Please enter your email address!",
       "email_invalid": "Email address is invalid!",
@@ -20,13 +21,27 @@
       "confirm_password_not_match": "Your confirm password is not match!"
     },
     "sign_in": {
+      "sign_up": "Sign up",
       "title": "Sign In",
       "email": "Email",
       "password": "Password",
-      "do_not_have_account": "You don't have an account!",
+      "do_not_have_account": "Don't have an account!",
       "email_empty": "Please enter your email address!",
       "email_invalid": "Email address is invalid!",
-      "password_empty": "Please enter your password!"
+      "password_empty": "Please enter your password!",
+      "login_google": "Sign in with google"
+    },
+    "forgot_password": {
+      "title": "Forgot Password",
+      "title_verify": "Email Verification",
+      "title_create_password": "Create Password",
+      "submit": "Submit",
+      "email": "Email",
+      "password": "Password",
+      "send_to_email": "OTP code has been successfully sent to email ",
+      "check_inbox": "Please check inbox your email ✉️",
+      "send_otp_success": "You have entered otp successfully. Next, you need to enter a new password",
+      "reset_password_success": "You have reset password successfully!"
     }
   }
 }

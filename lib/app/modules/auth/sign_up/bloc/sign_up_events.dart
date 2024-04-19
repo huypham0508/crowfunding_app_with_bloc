@@ -64,8 +64,3 @@ class StartedSignUpEvent extends SignUpEvent with Validate {
     return _validates;
   }
 }
-
-class SignUpSwitchAuthPageEvent extends SignUpEvent {
-  final AuthPage authPage;
-  SignUpSwitchAuthPageEvent({required this.authPage});
-}

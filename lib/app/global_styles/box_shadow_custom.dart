@@ -9,9 +9,9 @@ class BoxShadowCustom extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
-          color: AppColors.black500.withOpacity(0.1),
-          spreadRadius: 5,
-          blurRadius: 25,
+          color: AppColors.black500.withOpacity(0.07),
+          spreadRadius: 3,
+          blurRadius: 10,
           offset: const Offset(0, 0), // changes position of shadow
         ),
       ]),

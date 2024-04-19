@@ -9,33 +9,94 @@ class AuthRepository {
     required this.localDataSource,
   });
 
-  Future<LoginResponse> login(LoginModel loginModel) async {
-    final result = await graphQLClient.performMutation(
-      ConfigGraphQl.loginMutation,
-      {
-        'loginInput': {
-          'email': loginModel.email,
-          'password': loginModel.password,
-        }
-      },
-    );
-    if (result['login']['success'] == true) {
-      localDataSource.saveToken(result['login']['accessToken']);
+  Future<String> hello() async {
+    final result = await graphQLClient.performQuery(query: ConfigGraphQl.hello);
+
+    if (result == null) {
+      throw ApiException();
     }
-    return LoginResponse.fromJson(result['login']);
+    print(result);
+    return result.toString();
   }
 
-  Future<RegisterResponse> register(RegisterModel registerModel) async {
+  Future<LoginResponse> login(LoginModel payload) async {
     final result = await graphQLClient.performMutation(
-      ConfigGraphQl.registerMutation,
-      {
-        'registerInput': {
-          'userName': registerModel.username,
-          'email': registerModel.email,
-          'password': registerModel.password,
+      query: ConfigGraphQl.loginMutation,
+      variables: {
+        'loginInput': {
+          'email': payload.email,
+          'password': payload.password,
         }
       },
     );
+
+    if (result == null) {
+      throw ApiException();
+    }
+
+    if (result['login']['success'] == true) {
+      localDataSource.saveToken(result!['login']!['accessToken'] ?? '');
+      localDataSource.saveRefreshToken(result!['login']!['refreshToken'] ?? '');
+      graphQLClient.token = result!['login']!['accessToken'] ?? '';
+    }
+
+    return LoginResponse.fromJson(result?['login'] ?? '');
+  }
+
+  Future<RegisterResponse> register(RegisterModel payload) async {
+    final result = await graphQLClient.performMutation(
+      query: ConfigGraphQl.registerMutation,
+      variables: {
+        'registerInput': {
+          'userName': payload.username,
+          'email': payload.email,
+          'password': payload.password,
+        }
+      },
+    );
+
+    if (result == null) {
+      throw ApiException();
+    }
+
     return RegisterResponse.fromJson(result['register']);
+  }
+
+  Future<ForgotPwResponse> getOtpWithEmail(ForgotPwModel payload) async {
+    final result = await graphQLClient.performMutation(
+      query: ConfigGraphQl.getOtpMutation,
+      variables: {"email": payload.email},
+    );
+
+    if (result == null) {
+      throw ApiException();
+    }
+
+    return ForgotPwResponse.fromJson(result['forgotPassword']);
+  }
+
+  Future<ForgotPwResponse> submitOTP(ForgotPwModel payload) async {
+    final result = await graphQLClient.performMutation(
+      query: ConfigGraphQl.submitOTPMutation,
+      variables: {"email": payload.email, "otp": payload.OTP},
+    );
+    if (result == null) {
+      throw ApiException();
+    }
+
+    return ForgotPwResponse.fromJson(result?['submitOTP'] ?? '');
+  }
+
+  Future<ForgotPwResponse> resetPassword(ForgotPwModel payload) async {
+    final result = await graphQLClient.performMutationWithToken(
+      query: ConfigGraphQl.resetPasswordMutation,
+      variables: {"newPassword": payload.password},
+      token: payload.token,
+    );
+    if (result == null) {
+      throw ApiException();
+    }
+
+    return ForgotPwResponse.fromJson(result['resetPassword']);
   }
 }

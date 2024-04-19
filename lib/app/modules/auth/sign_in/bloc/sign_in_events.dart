@@ -51,8 +51,3 @@ class StartedLoginEvent extends SignInEvent with Validate {
     return _validates;
   }
 }
-
-class SignInSwitchAuthPageEvent extends SignInEvent {
-  final AuthPage authPage;
-  SignInSwitchAuthPageEvent({required this.authPage});
-}

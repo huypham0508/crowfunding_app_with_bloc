@@ -4,8 +4,15 @@ import 'package:crowfunding_app_with_bloc/app/constants/app_string.dart';
 abstract class ConfigGraphQl {
   // httpLink
   static const String httpLink = ConfigApi.GRAPH_QL_APIURL;
+  static const String baseUrl = ConfigApi.BASEURL;
 
   // query string
+  static const String hello = r'''
+    query hello {
+      hello
+  }
+  ''';
+
   static const String getAllUserQuery = r'''
     query getUser {
       getUser {
@@ -24,6 +31,7 @@ abstract class ConfigGraphQl {
           message
           code
           accessToken
+          refreshToken
     }
   }
   ''';
@@ -34,6 +42,37 @@ abstract class ConfigGraphQl {
           success
           message
           code
+      }
+  }
+  ''';
+
+  static const String getOtpMutation = '''
+    mutation ForgotPassword(\$email: String!) {
+      forgotPassword(email: \$email) {
+          message
+          success
+          code
+      }
+  }
+  ''';
+
+  static const String submitOTPMutation = '''
+    mutation SubmitOTP(\$otp: String!, \$email: String!) {
+      submitOTP(otp: \$otp, email: \$email) {
+          success
+          code
+          message
+          accessToken
+      }
+  }
+  ''';
+
+  static const String resetPasswordMutation = '''
+    mutation ResetPassword(\$newPassword: String!) {
+      resetPassword(newPassword: \$newPassword) {
+        code
+        message
+        success
       }
   }
   ''';

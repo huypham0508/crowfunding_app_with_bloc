@@ -19,6 +19,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void connectToSocketInIsolate(_) async {
@@ -66,9 +67,7 @@ void main() async {
     supportedLocales: const [Locale('en')],
     path: 'assets/translations',
     fallbackLocale: const Locale('en'),
-    child: MainApp(
-      sharedPreferences: sf,
-    ),
+    child: MainApp(sharedPreferences: sf),
   ));
 }
 
@@ -82,11 +81,12 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   late GoRouter _appRoutes;
+  final LocalAuthentication auth = LocalAuthentication();
 
   @override
   void initState() {
-    _appRoutes = AppRouter.returnRouter();
     super.initState();
+    _appRoutes = AppRouter.returnRouter();
   }
 
   @override
@@ -101,7 +101,9 @@ class _MainAppState extends State<MainApp> {
         ),
         //Create a graphQLService
         RepositoryProvider(
-          create: (context) => GraphQLService(localDataSource: localDataSource),
+          create: (context) => GraphQLService.getInstance(
+            localDataSource: localDataSource,
+          ),
         ),
         //Create a firebaseDatabase
         RepositoryProvider(
@@ -141,7 +143,7 @@ class _MainAppState extends State<MainApp> {
               ),
             ),
           ],
-          title: 'Crow Funding App',
+          title: 'Crown Funding App',
           theme: ThemeData(
             textTheme: GoogleFonts.epilogueTextTheme(textTheme).copyWith(
               bodyMedium: GoogleFonts.rubik(textStyle: textTheme.bodyMedium),
