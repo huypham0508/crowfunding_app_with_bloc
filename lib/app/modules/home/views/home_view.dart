@@ -70,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                 onTap: () async {
                   try {
                     await AuthRepository(
-                      graphQLClient: context.read<GraphQLService>(),
+                      graphQLClient: context.read<GraphQlAPIClient>(),
                       localDataSource: context.read<LocalDataSource>(),
                     ).hello();
                   } catch (e) {

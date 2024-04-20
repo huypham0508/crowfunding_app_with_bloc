@@ -1,7 +1,7 @@
 part of '../../../global_bloc/auth/auth_bloc.dart';
 
 class AuthRepository {
-  final GraphQLService graphQLClient;
+  final GraphQlAPIClient graphQLClient;
   final LocalDataSource localDataSource;
 
   AuthRepository({

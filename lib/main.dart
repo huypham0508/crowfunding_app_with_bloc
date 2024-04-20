@@ -99,9 +99,9 @@ class _MainAppState extends State<MainApp> {
         RepositoryProvider(
           create: (context) => localDataSource,
         ),
-        //Create a graphQLService
+        //Create a GraphQlAPIClient
         RepositoryProvider(
-          create: (context) => GraphQLService.getInstance(
+          create: (context) => GraphQlAPIClient.getInstance(
             localDataSource: localDataSource,
           ),
         ),

@@ -32,7 +32,7 @@ class SignInView extends StatelessWidget {
           return SignInBloc(
             biometric: BiometricService(),
             authRepository: AuthRepository(
-              graphQLClient: context.read<GraphQLService>(),
+              graphQLClient: context.read<GraphQlAPIClient>(),
               localDataSource: context.read<LocalDataSource>(),
             ),
           );

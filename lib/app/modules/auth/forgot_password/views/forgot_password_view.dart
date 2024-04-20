@@ -31,7 +31,7 @@ class ForgotPwView extends StatelessWidget {
         create: (context) {
           return ForgotPwBloc(
             authRepository: AuthRepository(
-              graphQLClient: context.read<GraphQLService>(),
+              graphQLClient: context.read<GraphQlAPIClient>(),
               localDataSource: context.read<LocalDataSource>(),
             ),
           );
