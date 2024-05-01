@@ -1,14 +1,17 @@
-import 'dart:ui';
-
+import 'package:camera/camera.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/firebase_database.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
+import 'package:crowfunding_app_with_bloc/app/data/provider/rest/rest.dart';
+import 'package:crowfunding_app_with_bloc/app/data/repository/rest/api_service_repository.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/firebase/firebase_data.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
 import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
 import 'package:crowfunding_app_with_bloc/firebase_options.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,24 +21,8 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-
-void connectToSocketInIsolate(_) async {
-  IO.Socket socket = IO.io(
-    'http://localhost:4000/',
-    IO.OptionBuilder().setTransports(['websocket']).build(),
-  );
-  socket.onConnect((data) => print('Connection established'));
-  socket.onConnectError((data) => print('Connect Error: $data'));
-  socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-  socket.on('connected', (data) async {
-    IsolateNameServer.lookupPortByName('mainIsolateMessage')?.send(
-      'Socket connection established', // Include message data
-    );
-  });
-}
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,35 +32,33 @@ void main() async {
   );
   await NotificationsService.init();
 
+  List<CameraDescription> _cameras = await availableCameras();
+  print('_camerasmain');
+  print(_cameras);
+
   /// Use preferences like expected.
+  ///
   final sf = await SharedPreferences.getInstance();
-
-  // final receivePort = ReceivePort();
-  // IsolateNameServer.registerPortWithName(
-  //   receivePort.sendPort,
-  //   'mainIsolateMessage',
-  // );
-  // receivePort.listen((message) {
-  //   NotificationsService.showSimpleNotification(
-  //     body: "123123",
-  //     payload: "123123",
-  //     title: "123123123",
-  //   );
-  // });
-
-  // Isolate.spawn(connectToSocketInIsolate, null);
 
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en')],
     path: 'assets/translations',
     fallbackLocale: const Locale('en'),
-    child: MainApp(sharedPreferences: sf),
+    child: MainApp(
+      sharedPreferences: sf,
+      cameras: _cameras,
+    ),
   ));
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key, required this.sharedPreferences});
+  const MainApp({
+    super.key,
+    required this.sharedPreferences,
+    required this.cameras,
+  });
   final SharedPreferences sharedPreferences;
+  final List<CameraDescription> cameras;
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -105,6 +90,12 @@ class _MainAppState extends State<MainApp> {
             localDataSource: localDataSource,
           ),
         ),
+        //Create a ApiServiceRepository
+        RepositoryProvider(
+          create: (context) => ApiServiceRepository(
+            RestAPIClient(httpClient: Dio()),
+          ),
+        ),
         //Create a firebaseDatabase
         RepositoryProvider(
           create: (context) => LotoFirebaseDatabase(
@@ -128,6 +119,12 @@ class _MainAppState extends State<MainApp> {
             create: (context) => LoToBloc(
               localDataSource: context.read<LocalDataSource>(),
               firebaseDatabase: context.read<LotoFirebaseDatabase>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => CameraBloc(
+              cameras: widget.cameras,
+              apiServiceRepository: context.read<ApiServiceRepository>(),
             ),
           ),
         ],

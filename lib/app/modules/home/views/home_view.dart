@@ -1,17 +1,25 @@
+import 'package:camera/camera.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/camera_widget/camera_widget.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/views/scaffold_custom_view.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/result_item.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
+import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/image_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+List<Widget> listNewFeed = [
+  ImageWidget(),
+  ImageWidget(),
+  ImageWidget(),
+  ImageWidget(),
+  ImageWidget(),
+  ImageWidget(),
+  ImageWidget(),
+  ImageWidget(),
+];
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -21,111 +29,136 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late IO.Socket socket;
-  int count = 0;
+  late PageController _pageViewController;
 
   @override
   void initState() {
-    // socket = IO.io(
-    //   'http://localhost:4000/',
-    //   IO.OptionBuilder().setTransports(['websocket']).build(),
-    // );
-    // socket.connect();
-    // _connectSocket();
-
+    _pageViewController = PageController(initialPage: 1);
     super.initState();
   }
 
-  // _connectSocket() {
-  //   socket.onConnect((data) => print('Connection established'));
-  //   socket.onConnectError((data) => print('Connect Error: $data'));
-  //   socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-  //   socket.on('connected', (data) {
-  //     setState(() {
-  //       count += 1;
-  //     });
-  //     NotificationsService.showSimpleNotification(
-  //       body: "123123",
-  //       payload: "123123",
-  //       title: "123123123",
-  //     );
-  //   });
-  // socket.emit("login", "username");
-  // }
-
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double ratio = 6.767;
+    List<CameraDescription> _cameraDesc = context.read<CameraBloc>().cameras;
     return ScaffoldCustom(
-      body: Padding(
-        padding: GlobalStyles.paddingPageLeftRight_24,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GlobalStyles.sizedBoxHeight_10,
-              GlobalStyles.sizedBoxHeight_10,
-              GestureDetector(
-                onTap: () async {
-                  try {
-                    await AuthRepository(
-                      graphQLClient: context.read<GraphQlAPIClient>(),
-                      localDataSource: context.read<LocalDataSource>(),
-                    ).hello();
-                  } catch (e) {
-                    NotificationsService.showSimpleNotification(
-                      body: e.toString(),
-                      payload: "123123",
-                      title: "123123123",
-                    );
-                  }
-                },
-                child: FadeMoveTopToBottom(
-                  child: Container(
-                    height: height / ratio,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: const DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: NetworkImage(
-                          AppImages.fakeImageNetwork,
+      body: BoxShadowCustom(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GlobalStyles.sizedBoxHeight_10,
+            GlobalStyles.sizedBoxHeight_10,
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    right: 10,
+                    left: 10,
+                    bottom: 20,
+                    child: PageView(
+                      physics: ClampingScrollPhysics(),
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: FadeMoveTopToBottom(
+                            child: PageView(
+                              scrollDirection: Axis.vertical,
+                              // controller: _pageViewController,
+                              onPageChanged: (index) {
+                                if (index == listNewFeed.length - 3) {
+                                  List<Widget> listNext = [
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                  ];
+                                  listNewFeed = [...listNewFeed, ...listNext];
+                                  setState(() {});
+                                }
+                              },
+                              children: listNewFeed,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Education $count',
-                        style: const TextStyle(
-                          color: AppColors.whitish100,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: FadeMoveTopToBottom(
+                            child: PageView(
+                              scrollDirection: Axis.vertical,
+                              controller: _pageViewController,
+                              onPageChanged: (index) {
+                                if (index == listNewFeed.length - 3) {
+                                  debugPrint("haha");
+                                  List<Widget> listNext = [
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                    ImageWidget(),
+                                  ];
+                                  listNewFeed = [...listNewFeed, ...listNext];
+                                  setState(() {});
+                                }
+                              },
+                              children: [
+                                if (_cameraDesc.isNotEmpty)
+                                  TakePictureScreen(camera: _cameraDesc.first),
+                                ...listNewFeed
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: 10,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Friends',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.whitish100,
+                          ),
+                        ),
+                        GlobalStyles.sizedBoxWidth,
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: AppColors.whitish100,
+                                width: 3,
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'All',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.whitish100,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-              GlobalStyles.sizedBoxHeight_10,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_24,
-              const ReletedSearchs(),
-              GlobalStyles.sizedBoxHeight_24,
-              const ReletedSearchs(),
-              GlobalStyles.sizedBoxHeight_24,
-              const ReletedSearchs()
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

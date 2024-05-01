@@ -10,11 +10,7 @@ const baseUrl = ConfigApi.BASEURL;
 
 class RestAPIClient {
   final Dio httpClient;
-  final Map<String, dynamic> _defaultBody = {
-    // 'app_key': appKey,
-    // 'ver': version,
-    // 'op': option,
-  };
+  final Map<String, dynamic> _defaultBody = {};
 
   RestAPIClient({required this.httpClient});
 
@@ -36,12 +32,8 @@ class RestAPIClient {
 
   postFile(Map<String, dynamic> postData) async {
     try {
-      Map<String, dynamic> submit = Map<String, dynamic>();
-      submit.addAll(_defaultBody);
-      submit.addAll(postData);
-
-      final FormData formData = FormData.fromMap(submit);
-      var response = await httpClient.post(baseUrl, data: formData);
+      final FormData formData = FormData.fromMap(postData);
+      var response = await httpClient.post('$baseUrl/upload', data: formData);
       return response.data;
     } catch (exception) {
       print(exception);
