@@ -26,6 +26,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Why is my app authenticating using face id?</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -45,7 +47,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Why is my app authenticating using face id?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Explanation on why the camera access is needed.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Explanation on why the microphone access is needed.</string>
 </dict>
 </plist>

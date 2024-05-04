@@ -1,7 +1,7 @@
 part of '../../../global_bloc/auth/auth_bloc.dart';
 
 class AuthRepository {
-  final GraphQLService graphQLClient;
+  final GraphQlAPIClient graphQLClient;
   final LocalDataSource localDataSource;
 
   AuthRepository({
@@ -11,7 +11,7 @@ class AuthRepository {
 
   Future<String> hello() async {
     final result = await graphQLClient.performQuery(query: ConfigGraphQl.hello);
-
+    print(result);
     if (result == null) {
       throw ApiException();
     }
@@ -19,7 +19,7 @@ class AuthRepository {
     return result.toString();
   }
 
-  Future<LoginResponse> login(LoginModel payload) async {
+  Future<SignInResponse> login(LoginModel payload) async {
     final result = await graphQLClient.performMutation(
       query: ConfigGraphQl.loginMutation,
       variables: {
@@ -29,21 +29,20 @@ class AuthRepository {
         }
       },
     );
-
     if (result == null) {
       throw ApiException();
     }
-
     if (result['login']['success'] == true) {
-      localDataSource.saveToken(result!['login']!['accessToken'] ?? '');
-      localDataSource.saveRefreshToken(result!['login']!['refreshToken'] ?? '');
-      graphQLClient.token = result!['login']!['accessToken'] ?? '';
+      localDataSource.saveToken(result['login']!['accessToken'] ?? '');
+      localDataSource.saveRefreshToken(result['login']!['refreshToken'] ?? '');
+      localDataSource.saveUserId(result['login']!['user']!['id']);
+      graphQLClient.token = result['login']!['accessToken'] ?? '';
     }
 
-    return LoginResponse.fromJson(result?['login'] ?? '');
+    return SignInResponse.fromJson(result['login'] ?? '');
   }
 
-  Future<RegisterResponse> register(RegisterModel payload) async {
+  Future<SignUpResponse> register(RegisterModel payload) async {
     final result = await graphQLClient.performMutation(
       query: ConfigGraphQl.registerMutation,
       variables: {
@@ -59,7 +58,7 @@ class AuthRepository {
       throw ApiException();
     }
 
-    return RegisterResponse.fromJson(result['register']);
+    return SignUpResponse.fromJson(result['register']);
   }
 
   Future<ForgotPwResponse> getOtpWithEmail(ForgotPwModel payload) async {
@@ -84,7 +83,7 @@ class AuthRepository {
       throw ApiException();
     }
 
-    return ForgotPwResponse.fromJson(result?['submitOTP'] ?? '');
+    return ForgotPwResponse.fromJson(result['submitOTP'] ?? '');
   }
 
   Future<ForgotPwResponse> resetPassword(ForgotPwModel payload) async {
@@ -98,5 +97,13 @@ class AuthRepository {
     }
 
     return ForgotPwResponse.fromJson(result['resetPassword']);
+  }
+
+  Future logout() async {
+    final result = await graphQLClient.performMutation(
+      query: ConfigGraphQl.logoutMutation,
+      variables: {"logoutId": localDataSource.getUserId()},
+    );
+    print(result);
   }
 }

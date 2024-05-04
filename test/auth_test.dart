@@ -27,7 +27,7 @@ void main() async {
           signInBloc = SignInBloc(
             biometric: BiometricService(),
             authRepository: AuthRepository(
-              graphQLClient: GraphQLService.getInstance(
+              graphQLClient: GraphQlAPIClient.getInstance(
                 localDataSource: localDataSource,
               ),
               localDataSource: localDataSource,
@@ -35,7 +35,7 @@ void main() async {
           );
           signUpBloc = SignUpBloc(
             authRepository: AuthRepository(
-              graphQLClient: GraphQLService.getInstance(
+              graphQLClient: GraphQlAPIClient.getInstance(
                 localDataSource: localDataSource,
               ),
               localDataSource: localDataSource,

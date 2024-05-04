@@ -1,6 +1,8 @@
 abstract class AppImages {
   static const String fakeImageNetwork =
       'https://images.unsplash.com/photo-1709125506210-a59fffe3d004?q=80&w=986&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  static const String fakeImageLocalhost =
+      'http://localhost:4000/public/uploads/1708869753858_7a5e8efa4d7644e054fb4e4517c8bf00.jpg';
 
   static const String icLogo = 'assets/images/images/logo.png';
   static const String icLogoNoBg = 'assets/images/images/logo-removebg.png';

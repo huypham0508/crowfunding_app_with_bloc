@@ -23,6 +23,83 @@ abstract class ConfigGraphQl {
     }
   ''';
 
+  static const String getReactionsQuery = r'''
+    query Reactions {
+      reactions {
+        code
+        message
+        success
+        data {
+          id
+          imageURL
+          count
+          name
+        }
+      }
+    }
+  ''';
+
+  static const String getAllPostsQuery = '''
+    query AllPosts(\$pageNumber: Float!, \$pageSize: Float!) {
+        allPosts(pageNumber: \$pageNumber, pageSize: \$pageSize) {
+            code
+            message
+            success
+            data {
+                id
+                description
+                imageUrl
+                user {
+                    email
+                    avatar
+                    userName
+                }
+            }
+        }
+  }
+  ''';
+
+  static const String getPostsYourFriendQuery = '''
+    query PostsOfFriends(\$pageNumber: Float!, \$pageSize: Float!) {
+      postsOfFriends(pageNumber: \$pageNumber, pageSize: \$pageSize) {
+        code
+        message
+        success
+        data {
+          id
+          description
+          imageUrl
+          user {
+            id
+            email
+            avatar
+            userName
+          }
+        }
+      }
+    }
+  ''';
+
+  static const String getYourPostsQuery = '''
+  query YourPosts(\$pageNumber: Float!, \$pageSize: Float!) {
+    yourPosts(pageNumber: \$pageNumber, pageSize: \$pageSize) {
+      code
+      message
+      success
+      data {
+        id
+        imageUrl
+        description
+        reactions {
+          imageURL
+          count
+          name
+        }
+      }
+    }
+  }
+  ''';
+
   // mutation string
   static const String loginMutation = '''
     mutation login(\$loginInput: LoginInput!) {
@@ -32,6 +109,9 @@ abstract class ConfigGraphQl {
           code
           accessToken
           refreshToken
+          user {
+            id
+          }
     }
   }
   ''';
@@ -73,6 +153,45 @@ abstract class ConfigGraphQl {
         code
         message
         success
+      }
+  }
+  ''';
+
+  static const String logoutMutation = '''
+    mutation logout(\$logoutId: ID!) {logout(id: \$logoutId) {
+      code
+      success
+      message
+    }
+  }
+  ''';
+
+  static const String incrementMutation = '''
+    mutation IncreaseReactionCount(\$reactName: String!, \$postId: String!) {
+      increaseReactionCount(reactName: \$reactName, postId: \$postId) {
+        code
+        message
+        success
+      }
+    }
+  ''';
+
+  static const String decrementMutation = '''
+    mutation DecreaseReactionCount(\$reactName: String!, \$postId: String!) {
+      decreaseReactionCount(reactName: \$reactName, postId: \$postId) {
+        code
+        message
+        success
+      }
+    }
+  ''';
+
+  static const String createPostMutation = '''
+    mutation CreatePost(\$postInput: CreatePostInput!) {
+      createPost(postInput: \$postInput) {
+        code
+        success
+        message
       }
   }
   ''';

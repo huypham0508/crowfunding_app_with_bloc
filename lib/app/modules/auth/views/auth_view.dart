@@ -122,6 +122,7 @@ class _AuthViewState extends State<AuthView> {
                 context.replace(Routes.HOME);
                 break;
               default:
+                break;
             }
           },
           builder: (context, state) {

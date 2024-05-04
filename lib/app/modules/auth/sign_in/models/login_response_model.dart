@@ -1,13 +1,13 @@
-class LoginResponse {
+class SignInResponse {
   bool? success;
   String? message;
 
-  LoginResponse({
+  SignInResponse({
     this.success,
     this.message,
   });
 
-  LoginResponse.fromJson(Map<String, dynamic> json) {
+  SignInResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'] ?? false;
     message = json['message'] ?? "";
   }

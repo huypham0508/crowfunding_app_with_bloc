@@ -1,17 +1,16 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
+import 'package:camera/camera.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/views/scaffold_custom_view.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/result_item.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
+import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/bloc/home_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_bar_custom.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_content.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -21,109 +20,87 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late IO.Socket socket;
-  int count = 0;
-
   @override
   void initState() {
-    // socket = IO.io(
-    //   'http://localhost:4000/',
-    //   IO.OptionBuilder().setTransports(['websocket']).build(),
-    // );
-    // socket.connect();
-    // _connectSocket();
-
     super.initState();
   }
 
-  // _connectSocket() {
-  //   socket.onConnect((data) => print('Connection established'));
-  //   socket.onConnectError((data) => print('Connect Error: $data'));
-  //   socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-  //   socket.on('connected', (data) {
-  //     setState(() {
-  //       count += 1;
-  //     });
-  //     NotificationsService.showSimpleNotification(
-  //       body: "123123",
-  //       payload: "123123",
-  //       title: "123123123",
-  //     );
-  //   });
-  // socket.emit("login", "username");
-  // }
-
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double ratio = 6.767;
+    List<CameraDescription> _cameraDesc = context.read<CameraBloc>().cameras;
+    const List<String> tabs = ['You', 'Friends', 'All'];
+
     return ScaffoldCustom(
-      body: Padding(
-        padding: GlobalStyles.paddingPageLeftRight_24,
-        child: SingleChildScrollView(
+      body: BlocProvider(
+        create: (context) {
+          return HomeBloc(
+            postRepository: PostRepository(
+              graphQLClient: context.read<GraphQlAPIClient>(),
+            ),
+          )..add(InitialHomeEvent());
+        },
+        child: BoxShadowCustom(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               GlobalStyles.sizedBoxHeight_10,
               GlobalStyles.sizedBoxHeight_10,
-              GestureDetector(
-                onTap: () async {
-                  try {
-                    await AuthRepository(
-                      graphQLClient: context.read<GraphQLService>(),
-                      localDataSource: context.read<LocalDataSource>(),
-                    ).hello();
-                  } catch (e) {
-                    NotificationsService.showSimpleNotification(
-                      body: e.toString(),
-                      payload: "123123",
-                      title: "123123123",
-                    );
-                  }
+              BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  HomeBloc homeBloc = context.read<HomeBloc>();
+                  return TabBarCustom(
+                    controller: state.pageController,
+                    onPageChanged: (idx) => homeBloc.add(
+                      ChangeTabHomeEvent(index: idx),
+                    ),
+                    tabs: tabs.asMap().entries.map(
+                      (entry) {
+                        int idx = entry.key;
+                        String val = entry.value;
+                        return TabItem(
+                          tabName: val,
+                          active: state.tabIndex == idx,
+                          onTap: () => homeBloc.add(
+                            ChangeTabHomeEvent(index: idx),
+                          ),
+                        );
+                      },
+                    ).toList(),
+                    tabsContents: [
+                      TabContent(
+                        showYourReaction: true,
+                        loading: state.loadingYourPosts,
+                        listData: state.yourPosts,
+                        onPageChanged: (index) {
+                          if (index == state.yourPosts.length - 3) {
+                            context.read<HomeBloc>()..add(GetYourPosts());
+                          }
+                        },
+                      ),
+                      TabContent(
+                        loading: state.loadingPostsYourFriends,
+                        listData: state.postsYourFriends,
+                        onPageChanged: (index) {
+                          if (index == state.postsYourFriends.length - 3) {
+                            context.read<HomeBloc>()..add(GetPostsYourFriend());
+                          }
+                        },
+                      ),
+                      TabContent(
+                        loading: state.loadingAllPosts,
+                        listData: state.allPosts,
+                        showCam: true,
+                        listCam: _cameraDesc,
+                        onPageChanged: (index) {
+                          if (index == state.allPosts.length - 3) {
+                            context.read<HomeBloc>()..add(GetAllPosts());
+                          }
+                        },
+                      ),
+                    ],
+                  );
                 },
-                child: FadeMoveTopToBottom(
-                  child: Container(
-                    height: height / ratio,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: const DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: NetworkImage(
-                          AppImages.fakeImageNetwork,
-                        ),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Education $count',
-                        style: const TextStyle(
-                          color: AppColors.whitish100,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              GlobalStyles.sizedBoxHeight_10,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_5,
-              const ResultItem(),
-              GlobalStyles.sizedBoxHeight_24,
-              const ReletedSearchs(),
-              GlobalStyles.sizedBoxHeight_24,
-              const ReletedSearchs(),
-              GlobalStyles.sizedBoxHeight_24,
-              const ReletedSearchs()
+              )
             ],
           ),
         ),
