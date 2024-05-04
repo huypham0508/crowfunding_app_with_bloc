@@ -17,6 +17,18 @@ class LocalDataSource {
     await sf.remove('userName');
   }
 
+  Future<void> saveUserId(String userId) async {
+    await sf.setString('userId', userId);
+  }
+
+  Future<String?> getUserId() async {
+    return sf.getString('userId');
+  }
+
+  Future<void> deleteUserId() async {
+    await sf.remove('userId');
+  }
+
   Future<void> saveToken(String token) async {
     await sf.setString('token', token);
   }

@@ -1,11 +1,11 @@
-class RegisterResponse {
+class SignUpResponse {
   bool? success;
   String? message;
   int? code;
 
-  RegisterResponse({this.success, this.message, this.code});
+  SignUpResponse({this.success, this.message, this.code});
 
-  RegisterResponse.fromJson(Map<String, dynamic> json) {
+  SignUpResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     code = json['code'];

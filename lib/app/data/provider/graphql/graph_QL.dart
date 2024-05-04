@@ -10,11 +10,11 @@ class GraphQlAPIClient extends GraphQlWrapper {
 
   static GraphQlAPIClient? _instance;
 
-  Future performQuery({
+  Future<Map<String, dynamic>?> performQuery({
     required String query,
     Map<String, dynamic>? variables,
   }) async {
-    return await executeWithRetry(() async {
+    return await super.executeWithRetry<Map<String, dynamic>?>(() async {
       final QueryOptions options = QueryOptions(
         document: gql(query),
         variables: variables ?? {},
@@ -24,11 +24,11 @@ class GraphQlAPIClient extends GraphQlWrapper {
     });
   }
 
-  Future performMutation({
+  Future<Map<String, dynamic>?> performMutation({
     required String query,
     required Map<String, dynamic> variables,
   }) async {
-    return await executeWithRetry(() async {
+    return await super.executeWithRetry<Map<String, dynamic>?>(() async {
       final MutationOptions options = MutationOptions(
         document: gql(query),
         variables: variables,
@@ -45,14 +45,16 @@ class GraphQlAPIClient extends GraphQlWrapper {
     String? token,
   }) async {
     await setHeader(tokenParam: token);
-    return await executeWithRetry(() async {
+    try {
       final MutationOptions options = MutationOptions(
         document: gql(query),
         variables: variables,
       );
       final QueryResult result = await graphQLClient.mutate(options);
       return result.data;
-    });
+    } catch (e) {
+      return null;
+    }
   }
 
   static GraphQlAPIClient getInstance({

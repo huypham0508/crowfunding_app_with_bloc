@@ -81,7 +81,7 @@ class ProfileView extends StatelessWidget {
                                             widthAvatarBox: height * 0.20,
                                           ),
                                         const SizedBox(height: 15),
-                                        _inputUserName(state),
+                                        // _inputUserName(state),
                                       ],
                                     ),
                             ),

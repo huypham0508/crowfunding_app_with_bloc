@@ -20,7 +20,6 @@ abstract class GraphQlWrapper {
 
   Future _init() async {
     try {
-      print('object');
       var getToken = await localDataSource.getToken();
       setHeader(tokenParam: getToken);
     } catch (e) {
@@ -58,7 +57,6 @@ abstract class GraphQlWrapper {
       final response = await dio.get('${ConfigGraphQl.baseUrl}/refreshToken');
       RefreshTokenResponse data = RefreshTokenResponse.fromJson(response.data);
       if (data.success == true) {
-        await localDataSource.saveRefreshToken(data.refreshToken ?? '');
         await localDataSource.saveToken(data.accessToken ?? '');
         print('refreshToken successfully');
 
@@ -85,6 +83,13 @@ abstract class GraphQlWrapper {
           return null;
         }
         await _refreshToken();
+
+        if (retryCount == 1) {
+          await localDataSource.deleteToken();
+          await localDataSource.deleteRefreshToken();
+          await localDataSource.deleteUserName();
+          await localDataSource.deleteUserId();
+        }
         return await executeWithRetry(action, retryCount: retryCount - 1);
       } else {
         return null;

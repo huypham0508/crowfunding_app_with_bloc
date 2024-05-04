@@ -33,11 +33,8 @@ void main() async {
   await NotificationsService.init();
 
   List<CameraDescription> _cameras = await availableCameras();
-  print('_camerasmain');
-  print(_cameras);
 
   /// Use preferences like expected.
-  ///
   final sf = await SharedPreferences.getInstance();
 
   runApp(EasyLocalization(

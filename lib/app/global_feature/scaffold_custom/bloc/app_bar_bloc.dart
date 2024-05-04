@@ -56,9 +56,9 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     if (state.status != AppBarStatus.searching) {
       double drawerW = state.drawerWidth + event.wipeDx;
       if (drawerW > 0) {
-        if (drawerW > 150) {
+        if (drawerW > 180) {
           emit(state.copyWith(
-            drawerWidth: 160,
+            drawerWidth: 185,
             status: AppBarStatus.showDrawer,
           ));
         } else {

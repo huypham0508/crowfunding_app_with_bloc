@@ -72,7 +72,7 @@ class SignInView extends StatelessWidget {
                 ..._inputs(state, context),
                 Row(
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.fingerprint)),
+                    // IconButton(onPressed: () {}, icon: Icon(Icons.fingerprint)),
                     Spacer(),
                     ToPage(
                       text: 'Forgot password',

@@ -187,7 +187,7 @@ class _CustomChildState extends State<CustomChild> {
           onTapMenu: () {
             appBarBloc.add(
               WipeLeftToRightAppBarEvent(
-                wipeDx: 160,
+                wipeDx: 185,
               ),
             );
           },
@@ -210,17 +210,17 @@ class _CustomChildState extends State<CustomChild> {
             child: AnimatedContainer(
               curve: Curves.linear,
               height: height,
-              duration: state.drawerWidth > 150 ? 500.ms : 0.ms,
-              width: state.drawerWidth > 150 ? width : state.drawerWidth,
+              duration: state.drawerWidth > 180 ? 500.ms : 0.ms,
+              width: state.drawerWidth > 180 ? width : state.drawerWidth,
               color: AppColors.whitish100.withOpacity(
-                state.drawerWidth > 150
+                state.drawerWidth > 180
                     ? 1
                     : calculateOpacity(
                         state.drawerWidth,
                       ),
               ),
               child: Visibility(
-                visible: state.drawerWidth > 150,
+                visible: state.drawerWidth > 180,
                 child: widget.drawer ?? const DrawerCustom(),
               ),
             ),
