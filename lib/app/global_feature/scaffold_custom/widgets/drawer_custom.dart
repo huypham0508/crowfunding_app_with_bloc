@@ -1,8 +1,6 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/logout_button.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/global_widget/avatar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,7 +12,6 @@ class DrawerCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    double widthAvatarBox = 50;
     return FadeScale(
       child: Center(
         child: ConstrainedBox(
@@ -29,15 +26,11 @@ class DrawerCustom extends StatelessWidget {
                 color: AppColors.whitish100,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AvatarCustom(
-                    widthAvatarBox: widthAvatarBox,
-                    image: AppImages.imAvatar6,
-                  ),
-                  LogoutButton(),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [],
+                ),
               ),
             ),
           ),

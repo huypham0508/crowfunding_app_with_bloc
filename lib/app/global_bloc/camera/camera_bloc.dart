@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
+import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
 import 'package:crowfunding_app_with_bloc/app/data/repository/rest/api_service_repository.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -10,11 +11,13 @@ part 'camera_state.dart';
 
 class CameraBloc extends Bloc<CameraEvent, CameraState> {
   List<CameraDescription> cameras;
+  final PostRepository postRepository;
   final ApiServiceRepository apiServiceRepository;
 
   CameraBloc({
     required this.cameras,
     required this.apiServiceRepository,
+    required this.postRepository,
   }) : super(authInitialState) {
     on<InitialCameraEvent>(_initial);
     on<DisposeCameraEvent>(_dispose);
@@ -31,39 +34,6 @@ class CameraBloc extends Bloc<CameraEvent, CameraState> {
         initializeControllerFuture: _initializeControllerFuture,
       ),
     );
-  }
-
-  void _upload(UploadCameraEvent event, Emitter<CameraState> emit) async {
-    emit(
-      state.copyWith(
-        uploadStatus: UploadStatus.uploading,
-        status: CameraStatus.showCamera,
-        playUpload: true,
-      ),
-    );
-    try {
-      final response = await apiServiceRepository.uploadImage(
-        image: File(state.imageFile.path),
-      );
-      await Future.delayed(3000.milliseconds);
-      if (response.success == true && response.file!.filePath != null) {
-        emit(state.copyWith(
-          uploadStatus: UploadStatus.successfully,
-          playUpload: false,
-        ));
-      } else {
-        emit(state.copyWith(
-          uploadStatus: UploadStatus.failed,
-          playUpload: false,
-        ));
-      }
-    } catch (e) {
-      emit(state.copyWith(
-        uploadStatus: UploadStatus.failed,
-        playUpload: false,
-      ));
-      print('error uploading $e');
-    }
   }
 
   void _takePicture(
@@ -87,6 +57,45 @@ class CameraBloc extends Bloc<CameraEvent, CameraState> {
     Emitter<CameraState> emit,
   ) async {
     emit(state.copyWith(status: CameraStatus.showCamera, imageFile: null));
+  }
+
+  void _upload(UploadCameraEvent event, Emitter<CameraState> emit) async {
+    emit(
+      state.copyWith(
+        uploadStatus: UploadStatus.uploading,
+        status: CameraStatus.showCamera,
+        playUpload: true,
+      ),
+    );
+    try {
+      final response = await apiServiceRepository.uploadImage(
+        image: File(state.imageFile.path),
+      );
+      await Future.delayed(2000.milliseconds);
+      if (response.success == true && response.file!.filePath != null) {
+        final postResponse = await postRepository.createPost(
+          desc: event.description ?? '',
+          imageUrl: response.file!.filePath ?? '',
+        );
+        if (postResponse.success == true) {
+          emit(state.copyWith(
+            uploadStatus: UploadStatus.successfully,
+            playUpload: false,
+          ));
+          return;
+        }
+      }
+      emit(state.copyWith(
+        uploadStatus: UploadStatus.failed,
+        playUpload: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        uploadStatus: UploadStatus.failed,
+        playUpload: false,
+      ));
+      print('error uploading $e');
+    }
   }
 
   void _dispose(DisposeCameraEvent event, Emitter<CameraState> emit) async {

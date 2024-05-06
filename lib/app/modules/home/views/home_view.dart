@@ -6,6 +6,7 @@ import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/vie
 import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/bloc/home_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/views/friend_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_bar_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_content.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_item.dart';
@@ -31,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
     const List<String> tabs = ['You', 'Friends', 'All'];
 
     return ScaffoldCustom(
+      drawer: FriendView(),
       body: BlocProvider(
         create: (context) {
           return HomeBloc(
@@ -50,9 +52,6 @@ class _HomeViewState extends State<HomeView> {
                   HomeBloc homeBloc = context.read<HomeBloc>();
                   return TabBarCustom(
                     controller: state.pageController,
-                    onPageChanged: (idx) => homeBloc.add(
-                      ChangeTabHomeEvent(index: idx),
-                    ),
                     tabs: tabs.asMap().entries.map(
                       (entry) {
                         int idx = entry.key;
@@ -67,6 +66,7 @@ class _HomeViewState extends State<HomeView> {
                       },
                     ).toList(),
                     tabsContents: [
+                      //your posts
                       TabContent(
                         showYourReaction: true,
                         loading: state.loadingYourPosts,
@@ -77,6 +77,7 @@ class _HomeViewState extends State<HomeView> {
                           }
                         },
                       ),
+                      //posts your friends
                       TabContent(
                         loading: state.loadingPostsYourFriends,
                         listData: state.postsYourFriends,
@@ -86,6 +87,7 @@ class _HomeViewState extends State<HomeView> {
                           }
                         },
                       ),
+                      //posts all
                       TabContent(
                         loading: state.loadingAllPosts,
                         listData: state.allPosts,

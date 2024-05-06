@@ -20,11 +20,11 @@ class WipeLeftToRightAppBarEvent extends AppBarEvent {
   });
 }
 
-class WipeScaffoldEndAppBarEvent extends AppBarEvent {
-  WipeScaffoldEndAppBarEvent();
-}
-
 class WipeScaffoldStartAppBarEvent extends AppBarEvent {
   final double position;
   WipeScaffoldStartAppBarEvent({required this.position});
+}
+
+class WipeScaffoldEndAppBarEvent extends AppBarEvent {
+  WipeScaffoldEndAppBarEvent();
 }

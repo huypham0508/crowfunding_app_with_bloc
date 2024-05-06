@@ -3,6 +3,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/firebase_database.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/rest/rest.dart';
+import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
 import 'package:crowfunding_app_with_bloc/app/data/repository/rest/api_service_repository.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
@@ -110,6 +111,10 @@ class _MainAppState extends State<MainApp> {
           BlocProvider(
             create: (context) => AuthBloc(
               localDataSource: context.read<LocalDataSource>(),
+              authRepository: AuthRepository(
+                graphQLClient: context.read<GraphQlAPIClient>(),
+                localDataSource: context.read<LocalDataSource>(),
+              ),
             )..add(InitialAuthEvent()),
           ),
           BlocProvider(
@@ -122,6 +127,9 @@ class _MainAppState extends State<MainApp> {
             create: (context) => CameraBloc(
               cameras: widget.cameras,
               apiServiceRepository: context.read<ApiServiceRepository>(),
+              postRepository: PostRepository(
+                graphQLClient: context.read<GraphQlAPIClient>(),
+              ),
             ),
           ),
         ],

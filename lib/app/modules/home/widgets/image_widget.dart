@@ -5,7 +5,7 @@ import 'package:crowfunding_app_with_bloc/app/modules/home/modules/reaction/view
 import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/your_reaction.dart';
 import 'package:flutter/material.dart';
 
-class ImageWidget extends StatelessWidget {
+class ImageWidget extends StatefulWidget {
   final PostsData data;
   final bool showYourReaction;
   const ImageWidget({
@@ -15,7 +15,14 @@ class ImageWidget extends StatelessWidget {
   });
 
   @override
+  State<ImageWidget> createState() => _ImageWidgetState();
+}
+
+class _ImageWidgetState extends State<ImageWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
@@ -25,8 +32,8 @@ class ImageWidget extends StatelessWidget {
         children: [
           _renderImage(),
           _renderInformation(),
-          if (!showYourReaction) _renderReactions(),
-          if (showYourReaction) _renderYourReactions(),
+          if (!widget.showYourReaction) _renderReactions(),
+          if (widget.showYourReaction) _renderYourReactions(),
         ],
       ),
     );
@@ -38,7 +45,7 @@ class ImageWidget extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Image.network(
-            data.imageUrl ?? AppImages.fakeImageNetwork,
+            widget.data.imageUrl ?? AppImages.fakeImageNetwork,
             fit: BoxFit.cover,
             width: double.maxFinite,
             height: double.maxFinite,
@@ -46,7 +53,13 @@ class ImageWidget extends StatelessWidget {
               if (loadingProgress == null) return child;
               return Container(
                 color: AppColors.black200,
-                child: Center(child: CircularProgressIndicator()),
+                width: double.maxFinite,
+                height: double.maxFinite,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.whitish100,
+                  ),
+                ),
               );
             },
           ),
@@ -67,9 +80,10 @@ class ImageWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (data.user != null) _showUsername(data.user!.userName ?? ""),
+            if (widget.data.user != null)
+              _showUsername(widget.data.user!.userName ?? ""),
             GlobalStyles.sizedBoxHeight_5,
-            _showDesc(data.description ?? ""),
+            _showDesc(widget.data.description ?? ""),
           ],
         ),
       ),
@@ -84,7 +98,7 @@ class ImageWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
         height: 40,
-        child: ReactionView(idPost: data.id),
+        child: ReactionView(idPost: widget.data.id),
       ),
     );
   }
@@ -97,7 +111,7 @@ class ImageWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
         height: 60,
-        child: YourReaction(reactions: data.reactions ?? []),
+        child: YourReaction(reactions: widget.data.reactions ?? []),
       ),
     );
   }
@@ -137,4 +151,7 @@ class ImageWidget extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

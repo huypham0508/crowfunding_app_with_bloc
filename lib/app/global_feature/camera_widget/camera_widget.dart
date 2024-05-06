@@ -125,7 +125,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                               cameraBloc.add(CloseShowPicCameraEvent());
                             }),
                             _uploadButton(() {
-                              cameraBloc.add(UploadCameraEvent());
+                              cameraBloc.add(
+                                UploadCameraEvent(
+                                  description: 'test',
+                                ),
+                              );
                             }),
                           ],
                         ),

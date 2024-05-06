@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class TabContent extends StatelessWidget {
+class TabContent extends StatefulWidget {
   final bool showCam;
   final bool loading;
   final bool showYourReaction;
@@ -29,11 +29,20 @@ class TabContent extends StatelessWidget {
   });
 
   @override
+  State<TabContent> createState() => _TabContentState();
+}
+
+class _TabContentState extends State<TabContent>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return _wrapper([
       _background(),
-      if (!loading) _renderImages(),
-      if (loading) _showLoading(),
+      if (!widget.loading && widget.listData.isEmpty)
+        Center(child: Text('Not found!!!')),
+      if (!widget.loading) _renderImages(),
+      if (widget.loading) _showLoading(),
     ]);
   }
 
@@ -59,19 +68,19 @@ class TabContent extends StatelessWidget {
       child: PageView(
         physics: ClampingScrollPhysics(),
         scrollDirection: Axis.vertical,
-        onPageChanged: onPageChanged,
+        onPageChanged: widget.onPageChanged,
         children: [
           // show empty
           // if (listData.isEmpty) Center(child: Text('Posts is empty!')),
 
           //show camera
-          if (showCam && listCam!.isNotEmpty)
-            TakePictureScreen(camera: listCam!.first),
+          if (widget.showCam && widget.listCam!.isNotEmpty)
+            TakePictureScreen(camera: widget.listCam!.first),
           // render list posts
-          ...listData.reversed.map((item) {
+          ...widget.listData.reversed.map((item) {
             return ImageWidget(
               data: item,
-              showYourReaction: showYourReaction,
+              showYourReaction: widget.showYourReaction,
             );
           }).toList(),
         ],
@@ -99,10 +108,13 @@ class TabContent extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: AppColors.neutral100,
+          color: AppColors.whitish100,
           borderRadius: BorderRadius.circular(25),
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -100,6 +100,35 @@ abstract class ConfigGraphQl {
   }
   ''';
 
+  static const String getFriendsQuery = '''
+    query GetFriendList {
+      getFriendList {
+        message
+        success
+        data {
+          avatar
+          email
+          userName
+        }
+      }
+  }
+  ''';
+
+  static const String getFriendsRequestQuery = '''
+    query GetFriendRequests {
+      getFriendRequests {
+        message
+        success
+        data {
+          id
+          avatar
+          email
+          userName
+        }
+      }
+  }
+  ''';
+
   // mutation string
   static const String loginMutation = '''
     mutation login(\$loginInput: LoginInput!) {
@@ -192,6 +221,34 @@ abstract class ConfigGraphQl {
         code
         success
         message
+      }
+  }
+  ''';
+
+  static const String sendFriendRequestMutation = '''
+    mutation CreatePost(\$postInput: CreatePostInput!) {
+      createPost(postInput: \$postInput) {
+        code
+        success
+        message
+      }
+  }
+  ''';
+
+  static const String rejectedRequestMutation = '''
+    mutation RejectedFriendRequest(\$requestId: String!) {
+      rejectedFriendRequest(requestId: \$requestId) {
+        message
+        success
+      }
+  }
+  ''';
+
+  static const String acceptRequestMutation = '''
+    mutation AcceptFriendRequest(\$requestId: String!) {
+      acceptFriendRequest(requestId: \$requestId) {
+        message
+        success
       }
   }
   ''';

@@ -81,7 +81,7 @@ class _ReactionState extends State<Reaction> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: 200.ms,
+      duration: 20.ms,
       curve: Curves.bounceIn,
       padding: EdgeInsets.all(3),
       margin: EdgeInsets.symmetric(horizontal: 20),

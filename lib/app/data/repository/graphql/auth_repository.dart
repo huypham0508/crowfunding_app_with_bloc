@@ -9,16 +9,6 @@ class AuthRepository {
     required this.localDataSource,
   });
 
-  Future<String> hello() async {
-    final result = await graphQLClient.performQuery(query: ConfigGraphQl.hello);
-    print(result);
-    if (result == null) {
-      throw ApiException();
-    }
-    print(result);
-    return result.toString();
-  }
-
   Future<SignInResponse> login(LoginModel payload) async {
     final result = await graphQLClient.performMutation(
       query: ConfigGraphQl.loginMutation,

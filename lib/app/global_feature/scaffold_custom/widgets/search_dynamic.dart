@@ -112,12 +112,19 @@ class SearchDynamic extends StatelessWidget {
       maintainSize: true,
       maintainState: true,
       maintainSemantics: true,
-      child: Container(
-        margin: GlobalStyles.paddingPageLeftRight_24,
-        child: const Icon(
-          Icons.menu,
-          color: AppColors.red500,
-          size: 28,
+      child: GestureDetector(
+        child: Container(
+          margin: GlobalStyles.paddingPageLeftRight_24,
+          padding: EdgeInsets.all(7),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: AppColors.whitish100,
+          ),
+          child: const Icon(
+            Icons.person,
+            color: AppColors.black500,
+            size: 28,
+          ),
         ),
       ),
     );

@@ -13,4 +13,7 @@ class TakePictureCameraEvent extends CameraEvent {}
 
 class CloseShowPicCameraEvent extends CameraEvent {}
 
-class UploadCameraEvent extends CameraEvent {}
+class UploadCameraEvent extends CameraEvent {
+  final String? description;
+  UploadCameraEvent({required this.description});
+}

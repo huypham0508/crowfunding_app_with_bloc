@@ -22,23 +22,28 @@ class _EventWrapperState extends State<EventWrapper> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Listener(
-      onPointerMove: (PointerMoveEvent event) {
-        double position = appBarBloc.state.positionTouches;
-        if (position > 30 && position < width - 30) {
-          appBarBloc.add(
-            WipeLeftToRightAppBarEvent(
-              wipeDx: event.delta.dx,
-            ),
-          );
-        }
+      onPointerDown: (event) {
+        appBarBloc.add(
+          WipeScaffoldStartAppBarEvent(position: event.position.dx),
+        );
       },
-      onPointerDown: (event) => appBarBloc.add(
-        WipeScaffoldStartAppBarEvent(position: event.position.dx),
-      ),
       onPointerUp: (PointerUpEvent event) => appBarBloc.add(
         WipeScaffoldEndAppBarEvent(),
       ),
+      onPointerMove: (PointerMoveEvent event) {
+        double position = appBarBloc.state.positionTouches;
+        if (position > 100 && position < width - 100) {
+          if (event.position.dy < height / 4) {
+            appBarBloc.add(
+              WipeLeftToRightAppBarEvent(
+                wipeDx: event.delta.dx,
+              ),
+            );
+          }
+        }
+      },
       child: widget.child,
     );
   }

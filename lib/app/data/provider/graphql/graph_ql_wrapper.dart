@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 
 abstract class GraphQlWrapper {
+  String? _token;
+  late GraphQLClient graphQLClient;
   final String _url = ConfigGraphQl.httpLink;
   late final LocalDataSource localDataSource;
-  late GraphQLClient graphQLClient;
-  String? _token;
 
   GraphQlWrapper({required this.localDataSource}) {
     _init();
@@ -29,6 +29,7 @@ abstract class GraphQlWrapper {
 
   Future setHeader({String? tokenParam}) async {
     print('set header');
+    // print(await localDataSource.getToken());
     _token = tokenParam;
     final authLink = await AuthLink(getToken: () async => 'Bearer $_token');
     final Link httpLink = await HttpLink(_url);
@@ -83,13 +84,12 @@ abstract class GraphQlWrapper {
           return null;
         }
         await _refreshToken();
-
-        if (retryCount == 1) {
-          await localDataSource.deleteToken();
-          await localDataSource.deleteRefreshToken();
-          await localDataSource.deleteUserName();
-          await localDataSource.deleteUserId();
-        }
+        // if (retryCount == 1) {
+        //   await localDataSource.deleteToken();
+        //   await localDataSource.deleteRefreshToken();
+        //   await localDataSource.deleteUserName();
+        //   await localDataSource.deleteUserId();
+        // }
         return await executeWithRetry(action, retryCount: retryCount - 1);
       } else {
         return null;

@@ -23,7 +23,15 @@ void main() async {
         late SignUpBloc signUpBloc;
 
         setUp(() {
-          authBloc = AuthBloc(localDataSource: localDataSource);
+          authBloc = AuthBloc(
+            localDataSource: localDataSource,
+            authRepository: AuthRepository(
+              graphQLClient: GraphQlAPIClient.getInstance(
+                localDataSource: localDataSource,
+              ),
+              localDataSource: localDataSource,
+            ),
+          );
           signInBloc = SignInBloc(
             biometric: BiometricService(),
             authRepository: AuthRepository(

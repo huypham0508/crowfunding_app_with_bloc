@@ -17,9 +17,11 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LocalDataSource localDataSource;
+  final AuthRepository authRepository;
 
   AuthBloc({
     required this.localDataSource,
+    required this.authRepository,
   }) : super(authInitialState) {
     on<InitialAuthEvent>(_initial);
     on<SwitchAuthPageEvent>(_switchAuthPage);
@@ -49,6 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await localDataSource.deleteRefreshToken();
     await localDataSource.deleteUserName();
     await localDataSource.deleteUserId();
+    await authRepository.logout();
     emit(state.copyWith(
       authPage: AuthPage.signIn,
       status: AuthStatus.signOut,

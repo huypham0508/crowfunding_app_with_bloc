@@ -1,4 +1,5 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
+import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/global_widget/search_input.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,19 @@ class ActionButtons extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: onTapMenu,
-                child: Container(
-                  margin: GlobalStyles.paddingPageLeftRight_24,
-                  child: const Icon(
-                    Icons.menu,
-                    color: AppColors.black500,
-                    size: 28,
+                child: BoxShadowCustom(
+                  child: Container(
+                    margin: GlobalStyles.paddingPageLeftRight_24,
+                    padding: EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: AppColors.whitish100,
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      color: AppColors.black500,
+                      size: 28,
+                    ),
                   ),
                 ),
               ),
