@@ -31,7 +31,7 @@ class AppBarState {
   final SearchDynamicStatus searchDynamicStatus;
   final TextEditingController searchController;
   final FocusNode focusNode;
-  final List searchResults;
+  final List<FriendResult> searchResults;
   const AppBarState({
     required this.hiddenSearchResults,
     required this.drawerWidth,
@@ -50,7 +50,7 @@ class AppBarState {
     double? drawerEndWidth,
     AppBarStatus? status,
     SearchDynamicStatus? searchDynamicStatus,
-    List? searchResults,
+    List<FriendResult>? searchResults,
   }) {
     return AppBarState(
       hiddenSearchResults: hiddenSearchResults ?? this.hiddenSearchResults,

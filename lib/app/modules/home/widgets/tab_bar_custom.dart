@@ -37,10 +37,10 @@ class _TabBarCustomState extends State<TabBarCustom> {
       bottom: 20,
       child: PageView(
         // physics: ClampingScrollPhysics(),
-        physics: NeverScrollableScrollPhysics(),
+        // allowImplicitScrolling: false,
+        // physics: NeverScrollableScrollPhysics(),
         onPageChanged: widget.onPageChanged,
         controller: widget.controller,
-        allowImplicitScrolling: false,
         children: children,
       ),
     );

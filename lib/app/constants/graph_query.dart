@@ -114,6 +114,21 @@ abstract class ConfigGraphQl {
   }
   ''';
 
+  static const String findFriendByEmailQuery = '''
+   query FindFriendByEmail(\$email: String!) {
+      findFriendByEmail(email: \$email) {
+        message
+        success
+        data {
+          userName
+          email
+          avatar
+          status
+        }
+      }
+  }
+  ''';
+
   static const String getFriendsRequestQuery = '''
     query GetFriendRequests {
       getFriendRequests {

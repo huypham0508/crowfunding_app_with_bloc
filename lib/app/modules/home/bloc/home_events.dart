@@ -6,7 +6,13 @@ class InitialHomeEvent extends HomeEvent {}
 
 class ChangeTabHomeEvent extends HomeEvent {
   final int index;
-  ChangeTabHomeEvent({required this.index});
+  final bool gesture;
+  ChangeTabHomeEvent({required this.index, this.gesture = false});
+}
+
+class JumpToPage extends HomeEvent {
+  final int index;
+  JumpToPage({required this.index});
 }
 
 class GetAllPosts extends HomeEvent {

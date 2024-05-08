@@ -16,6 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetPostsYourFriend>(_getPostsYourFriend);
     on<GetYourPosts>(_getYourPosts);
     on<ChangeTabHomeEvent>(_changeTab);
+    on<JumpToPage>(_jumpToPage);
   }
 
   void _initial(InitialHomeEvent event, Emitter<HomeState> emit) async {
@@ -115,9 +116,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  void _changeTab(ChangeTabHomeEvent event, Emitter<HomeState> emit) {
-    state.pageController.jumpToPage(event.index);
-    emit(state.copyWith(tabIndex: event.index));
+  void _changeTab(ChangeTabHomeEvent event, Emitter<HomeState> emit) async {
     if (event.index == state.tabIndex) {
       switch (event.index) {
         case 0:
@@ -130,6 +129,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           add(GetAllPosts(pageNumber: 1));
           break;
       }
+    } else {
+      if (!event.gesture) {
+        add(JumpToPage(index: event.index));
+      }
+      emit(state.copyWith(tabIndex: event.index));
+    }
+  }
+
+  void _jumpToPage(JumpToPage event, Emitter<HomeState> emit) async {
+    if (event.index == state.tabIndex) {
+      add(ChangeTabHomeEvent(index: event.index));
+    } else {
+      state.pageController.jumpToPage(event.index);
     }
   }
 }

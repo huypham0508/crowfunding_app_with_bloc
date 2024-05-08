@@ -52,6 +52,11 @@ class _HomeViewState extends State<HomeView> {
                   HomeBloc homeBloc = context.read<HomeBloc>();
                   return TabBarCustom(
                     controller: state.pageController,
+                    onPageChanged: (index) {
+                      homeBloc.add(
+                        ChangeTabHomeEvent(index: index, gesture: true),
+                      );
+                    },
                     tabs: tabs.asMap().entries.map(
                       (entry) {
                         int idx = entry.key;
@@ -59,9 +64,7 @@ class _HomeViewState extends State<HomeView> {
                         return TabItem(
                           tabName: val,
                           active: state.tabIndex == idx,
-                          onTap: () => homeBloc.add(
-                            ChangeTabHomeEvent(index: idx),
-                          ),
+                          onTap: () => homeBloc.add(JumpToPage(index: idx)),
                         );
                       },
                     ).toList(),
@@ -73,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                         listData: state.yourPosts,
                         onPageChanged: (index) {
                           if (index == state.yourPosts.length - 3) {
-                            context.read<HomeBloc>()..add(GetYourPosts());
+                            homeBloc.add(GetYourPosts());
                           }
                         },
                       ),
@@ -83,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
                         listData: state.postsYourFriends,
                         onPageChanged: (index) {
                           if (index == state.postsYourFriends.length - 3) {
-                            context.read<HomeBloc>()..add(GetPostsYourFriend());
+                            homeBloc.add(GetPostsYourFriend());
                           }
                         },
                       ),
@@ -95,7 +98,7 @@ class _HomeViewState extends State<HomeView> {
                         listCam: _cameraDesc,
                         onPageChanged: (index) {
                           if (index == state.allPosts.length - 3) {
-                            context.read<HomeBloc>()..add(GetAllPosts());
+                            homeBloc.add(GetAllPosts());
                           }
                         },
                       ),

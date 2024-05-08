@@ -68,6 +68,7 @@ class SearchDynamic extends StatelessWidget {
                     state.status == AppBarStatus.searching)
                   SearchResult(
                     onClose: onCloseSearch,
+                    results: state.searchResults,
                   )
               ],
             ),

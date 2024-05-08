@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/appBar_repository.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/search_friend_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -7,7 +9,9 @@ part 'app_bar_events.dart';
 part 'app_bar_state.dart';
 
 class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
-  AppBarBloc() : super(appBarInitialState) {
+  final AppBarRepository appBarRepository;
+
+  AppBarBloc({required this.appBarRepository}) : super(appBarInitialState) {
     on<ChangeStatusAppBarEvent>(_changeStatus);
     on<SubmitSearchAppBarEvent>(_submitSearch);
     on<WipeLeftToRightAppBarEvent>(_wipeScaffoldLeftToRight);
@@ -38,14 +42,33 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     SubmitSearchAppBarEvent event,
     Emitter<AppBarState> emit,
   ) async {
-    emit(state.copyWith(searchDynamicStatus: SearchDynamicStatus.loading));
-    await Future.delayed(1000.milliseconds);
-    emit(state.copyWith(
-      searchResults: ['123'],
-      searchDynamicStatus: SearchDynamicStatus.nothing,
-      status: AppBarStatus.searching,
-      hiddenSearchResults: false,
-    ));
+    try {
+      emit(state.copyWith(searchDynamicStatus: SearchDynamicStatus.loading));
+      await Future.delayed(1000.milliseconds);
+      final response = await appBarRepository.searchFriend(
+        email: state.searchController.text,
+      );
+      if (response.success == true) {
+        if (response.data!.isNotEmpty) {
+          emit(state.copyWith(
+            searchResults: response.data ?? [],
+            searchDynamicStatus: SearchDynamicStatus.nothing,
+            status: AppBarStatus.searching,
+            hiddenSearchResults: false,
+          ));
+          return;
+        }
+      }
+    } catch (e) {
+      print('e.toString()');
+      print(e.toString());
+      emit(state.copyWith(
+        searchDynamicStatus: SearchDynamicStatus.nothing,
+        status: AppBarStatus.searching,
+        hiddenSearchResults: false,
+      ));
+      return;
+    }
   }
 
   _wipeScaffoldLeftToRight(

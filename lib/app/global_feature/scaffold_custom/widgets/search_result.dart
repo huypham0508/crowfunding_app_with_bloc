@@ -2,15 +2,15 @@ import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/result_item.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/search_friend_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:highlight_text/highlight_text.dart';
 
 class SearchResult extends StatelessWidget {
-  const SearchResult({
-    super.key,
-    this.onClose,
-  });
+  final List<FriendResult> results;
+
+  const SearchResult({super.key, this.onClose, required this.results});
   final Function()? onClose;
 
   @override
@@ -18,20 +18,9 @@ class SearchResult extends StatelessWidget {
     return Expanded(
       child: SearchResultContainer(
         topWidget: _topButtons(),
-        children: const [
-          ResultItem(),
-          GlobalStyles.sizedBoxHeight_5,
-          ResultItem(),
-          GlobalStyles.sizedBoxHeight_5,
-          ResultItem(),
-          GlobalStyles.sizedBoxHeight_5,
-          ResultItem(),
-          GlobalStyles.sizedBoxHeight_5,
-          ResultItem(),
-          GlobalStyles.sizedBoxHeight_5,
-          ResultItem(),
-          GlobalStyles.sizedBoxHeight_24,
-          ReletedSearchs()
+        children: [
+          ...results.map((e) => ResultItem(friendResult: e)).toList(),
+          if (results.isEmpty) Center(child: Text('NOT FOUND')),
         ],
       ),
     );
@@ -53,16 +42,16 @@ class SearchResult extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const Text(
-            'See all 10,124 fundraisier',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
-              decoration: TextDecoration.underline,
-            ),
-          ),
+          // const Text(
+          //   'See all 10,124 fundraisier',
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.w500,
+          //     fontSize: 12,
+          //     decoration: TextDecoration.underline,
+          //   ),
+          // ),
           Container(
             height: 34,
             width: 48,

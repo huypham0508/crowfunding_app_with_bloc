@@ -1,3 +1,4 @@
+import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/models/post_model.dart';
@@ -45,7 +46,9 @@ class _ImageWidgetState extends State<ImageWidget>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Image.network(
-            widget.data.imageUrl ?? AppImages.fakeImageNetwork,
+            widget.data.imageUrl != null
+                ? '${ConfigGraphQl.baseUrl}${widget.data.imageUrl}'
+                : AppImages.fakeImageNetwork,
             fit: BoxFit.cover,
             width: double.maxFinite,
             height: double.maxFinite,
