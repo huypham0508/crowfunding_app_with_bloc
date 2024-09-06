@@ -36,7 +36,6 @@ class FriendRepository {
     if (result == null) {
       throw ApiException();
     }
-
     return GraphQlResponse.fromJson(result['sendFriendRequest']);
   }
 

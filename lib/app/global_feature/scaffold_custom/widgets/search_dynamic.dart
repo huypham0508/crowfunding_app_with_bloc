@@ -1,5 +1,5 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/scaffold_custom/app_bar_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/search_result.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/global_widget/search_input.dart';

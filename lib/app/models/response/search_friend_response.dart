@@ -33,14 +33,16 @@ class SearchFriendResponse {
 }
 
 class FriendResult {
+  String? id;
   String? userName;
   String? email;
   String? avatar;
   String? status;
 
-  FriendResult({this.userName, this.email, this.avatar, this.status});
+  FriendResult({this.id, this.userName, this.email, this.avatar, this.status});
 
   FriendResult.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     userName = json['userName'];
     email = json['email'];
     avatar = json['avatar'];
@@ -49,6 +51,7 @@ class FriendResult {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['userName'] = this.userName;
     data['email'] = this.email;
     data['avatar'] = this.avatar;
@@ -58,6 +61,6 @@ class FriendResult {
 
   @override
   String toString() {
-    return 'FriendResult{userName: $userName, email: $email, avatar: $avatar, status: $status}';
+    return 'FriendResult{id: $id, userName: $userName, email: $email, avatar: $avatar, status: $status}';
   }
 }

@@ -14,10 +14,12 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
   AppBarBloc({required this.appBarRepository}) : super(appBarInitialState) {
     on<ChangeStatusAppBarEvent>(_changeStatus);
     on<SubmitSearchAppBarEvent>(_submitSearch);
+    on<OnTapFriendAppBarEvent>(_onTapFriendAppBar);
     on<WipeLeftToRightAppBarEvent>(_wipeScaffoldLeftToRight);
     on<WipeScaffoldEndAppBarEvent>(_wipeScaffoldEnd);
     on<WipeScaffoldStartAppBarEvent>(_wipeScaffoldStart);
   }
+
   _changeStatus(
     ChangeStatusAppBarEvent event,
     Emitter<AppBarState> emit,
@@ -68,6 +70,19 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
         hiddenSearchResults: false,
       ));
       return;
+    }
+  }
+
+  _onTapFriendAppBar(
+    OnTapFriendAppBarEvent event,
+    Emitter<AppBarState> emit,
+  ) async {
+    if (event.friendResult.status == 'nothing') {
+      try {
+        await appBarRepository.sendFriendRequest(event.friendResult.id);
+      } catch (e) {
+        print(e);
+      }
     }
   }
 

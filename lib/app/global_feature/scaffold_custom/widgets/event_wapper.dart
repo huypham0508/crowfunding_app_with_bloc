@@ -1,4 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/scaffold_custom/app_bar_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

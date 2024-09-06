@@ -1,7 +1,8 @@
 import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/bloc/app_bar_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/scaffold_custom/app_bar_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/global_feature/logout_button.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
@@ -39,16 +40,10 @@ class FriendView extends StatelessWidget {
                 width: width,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _title(),
-                      // IconButton(
-                      //   onPressed: () {},
-                      //   icon: Icon(
-                      //     Icons.notification_add_outlined,
-                      //     color: AppColors.red500,
-                      //   ),
-                      // )
+                      LogoutButton(),
                     ],
                   ),
                   GlobalStyles.sizedBoxHeight_30,
@@ -404,68 +399,3 @@ class _RequestAddFrWidgetState extends State<RequestAddFrWidget> {
     ];
   }
 }
-
-// class RequestAddFrWidget extends StatelessWidget {
-//   final FriendModel model;
-
-//   const RequestAddFrWidget({super.key, required this.model});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.only(bottom: 10),
-//       padding: EdgeInsets.symmetric(horizontal: 30),
-//       child: Row(
-//         children: [
-//           BoxShadowCustom(
-//             child: SizedBox(
-//               width: 40,
-//               height: 40,
-//               child: ClipRRect(
-//                 borderRadius: BorderRadius.circular(50),
-//                 child: Image.network(
-//                   '${ConfigGraphQl.baseUrl}${model.avatar}',
-//                   fit: BoxFit.fill,
-//                 ),
-//               ),
-//             ),
-//           ),
-//           GlobalStyles.sizedBoxWidth,
-//           Expanded(
-//             child: Text(
-//               model.email ?? '',
-//               maxLines: 1,
-//               overflow: TextOverflow.ellipsis,
-//               style: TextStyle(
-//                 color: AppColors.black100,
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 14,
-//               ),
-//             ),
-//           ),
-//           Row(
-//             children: [
-//               GestureDetector(
-//                 onTap: () {},
-//                 child: Container(
-//                   padding: EdgeInsets.all(5),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.primary600,
-//                     borderRadius: BorderRadius.circular(25),
-//                   ),
-//                   child: Center(
-//                     child: Icon(
-//                       Icons.person_add,
-//                       size: 15,
-//                       color: AppColors.whitish100,
-//                     ),
-//                   ),
-//                 ),
-//               )
-//             ],
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }

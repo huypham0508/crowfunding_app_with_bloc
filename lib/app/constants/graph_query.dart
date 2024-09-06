@@ -120,6 +120,7 @@ abstract class ConfigGraphQl {
         message
         success
         data {
+          id
           userName
           email
           avatar
@@ -241,11 +242,11 @@ abstract class ConfigGraphQl {
   ''';
 
   static const String sendFriendRequestMutation = '''
-    mutation CreatePost(\$postInput: CreatePostInput!) {
-      createPost(postInput: \$postInput) {
+    mutation sendFriendRequest(\$friendId: String!) {
+      sendFriendRequest(friendId: \$friendId) {
         code
-        success
         message
+        success
       }
   }
   ''';

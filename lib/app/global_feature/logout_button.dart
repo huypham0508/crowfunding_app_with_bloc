@@ -18,11 +18,11 @@ class LogoutButton extends StatelessWidget {
           default:
         }
       },
-      child: ElevatedButton(
+      child: IconButton(
         onPressed: () {
           context.read<AuthBloc>().add(SignOutEvent());
         },
-        child: const Text('SignOut'),
+        icon: Icon(Icons.logout_outlined),
       ),
     );
   }

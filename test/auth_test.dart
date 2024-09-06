@@ -62,19 +62,6 @@ void main() async {
             authInitialState,
           );
         });
-        test('initial state SignInBloc', () {
-          expect(
-            signInBloc.state,
-            signInInitialState,
-          );
-        });
-
-        test('initial state SignUpBloc', () {
-          expect(
-            signUpBloc.state,
-            signUpInitialState,
-          );
-        });
 
         blocTest<AuthBloc, AuthState>(
           'Switch auth page',

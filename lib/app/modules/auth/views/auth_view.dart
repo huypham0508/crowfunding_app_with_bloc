@@ -6,8 +6,8 @@ import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/views
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/views/sign_in_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/views/sign_up_view.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -62,7 +62,7 @@ class _AuthViewState extends State<AuthView> {
   Widget _appLogo(Size size) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       return AnimatedPositioned(
-        duration: 1700.milliseconds,
+        duration: 1700.microseconds,
         curve: Curves.linear,
         left: 0,
         right: 0,
@@ -119,7 +119,7 @@ class _AuthViewState extends State<AuthView> {
             switch (state.status) {
               case AuthStatus.loginSuccess:
                 context.canPop();
-                context.replace(Routes.HOME);
+                context.go(Routes.HOME);
                 break;
               default:
                 break;

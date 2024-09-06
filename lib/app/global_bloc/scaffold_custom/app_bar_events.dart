@@ -9,8 +9,12 @@ class ChangeStatusAppBarEvent extends AppBarEvent {
   final AppBarStatus status;
 }
 
-class SubmitSearchAppBarEvent extends AppBarEvent {
-  SubmitSearchAppBarEvent();
+class SubmitSearchAppBarEvent extends AppBarEvent {}
+
+class OnTapFriendAppBarEvent extends AppBarEvent {
+  final FriendResult friendResult;
+
+  OnTapFriendAppBarEvent({required this.friendResult});
 }
 
 class WipeLeftToRightAppBarEvent extends AppBarEvent {

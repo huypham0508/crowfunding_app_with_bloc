@@ -1,25 +1,44 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
+import 'package:crowfunding_app_with_bloc/app/global_bloc/scaffold_custom/app_bar_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/widgets/result_item.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/models/response/search_friend_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:highlight_text/highlight_text.dart';
 
 class SearchResult extends StatelessWidget {
   final List<FriendResult> results;
 
-  const SearchResult({super.key, this.onClose, required this.results});
+  const SearchResult({
+    super.key,
+    this.onClose,
+    required this.results,
+  });
   final Function()? onClose;
 
   @override
   Widget build(BuildContext context) {
+    handleOnTapIcon(friendResult) {
+      context.read<AppBarBloc>().add(
+            OnTapFriendAppBarEvent(friendResult: friendResult),
+          );
+    }
+
     return Expanded(
       child: SearchResultContainer(
         topWidget: _topButtons(),
         children: [
-          ...results.map((e) => ResultItem(friendResult: e)).toList(),
+          ...results
+              .map(
+                (e) => ResultItem(
+                  friendResult: e,
+                  onTapIcon: () => handleOnTapIcon(e),
+                ),
+              )
+              .toList(),
           if (results.isEmpty) Center(child: Text('NOT FOUND')),
         ],
       ),

@@ -5,15 +5,21 @@ import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.da
 import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
 import 'package:crowfunding_app_with_bloc/app/models/response/search_friend_response.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class ResultItem extends StatelessWidget {
+class ResultItem extends StatefulWidget {
   final FriendResult friendResult;
+  final void Function()? onTapIcon;
 
-  const ResultItem({super.key, required this.friendResult});
+  const ResultItem({super.key, required this.friendResult, this.onTapIcon});
 
   @override
+  State<ResultItem> createState() => _ResultItemState();
+}
+
+class _ResultItemState extends State<ResultItem> {
+  @override
   Widget build(BuildContext context) {
-    print("${ConfigGraphQl.baseUrl}${friendResult.avatar}");
     return FadeMoveLeftToRight(
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -27,7 +33,7 @@ class ResultItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(
-                    "${ConfigGraphQl.baseUrl}${friendResult.avatar}",
+                    "${ConfigGraphQl.baseUrl}${widget.friendResult.avatar}",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -36,7 +42,7 @@ class ResultItem extends StatelessWidget {
             GlobalStyles.sizedBoxWidth,
             Expanded(
               child: Text(
-                friendResult.email ?? '',
+                widget.friendResult.email ?? '',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -49,20 +55,23 @@ class ResultItem extends StatelessWidget {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary600,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.person_add,
-                        size: 15,
-                        color: AppColors.whitish100,
-                      ),
-                    ),
+                  onTap: () async {
+                    if (widget.onTapIcon != null) {
+                      widget.onTapIcon!();
+                      await Future.delayed(300.ms);
+                      setState(() {
+                        widget.friendResult.status = 'pending';
+                      });
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      if (widget.friendResult.status == 'nothing') _iconAdd(),
+                      if (widget.friendResult.status == 'accepted')
+                        _iconAccepted(),
+                      if (widget.friendResult.status == 'pending')
+                        _iconPending(),
+                    ],
                   ),
                 )
               ],
@@ -127,6 +136,58 @@ class ResultItem extends StatelessWidget {
       //     ),
       //   ),
       // ),
+    );
+  }
+
+  Container _iconAdd() {
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: AppColors.primary600,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.person_add,
+          size: 15,
+          color: AppColors.whitish100,
+        ),
+      ),
+    );
+  }
+
+  Container _iconAccepted() {
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: AppColors.whitish100,
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(width: 1, color: AppColors.primary600),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.people,
+          size: 15,
+          color: AppColors.primary600,
+        ),
+      ),
+    );
+  }
+
+  Container _iconPending() {
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: AppColors.primary600,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.pending_outlined,
+          size: 15,
+          color: AppColors.whitish100,
+        ),
+      ),
     );
   }
 }
