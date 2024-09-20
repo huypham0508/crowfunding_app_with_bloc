@@ -6,8 +6,8 @@ import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/views
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/views/sign_in_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/views/sign_up_view.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -119,7 +119,7 @@ class _AuthViewState extends State<AuthView> {
             switch (state.status) {
               case AuthStatus.loginSuccess:
                 context.canPop();
-                context.go(Routes.HOME);
+                context.go(RoutePaths.HOME);
                 break;
               default:
                 break;

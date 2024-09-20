@@ -35,6 +35,9 @@ class _ResultItemState extends State<ResultItem> {
                   child: Image.network(
                     "${ConfigGraphQl.baseUrl}${widget.friendResult.avatar}",
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(AppImages.imAvatar);
+                    },
                   ),
                 ),
               ),

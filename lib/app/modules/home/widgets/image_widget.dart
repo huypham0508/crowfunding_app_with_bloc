@@ -52,6 +52,9 @@ class _ImageWidgetState extends State<ImageWidget>
             fit: BoxFit.cover,
             width: double.maxFinite,
             height: double.maxFinite,
+            errorBuilder: (context, error, stackTrace) {
+              return SizedBox();
+            },
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
               return Container(

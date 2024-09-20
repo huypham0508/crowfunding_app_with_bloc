@@ -11,6 +11,7 @@ import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/firebase/firebase_data.dart';
 import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
 import 'package:crowfunding_app_with_bloc/app/services/notifications_service.dart';
+import 'package:crowfunding_app_with_bloc/app/services/chat_service.dart';
 import 'package:crowfunding_app_with_bloc/firebase_options.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -37,6 +38,7 @@ void main() async {
 
   /// Use preferences like expected.
   final sf = await SharedPreferences.getInstance();
+  await ChatService(sharedPreferences: sf);
 
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en')],
@@ -70,6 +72,12 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     _appRoutes = AppRouter.returnRouter();
+  }
+
+  @override
+  void dispose() {
+    ChatService.instance.disconnect();
+    super.dispose();
   }
 
   @override

@@ -60,7 +60,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     emit(state.copyWith(status: SignInStatus.loading));
     try {
       final result = await authRepository.login(event.loginModel);
-
       await _backDialog(emit);
       if (result.success == true) {
         emit(state.copyWith(status: SignInStatus.loginSuccess));

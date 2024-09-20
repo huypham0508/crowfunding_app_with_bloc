@@ -173,6 +173,9 @@ class FriendWidget extends StatelessWidget {
                 child: Image.network(
                   '${ConfigGraphQl.baseUrl}${model.avatar}',
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(AppImages.imAvatar);
+                  },
                 ),
               ),
             ),
@@ -231,6 +234,9 @@ class _RequestAddFrWidgetState extends State<RequestAddFrWidget> {
                 child: Image.network(
                   '${ConfigGraphQl.baseUrl}${widget.model.avatar}',
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(AppImages.imAvatar);
+                  },
                 ),
               ),
             ),

@@ -198,8 +198,8 @@ class _CustomChildState extends State<CustomChild> {
             );
           },
           onTapAvatar: () {
-            if (GoRouterState.of(context).name != Routes.PROFILE) {
-              context.pushNamed(RouteChild.PROFILE);
+            if (GoRouterState.of(context).name != RoutePaths.PROFILE) {
+              context.push(RoutePaths.PROFILE);
             }
           },
         ),

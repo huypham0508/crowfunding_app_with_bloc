@@ -9,9 +9,8 @@ abstract class CommonString {
 }
 
 abstract class ConfigApi {
-  static const String BASEURL = "https://graphql-jwt-project.onrender.com";
-  static const String GRAPH_QL_APIURL =
-      "https://graphql-jwt-project.onrender.com/graphql";
-  // static const String BASEURL = "http://localhost:4000";
-  // static const String GRAPH_QL_APIURL = "http://localhost:4000/graphql";
+  // static const String BASEURL = "http://172.17.11.117:4000";
+  // static const String GRAPH_QL_APIURL = "http://172.17.11.117:4000/graphql";
+  static const String BASEURL = "http://localhost:4000";
+  static const String GRAPH_QL_APIURL = "http://localhost:4000/graphql";
 }

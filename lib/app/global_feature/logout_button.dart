@@ -13,7 +13,7 @@ class LogoutButton extends StatelessWidget {
       listener: (context, state) {
         switch (state.status) {
           case AuthStatus.signOut:
-            context.replace(Routes.AUTH);
+            context.go(RoutePaths.AUTH);
             break;
           default:
         }

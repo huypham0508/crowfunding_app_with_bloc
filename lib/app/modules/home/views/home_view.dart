@@ -12,6 +12,7 @@ import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_content.d
 import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -45,6 +46,12 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              IconButton(
+                onPressed: () {
+                  context.go('/home/messages');
+                },
+                icon: Icon(Icons.message),
+              ),
               GlobalStyles.sizedBoxHeight_10,
               GlobalStyles.sizedBoxHeight_10,
               BlocBuilder<HomeBloc, HomeState>(
