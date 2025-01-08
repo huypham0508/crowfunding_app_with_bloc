@@ -2,8 +2,8 @@ import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/views/auth_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/views/home_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/views/lo_to_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/messages/views/messages_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/profile/views/profile_view.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/rooms/views/rooms_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,7 +45,7 @@ class AppRouter {
             ),
             GoRoute(
               path: Paths.MESSAGES,
-              builder: (context, state) => const MessagesView(),
+              builder: (context, state) => const RoomsView(),
             ),
           ],
         ),

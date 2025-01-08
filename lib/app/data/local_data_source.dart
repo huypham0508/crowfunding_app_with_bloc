@@ -52,4 +52,28 @@ class LocalDataSource {
   Future<void> deleteRefreshToken() async {
     await sf.remove('refreshToken');
   }
+
+  Future<void> saveQueueId(String token) async {
+    await sf.setString('queueID', token);
+  }
+
+  Future<String?> getQueueId() async {
+    return sf.getString('queueID');
+  }
+
+  Future<void> deleteQueueId() async {
+    await sf.remove('queueID');
+  }
+
+  Future<void> saveLastEventId(int id) async {
+    await sf.setInt('LastEventId', id);
+  }
+
+  Future<int?> getLastEventId() async {
+    return sf.getInt('LastEventId');
+  }
+
+  Future<void> deleteLastEventId() async {
+    await sf.remove('LastEventId');
+  }
 }

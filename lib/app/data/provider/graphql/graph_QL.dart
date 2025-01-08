@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_ql_wrapper.dart';
+import 'package:crowfunding_app_with_bloc/app/data/provider/provider_wrapper.dart';
 import 'package:graphql/client.dart';
 
-class GraphQlAPIClient extends GraphQlWrapper {
-  GraphQlAPIClient._({required LocalDataSource localDataSource})
-      : super(localDataSource: localDataSource);
+class GraphQlAPIClient extends ProviderWrapper {
+  GraphQlAPIClient._({
+    required LocalDataSource localDataSource,
+  }) : super(localDataSource: localDataSource);
 
   static GraphQlAPIClient? _instance;
 

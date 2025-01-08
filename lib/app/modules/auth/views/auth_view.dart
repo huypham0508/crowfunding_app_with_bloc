@@ -1,4 +1,5 @@
 import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
+import 'package:crowfunding_app_with_bloc/app/data/store/store.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
 import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
@@ -32,9 +33,15 @@ class _AuthViewState extends State<AuthView> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: AppColors.whitish100,
+      backgroundColor: AppColors.whitish100,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AppImages.imAuthBackground),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
           child: Center(
             child: FadeMoveLeftToRight(
               child: Container(
@@ -42,7 +49,7 @@ class _AuthViewState extends State<AuthView> {
                 width: size.width - 48,
                 height: double.maxFinite,
                 decoration: BoxDecoration(
-                  color: AppColors.whitish100,
+                  // color: AppColors.whitish100,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Stack(
@@ -71,39 +78,36 @@ class _AuthViewState extends State<AuthView> {
         child: Visibility(
           visible: state.authPage == AuthPage.splash,
           child: FadeScale(
-            child: Container(
-              color: AppColors.whitish100,
-              child: Center(
-                child: AnimatedContainer(
-                  duration: 1700.milliseconds,
-                  curve: Curves.easeIn,
-                  width: state.authPage == AuthPage.splash
-                      ? size.height / 2
-                      : size.height / 3,
-                  child: Image.asset(
-                    AppImages.icLogo,
-                    width: double.maxFinite,
+            child: Center(
+              child: AnimatedContainer(
+                duration: 2.seconds,
+                curve: Curves.easeIn,
+                width: state.authPage == AuthPage.splash
+                    ? size.height / 2
+                    : size.height / 3,
+                child: Image.asset(
+                  AppImages.icLogo,
+                  width: double.maxFinite,
+                ),
+              )
+                  .animate(
+                    onPlay: (controller) => controller.repeat(),
+                  )
+                  .scaleXY(
+                    begin: 1.1,
+                    end: 1,
+                    duration: 1400.milliseconds,
+                  )
+                  .scaleXY(
+                    delay: 1400.milliseconds,
+                    begin: 1,
+                    end: 1.1,
+                    duration: 1400.milliseconds,
+                  )
+                  .shake(
+                    delay: 2800.milliseconds,
+                    duration: const Duration(milliseconds: 300),
                   ),
-                )
-                    .animate(
-                      onPlay: (controller) => controller.repeat(),
-                    )
-                    .scaleXY(
-                      begin: 1.1,
-                      end: 1,
-                      duration: 1400.milliseconds,
-                    )
-                    .scaleXY(
-                      delay: 1400.milliseconds,
-                      begin: 1,
-                      end: 1.1,
-                      duration: 1400.milliseconds,
-                    )
-                    .shake(
-                      delay: 2800.milliseconds,
-                      duration: const Duration(milliseconds: 300),
-                    ),
-              ),
             ),
           ),
         ),
@@ -119,6 +123,8 @@ class _AuthViewState extends State<AuthView> {
             switch (state.status) {
               case AuthStatus.loginSuccess:
                 context.canPop();
+                final serverEventsManager = context.read<ServerEventsManager>();
+                serverEventsManager.startListening();
                 context.go(RoutePaths.HOME);
                 break;
               default:

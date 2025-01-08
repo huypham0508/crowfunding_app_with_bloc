@@ -1,33 +1,67 @@
 import 'package:crowfunding_app_with_bloc/app/constants/app_string.dart';
+import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
+import 'package:crowfunding_app_with_bloc/app/data/provider/provider_wrapper.dart';
 import 'package:dio/dio.dart';
 
 import '../../exceptions.dart';
 
 const baseUrl = ConfigApi.BASEURL;
-// const appKey = ConfigApi.APPKEY;
-// const version = ConfigApi.VERSION;
-// const option = ConfigApi.OPTION;
 
-class RestAPIClient {
+class RestAPIClient extends ProviderWrapper {
   final Dio httpClient;
   final Map<String, dynamic> _defaultBody = {};
+  final LocalDataSource localDataSource;
 
-  RestAPIClient({required this.httpClient});
+  RestAPIClient({
+    required this.httpClient,
+    required this.localDataSource,
+  }) : super(localDataSource: localDataSource);
 
-  post(Map<String, dynamic> postData) async {
-    try {
-      Map<String, dynamic> submit = Map<String, dynamic>();
-      submit.addAll(_defaultBody);
-      submit.addAll(postData);
-      var response = await httpClient.post(
-        baseUrl,
-        data: submit,
-        options: Options(contentType: Headers.formUrlEncodedContentType),
-      );
-      return response.data;
-    } catch (exception) {
-      throw ApiException();
-    }
+  Future<dynamic> get({
+    required String endpoint,
+    Map<String, dynamic>? queryParams,
+  }) async {
+    return await super.executeWithRetry<Map<String, dynamic>?>(() async {
+      try {
+        String? token = await localDataSource.getToken();
+        httpClient.options.headers["Authorization"] = "Bearer $token";
+        final response = await httpClient.get(
+          baseUrl + endpoint,
+          queryParameters: queryParams,
+          options: Options(
+            contentType: Headers.jsonContentType,
+          ),
+        );
+        return response.data;
+      } catch (exception) {
+        print(exception);
+        return null;
+      }
+    });
+  }
+
+  Future<dynamic> post({
+    required String endpoint,
+    Map<String, dynamic> postData = const {},
+  }) async {
+    return await super.executeWithRetry<dynamic>(() async {
+      try {
+        String? token = await localDataSource.getToken();
+        httpClient.options.headers["Authorization"] = "Bearer $token";
+        Map<String, dynamic> submit = Map<String, dynamic>();
+        submit.addAll(_defaultBody);
+        submit.addAll(postData);
+        final response = await httpClient.post(
+          baseUrl + endpoint,
+          data: submit,
+          options: Options(contentType: Headers.formUrlEncodedContentType),
+        );
+        return response.data;
+      } catch (exception) {
+        print(exception);
+        return null;
+      }
+    });
   }
 
   postFile(Map<String, dynamic> postData) async {

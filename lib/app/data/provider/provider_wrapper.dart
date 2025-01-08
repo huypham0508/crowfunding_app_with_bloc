@@ -4,13 +4,13 @@ import 'package:crowfunding_app_with_bloc/app/models/response/refresh_token_resp
 import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 
-abstract class GraphQlWrapper {
+abstract class ProviderWrapper {
   String? _token;
   late GraphQLClient graphQLClient;
   final String _url = ConfigGraphQl.httpLink;
   late final LocalDataSource localDataSource;
 
-  GraphQlWrapper({required this.localDataSource}) {
+  ProviderWrapper({required this.localDataSource}) {
     _init();
   }
 
@@ -28,8 +28,6 @@ abstract class GraphQlWrapper {
   }
 
   Future setHeader({String? tokenParam}) async {
-    print('set header');
-    // print(await localDataSource.getToken());
     _token = tokenParam;
     final authLink = await AuthLink(getToken: () async => 'Bearer $_token');
     final Link httpLink = await HttpLink(_url);
@@ -59,8 +57,7 @@ abstract class GraphQlWrapper {
       RefreshTokenResponse data = RefreshTokenResponse.fromJson(response.data);
       if (data.success == true) {
         await localDataSource.saveToken(data.accessToken ?? '');
-        print('refreshToken successfully');
-
+        await localDataSource.saveRefreshToken(data.refreshToken ?? '');
         await setHeader(tokenParam: data.accessToken);
       }
     } catch (e) {
@@ -84,12 +81,6 @@ abstract class GraphQlWrapper {
           return null;
         }
         await _refreshToken();
-        // if (retryCount == 1) {
-        //   await localDataSource.deleteToken();
-        //   await localDataSource.deleteRefreshToken();
-        //   await localDataSource.deleteUserName();
-        //   await localDataSource.deleteUserId();
-        // }
         return await executeWithRetry(action, retryCount: retryCount - 1);
       } else {
         return null;

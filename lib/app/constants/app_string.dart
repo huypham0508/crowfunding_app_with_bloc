@@ -13,4 +13,9 @@ abstract class ConfigApi {
   // static const String GRAPH_QL_APIURL = "http://172.17.11.117:4000/graphql";
   static const String BASEURL = "http://localhost:4000";
   static const String GRAPH_QL_APIURL = "http://localhost:4000/graphql";
+
+  // endpoints
+
+  static const String REGISTER_QUEUE = '/events/register';
+  static const String GET_EVENTS = '/events';
 }

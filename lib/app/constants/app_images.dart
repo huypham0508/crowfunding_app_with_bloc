@@ -11,6 +11,9 @@ abstract class AppImages {
   static const String icClose = 'assets/images/icons/icon_close.png';
   static const String icGoogle = 'assets/images/icons/icon_google.png';
 
+  static const String imAuthBackground =
+      'assets/images/images/auth_background.png';
+
   static const String imAvatar = 'assets/images/images/avatar.png';
   static const String imAvatar2 = 'assets/images/images/avatar2.png';
   static const String imAvatar3 = 'assets/images/images/avatar3.png';
