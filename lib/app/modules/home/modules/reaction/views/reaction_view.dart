@@ -1,11 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_widget/zoom_tap_animation.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/reaction/bloc/reaction_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of '../../../index.dart';
 
 class ReactionView extends StatelessWidget {
   final String? idPost;

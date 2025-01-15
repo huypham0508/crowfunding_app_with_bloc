@@ -1,14 +1,4 @@
-import 'dart:ui';
-
-import 'package:camera/camera.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/camera_widget/camera_widget.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/models/post_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/image_widget.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+part of '../index.dart';
 
 class TabContent extends StatefulWidget {
   final bool showCam;

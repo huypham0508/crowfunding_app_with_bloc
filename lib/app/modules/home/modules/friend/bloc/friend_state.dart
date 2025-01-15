@@ -1,4 +1,4 @@
-part of 'friend_bloc.dart';
+part of '../../../index.dart';
 
 FriendState authInitialState = const FriendState(
   status: FriendStatus.loading,

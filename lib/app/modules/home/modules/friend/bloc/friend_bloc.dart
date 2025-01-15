@@ -1,14 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
-import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/models/response/graphql_response_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/models/friend_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/models/list_friend_model.dart';
-
-part '../repository/friend_repository.dart';
-part 'friend_events.dart';
-part 'friend_state.dart';
+part of '../../../index.dart';
 
 class FriendBloc extends Bloc<FriendEvent, FriendState> {
   final FriendRepository friendRepository;

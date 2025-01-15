@@ -1,4 +1,4 @@
-part of '../bloc/reaction_bloc.dart';
+part of "../../../index.dart";
 
 class ReactionRepository {
   final GraphQlAPIClient graphQLClient;

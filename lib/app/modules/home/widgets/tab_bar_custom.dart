@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+part of '../index.dart';
 
 class TabBarCustom extends StatefulWidget {
   final List<Widget> tabs;

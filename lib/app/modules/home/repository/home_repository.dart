@@ -1,1 +1,1 @@
-
+part of '../../../index.dart';

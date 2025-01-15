@@ -2,7 +2,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/models/response/graphql_response_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/models/post_model.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/index.dart';
 
 class PostRepository {
   final GraphQlAPIClient graphQLClient;

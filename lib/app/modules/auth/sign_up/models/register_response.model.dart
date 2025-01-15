@@ -1,3 +1,5 @@
+part of '../../index.dart';
+
 class SignUpResponse {
   bool? success;
   String? message;

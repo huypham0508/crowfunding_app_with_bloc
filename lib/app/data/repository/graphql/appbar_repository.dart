@@ -2,7 +2,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/models/response/search_friend_response.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/bloc/friend_bloc.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/index.dart';
 
 class AppBarRepository extends FriendRepository {
   final GraphQlAPIClient graphQLClient;

@@ -1,4 +1,4 @@
-part of 'sign_in_bloc.dart';
+part of '../../index.dart';
 
 enum StartedLoginEventEnum {
   email,

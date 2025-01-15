@@ -1,15 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
-import 'package:crowfunding_app_with_bloc/app/services/biometric_service.dart';
-import 'package:crowfunding_app_with_bloc/app/utils/validate.dart';
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
-
-part 'sign_in_events.dart';
-part 'sign_in_state.dart';
+part of '../../index.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthRepository authRepository;

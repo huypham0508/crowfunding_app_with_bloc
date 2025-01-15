@@ -1,4 +1,4 @@
-part of 'home_bloc.dart';
+part of '../index.dart';
 
 abstract class HomeEvent {}
 

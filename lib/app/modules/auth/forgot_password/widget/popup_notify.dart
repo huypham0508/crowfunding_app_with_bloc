@@ -1,10 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/bloc/forgot_password_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/widget/check_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of '../../index.dart';
 
 enum popUpType {
   SUCCESS,

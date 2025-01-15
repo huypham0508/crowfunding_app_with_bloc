@@ -1,5 +1,5 @@
 abstract class AppString {
-  static const String APP_TITLE = "TR90";
+  static const String APP_TITLE = "Chat with me!";
 }
 
 abstract class CommonString {

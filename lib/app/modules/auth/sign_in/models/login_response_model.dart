@@ -1,3 +1,5 @@
+part of '../../index.dart';
+
 class SignInResponse {
   bool? success;
   String? message;

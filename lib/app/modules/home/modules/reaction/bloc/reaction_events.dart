@@ -1,4 +1,4 @@
-part of 'reaction_bloc.dart';
+part of "../../../index.dart";
 
 abstract class ReactionEvent {}
 

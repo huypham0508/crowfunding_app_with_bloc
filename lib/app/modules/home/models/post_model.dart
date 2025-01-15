@@ -1,4 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/reaction/models/reaction_response.dart';
+part of '../index.dart';
 
 class PostResponse {
   int? code;

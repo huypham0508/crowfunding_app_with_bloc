@@ -1,3 +1,5 @@
+part of '../../index.dart';
+
 class ForgotPwResponse {
   bool? success;
   String? message;

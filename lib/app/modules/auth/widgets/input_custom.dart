@@ -1,7 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
-import 'package:crowfunding_app_with_bloc/app/global_widget/container_input_custom.dart';
-import 'package:flutter/material.dart';
+part of '../index.dart';
 
 class InputAuthCustom extends StatelessWidget {
   final TextEditingController textController;

@@ -1,6 +1,6 @@
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/views/auth_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/views/home_view.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/index.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/home/index.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/views/lo_to_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/profile/views/profile_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/rooms/views/rooms_view.dart';

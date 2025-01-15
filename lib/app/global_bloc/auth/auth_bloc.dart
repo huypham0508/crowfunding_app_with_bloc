@@ -6,9 +6,7 @@ import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/models/forgot_password_response.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/models/login_response_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/models/register_response.model.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/auth/index.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 part '../../data/repository/graphql/auth_repository.dart';

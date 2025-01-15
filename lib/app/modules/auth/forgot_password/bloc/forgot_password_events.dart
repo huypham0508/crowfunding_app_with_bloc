@@ -1,4 +1,4 @@
-part of 'forgot_password_bloc.dart';
+part of '../../index.dart';
 
 enum StartedForgotPwEventEnum {
   email,
@@ -65,7 +65,6 @@ class StartedForgotPwEvent extends ForgotPwEvent with Validate {
           ]);
         }
         break;
-      default:
     }
     return _validates;
   }

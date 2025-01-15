@@ -47,11 +47,10 @@ class AuthRepository {
     if (result == null) {
       throw ApiException();
     }
-
     return SignUpResponse.fromJson(result['register']);
   }
 
-  Future<ForgotPwResponse> getOtpWithEmail(ForgotPwModel payload) async {
+  Future<ForgotPwResponse> sendOtpWithEmail(ForgotPwModel payload) async {
     final result = await graphQLClient.performMutation(
       query: ConfigGraphQl.getOtpMutation,
       variables: {"email": payload.email},

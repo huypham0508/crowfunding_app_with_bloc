@@ -1,8 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/global_widget/container_input_custom.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
+part of '../index.dart';
 
 class LoginGoogleButton extends StatelessWidget {
   const LoginGoogleButton({super.key});

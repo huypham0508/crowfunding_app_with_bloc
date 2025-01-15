@@ -1,4 +1,4 @@
-part of 'sign_in_bloc.dart';
+part of '../../index.dart';
 
 SignInState signInInitialState = SignInState(
   status: SignInStatus.loginFailure,

@@ -1,15 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/models/forgot_password_response.dart';
-import 'package:crowfunding_app_with_bloc/app/utils/validate.dart';
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
-
-part 'forgot_password_events.dart';
-part 'forgot_password_state.dart';
+part of '../../index.dart';
 
 class ForgotPwBloc extends Bloc<ForgotPwEvent, ForgotPwState> {
   final AuthRepository authRepository;
@@ -20,7 +9,7 @@ class ForgotPwBloc extends Bloc<ForgotPwEvent, ForgotPwState> {
     on<BackModelForgotPwEvent>(_backDialog);
     on<ClosePopupForgotPwEvent>(_closePopup);
     on<StartedForgotPwEvent>(
-      _ForgotPw,
+      _forgotPw,
       transformer: (events, mapper) {
         return events
             .debounceTime(const Duration(milliseconds: 300))
@@ -29,13 +18,12 @@ class ForgotPwBloc extends Bloc<ForgotPwEvent, ForgotPwState> {
     );
   }
 
-  void _ForgotPw(
+  void _forgotPw(
     StartedForgotPwEvent event,
     Emitter<ForgotPwState> emit,
   ) async {
     String? valueValidation = event.validate();
     _emitErrorMessage(emit, valueValidation);
-    // print(event.ForgotPwModel.toString() + " |||| ${valueValidation}");
     bool checkType = (event.type == StartedForgotPwEventEnum.submitted);
     if (checkType && valueValidation == null) {
       await _processForgotPw(event, emit);
@@ -63,7 +51,7 @@ class ForgotPwBloc extends Bloc<ForgotPwEvent, ForgotPwState> {
 
       switch (event.step) {
         case 0:
-          result = await authRepository.getOtpWithEmail(event.forgotPwModel);
+          result = await authRepository.sendOtpWithEmail(event.forgotPwModel);
           break;
         case 1:
           result = await authRepository.submitOTP(event.forgotPwModel);

@@ -1,24 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/models/auth_models.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/bloc/sign_in_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_button_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/auth_title.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/error_message.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/input_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/login_with_google.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/widgets/to_page.dart';
-import 'package:crowfunding_app_with_bloc/app/services/biometric_service.dart';
-import 'package:crowfunding_app_with_bloc/app/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:go_router/go_router.dart';
+part of '../../index.dart';
 
 class SignInView extends StatelessWidget {
   final AuthBloc authBloc;

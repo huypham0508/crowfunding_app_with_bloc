@@ -1,6 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+part of '../index.dart';
 
 class TabItem extends StatelessWidget {
   final bool active;

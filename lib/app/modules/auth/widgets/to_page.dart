@@ -1,5 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:flutter/material.dart';
+part of '../index.dart';
 
 class ToPage extends StatelessWidget {
   ToPage({super.key, this.onPressed, required this.text, this.textStyle});

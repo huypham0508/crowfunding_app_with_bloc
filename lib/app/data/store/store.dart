@@ -52,33 +52,32 @@ class ServerEventsManager {
   }
 
   Future<void> _pollServer() async {
-    while (_isPolling) {
-      try {
+    try {
+      while (_isPolling) {
         final events = await apiServiceRepository.getEvents(
           queueId: _queueId ?? '',
           lastEventId: _lastEventId ?? 0,
         );
         if (events != null) {
           for (var event in events.data) {
+            print(event.toJson());
             _dispatchEvent(event);
           }
         }
-      } catch (e) {
-        print('Error during polling: $e');
-        _isPolling = false;
-        await Future.delayed(Duration(seconds: 5));
-        if (!_isPolling) {
-          print('Restarting polling...');
-          startListening();
-        }
+        await Future.delayed(Duration(seconds: 1));
       }
-      await Future.delayed(Duration(seconds: 1));
+    } catch (e) {
+      print('Error during polling: $e');
+      _isPolling = false;
+      await Future.delayed(Duration(seconds: 5));
+      if (!_isPolling) {
+        print('Restarting polling...');
+        startListening();
+      }
     }
   }
 
   void _dispatchEvent(EventModel event) {
-    print("event");
-    print(event.toJson());
     try {
       _lastEventId = (_lastEventId! > event.id) ? _lastEventId : event.id;
       switch (event.type) {

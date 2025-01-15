@@ -1,16 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
-import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/models/response/graphql_response_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/reaction/models/reaction_response.dart';
-import 'package:rxdart/rxdart.dart';
-
-part '../repository/reaction_repository.dart';
-part 'reaction_events.dart';
-part 'reaction_state.dart';
+part of "../../../index.dart";
 
 class ReactionBloc extends Bloc<ReactionEvent, ReactionState> {
   final ReactionRepository reactionRepository;

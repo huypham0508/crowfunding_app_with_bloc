@@ -1,10 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/models/post_model.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/reaction/views/reaction_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/your_reaction.dart';
-import 'package:flutter/material.dart';
+part of '../index.dart';
 
 class ImageWidget extends StatefulWidget {
   final PostsData data;

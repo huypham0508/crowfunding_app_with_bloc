@@ -1,7 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/reaction/models/reaction_response.dart';
-import 'package:flutter/material.dart';
+part of '../index.dart';
 
 class YourReaction extends StatelessWidget {
   final List<ReactionModel> reactions;

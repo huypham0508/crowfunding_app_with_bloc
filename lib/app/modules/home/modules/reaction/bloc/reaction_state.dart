@@ -1,4 +1,4 @@
-part of 'reaction_bloc.dart';
+part of "../../../index.dart";
 
 ReactionState reactionInitialState = const ReactionState(
   status: ReactionStatus.loading,

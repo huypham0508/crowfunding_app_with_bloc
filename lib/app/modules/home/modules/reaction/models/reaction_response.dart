@@ -1,3 +1,5 @@
+part of '../../../index.dart';
+
 class ReactionResponse {
   int? code;
   String? message;

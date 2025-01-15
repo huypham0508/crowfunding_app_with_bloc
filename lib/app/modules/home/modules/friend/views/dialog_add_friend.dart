@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+part of '../../../index.dart';
 
 class DialogAddFriend extends StatelessWidget {
   const DialogAddFriend({super.key});

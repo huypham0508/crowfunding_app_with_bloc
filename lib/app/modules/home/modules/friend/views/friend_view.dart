@@ -1,18 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/scaffold_custom/app_bar_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/logout_button.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/bloc/friend_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/models/friend_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+part of '../../../index.dart';
 
 class FriendView extends StatelessWidget {
   const FriendView({super.key});

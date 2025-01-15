@@ -1,11 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/models/post_model.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-
-part 'home_events.dart';
-part 'home_state.dart';
+part of '../index.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final PostRepository postRepository;

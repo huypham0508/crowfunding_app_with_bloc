@@ -1,4 +1,4 @@
-part of 'friend_bloc.dart';
+part of '../../../index.dart';
 
 abstract class FriendEvent {}
 

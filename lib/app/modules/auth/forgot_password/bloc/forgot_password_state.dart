@@ -1,4 +1,4 @@
-part of 'forgot_password_bloc.dart';
+part of '../../index.dart';
 
 ForgotPwState ForgotPwInitialState = ForgotPwState(
   step: 0,
@@ -12,6 +12,8 @@ ForgotPwState ForgotPwInitialState = ForgotPwState(
 );
 
 enum ForgotPwStatus { nothing, loading, backDialog }
+
+const KEY_SEND_OTP_STORAGE = 'KEY_SEND_OTP_STORAGE';
 
 enum CallToServerStatus {
   normal,
@@ -29,8 +31,9 @@ class ForgotPwState {
   final TextEditingController otpController;
   final String errorMessage;
   final String textButton;
-  final int step;
   final String? token;
+  final int step;
+  final int currentTime;
   const ForgotPwState({
     this.token,
     required this.step,
@@ -41,6 +44,7 @@ class ForgotPwState {
     required this.otpController,
     required this.errorMessage,
     required this.textButton,
+    this.currentTime = 0,
   });
 
   ForgotPwState copyWith({
@@ -51,6 +55,7 @@ class ForgotPwState {
     AuthPage? authPage,
     String? errorMessage,
     String? textButton,
+    int? currentTime,
   }) {
     return ForgotPwState(
       token: token ?? this.token,
@@ -62,6 +67,7 @@ class ForgotPwState {
       textButton: textButton ?? this.textButton,
       errorMessage: errorMessage ?? this.errorMessage,
       callApiStatus: callApiStatus ?? this.callApiStatus,
+      currentTime: currentTime ?? this.currentTime,
     );
   }
 }

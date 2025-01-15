@@ -1,4 +1,4 @@
-part of '../bloc/friend_bloc.dart';
+part of '../../../index.dart';
 
 class FriendRepository {
   final GraphQlAPIClient graphQLClient;

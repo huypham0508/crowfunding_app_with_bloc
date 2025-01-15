@@ -1,16 +1,4 @@
-import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
-import 'package:crowfunding_app_with_bloc/app/data/store/store.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_move.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/animated/fade_scale.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/forgot_password/views/forgot_password_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_in/views/sign_in_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/sign_up/views/sign_up_view.dart';
-import 'package:crowfunding_app_with_bloc/app/routes/app_pages.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+part of '../index.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({super.key});
@@ -123,8 +111,6 @@ class _AuthViewState extends State<AuthView> {
             switch (state.status) {
               case AuthStatus.loginSuccess:
                 context.canPop();
-                final serverEventsManager = context.read<ServerEventsManager>();
-                serverEventsManager.startListening();
                 context.go(RoutePaths.HOME);
                 break;
               default:

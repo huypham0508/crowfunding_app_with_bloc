@@ -1,18 +1,4 @@
-import 'package:camera/camera.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
-import 'package:crowfunding_app_with_bloc/app/data/repository/rest/api_service_repository.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/global_feature/scaffold_custom/views/scaffold_custom_view.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/box_shadow_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/global_styles/global_styles.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/bloc/home_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/modules/friend/views/friend_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_bar_custom.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_content.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/home/widgets/tab_item.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of '../index.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -22,10 +8,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late final ApiServiceRepository apiServiceRepository;
   @override
   void initState() {
-    apiServiceRepository = context.read<ApiServiceRepository>();
+    final serverEventsManager = context.read<ServerEventsManager>();
+    serverEventsManager.startListening();
     super.initState();
   }
 
@@ -50,7 +36,17 @@ class _HomeViewState extends State<HomeView> {
             children: [
               // IconButton(
               //   onPressed: () {
-              //     apiServiceRepository.getEvents();
+              //     showToast(
+              //       context,
+              //       Toast(
+              //         child: CustomInfoToast(
+              //           title: 'Hello, Flutter dev! ${Random().nextInt(10)}',
+              //           description: 'This is a custom info toast. '
+              //               'It has button confirm to close toast and distroy all',
+              //         ),
+              //       ),
+              //       width: 420,
+              //     );
               //   },
               //   icon: Icon(Icons.edit_note_rounded),
               // ),
@@ -117,6 +113,88 @@ class _HomeViewState extends State<HomeView> {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomInfoToast extends StatelessWidget {
+  const CustomInfoToast({
+    Key? key,
+    required this.title,
+    required this.description,
+  }) : super(key: key);
+
+  final String title;
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.whitish100,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.neutral100,
+            blurRadius: 6,
+          )
+        ],
+      ),
+      margin: const EdgeInsets.all(6),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.info,
+                  color: Colors.blue,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        description,
+                        overflow: TextOverflow.visible,
+                        maxLines: 3,
+                        style: const TextStyle(height: 1.5),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Toastify.of(context).removeAll();
+                  },
+                  child: const Text('Destroy All'),
+                ),
+                const SizedBox(width: 12),
+                ElevatedButton(
+                  onPressed: () {
+                    Toastify.of(context).remove(this);
+                  },
+                  child: const Text('Confirm'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

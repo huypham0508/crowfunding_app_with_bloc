@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDataSource {
@@ -75,5 +77,23 @@ class LocalDataSource {
 
   Future<void> deleteLastEventId() async {
     await sf.remove('LastEventId');
+  }
+
+  Future<void> saveEmailsOtp(Map emails) async {
+    String jsonEmails = jsonEncode(emails);
+    await sf.setString('EmailsOtp', jsonEmails);
+  }
+
+  Future<Map?> getEmailsOtp() async {
+    String? emails = await sf.getString('EmailsOtp');
+    if (emails != null) {
+      Map<String, dynamic> map = jsonDecode(emails);
+      return map;
+    }
+    return null;
+  }
+
+  Future<void> deleteEmailsOtp() async {
+    await sf.remove('EmailsOtp');
   }
 }
