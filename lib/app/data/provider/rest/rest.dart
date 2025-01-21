@@ -5,17 +5,29 @@ import 'package:dio/dio.dart';
 
 import '../../exceptions.dart';
 
-const baseUrl = ConfigApi.BASEURL;
+const baseUrl = ConfigApi.API_VER1;
 
 class RestAPIClient extends ProviderWrapper {
   final Dio httpClient;
   final Map<String, dynamic> _defaultBody = {};
   final LocalDataSource localDataSource;
+  static RestAPIClient? _instance;
 
-  RestAPIClient({
+  RestAPIClient._({
     required this.httpClient,
     required this.localDataSource,
   }) : super(localDataSource: localDataSource);
+
+  static RestAPIClient getInstance({
+    required Dio httpClient,
+    required LocalDataSource localDataSource,
+  }) {
+    _instance ??= RestAPIClient._(
+      httpClient: httpClient,
+      localDataSource: localDataSource,
+    );
+    return _instance!;
+  }
 
   Future<dynamic> get({
     required String endpoint,
@@ -34,7 +46,6 @@ class RestAPIClient extends ProviderWrapper {
         );
         return response.data;
       } catch (exception) {
-        print(exception);
         return null;
       }
     });
@@ -58,7 +69,6 @@ class RestAPIClient extends ProviderWrapper {
         );
         return response.data;
       } catch (exception) {
-        print(exception);
         return null;
       }
     });

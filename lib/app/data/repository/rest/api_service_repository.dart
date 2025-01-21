@@ -4,7 +4,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/data/adapters/repository_adapter.dart';
 import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/rest/rest.dart';
-import 'package:crowfunding_app_with_bloc/app/models/response/events_response.dart';
+import 'package:crowfunding_app_with_bloc/app/models/response/events/events_response.dart';
 import 'package:crowfunding_app_with_bloc/app/models/response/upload_image_response.dart';
 import 'package:dio/dio.dart';
 
@@ -42,7 +42,6 @@ class ApiServiceRepository implements IApiServiceRepository {
       final response = await _restAPIClient.post(
         endpoint: ConfigApi.REGISTER_QUEUE,
       );
-
       if (response != null) {
         if (response['success']) {
           return response['queue_id'];

@@ -1,9 +1,10 @@
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/auth/index.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/home/index.dart';
+import 'package:crowfunding_app_with_bloc/app/modules/conversations/index.dart';
+
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/views/lo_to_view.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/profile/views/profile_view.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/rooms/views/rooms_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,7 +20,7 @@ class AppRouter {
           redirect: (context, state) async {
             var checkAuth = context.read<AuthBloc>().state.status;
             if (checkAuth == AuthStatus.loginSuccess) {
-              return Paths.HOME;
+              return Paths.CONVERSATIONS;
             }
             return null;
           },
@@ -27,6 +28,10 @@ class AppRouter {
         GoRoute(
           path: Paths.LOTO,
           builder: (context, state) => const LoToView(),
+        ),
+        GoRoute(
+          path: Paths.CONVERSATIONS,
+          builder: (context, state) => const ConversationsView(),
         ),
         GoRoute(
           path: Paths.HOME,
@@ -42,10 +47,6 @@ class AppRouter {
             GoRoute(
               path: Paths.PROFILE,
               builder: (context, state) => const ProfileView(),
-            ),
-            GoRoute(
-              path: Paths.MESSAGES,
-              builder: (context, state) => const RoomsView(),
             ),
           ],
         ),

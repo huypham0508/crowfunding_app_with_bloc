@@ -9,13 +9,23 @@ abstract class CommonString {
 }
 
 abstract class ConfigApi {
-  // static const String BASEURL = "http://172.17.11.117:4000";
-  // static const String GRAPH_QL_APIURL = "http://172.17.11.117:4000/graphql";
-  static const String BASEURL = "http://localhost:4000";
-  static const String GRAPH_QL_APIURL = "http://localhost:4000/graphql";
-
+  // default
+  static const String URL = "http://localhost:4000";
+  static const String VERSION = "v1";
+  //custom
+  static const String API_VER1 = "${URL}/api/$VERSION";
+  static const String GRAPH_QL_API_URL = "$URL/graphql/$VERSION";
   // endpoints
-
   static const String REGISTER_QUEUE = '/events/register';
   static const String GET_EVENTS = '/events';
+}
+
+abstract class ConfigLocalData {
+  static const String USER_ID = "userId";
+  static const String USER_NAME = "userName";
+  static const String TOKEN = "token";
+  static const String REFRESH_TOKEN = "refreshToken";
+
+  static const String ROOMS = "rooms";
+  static const String MESSAGES = "messages";
 }

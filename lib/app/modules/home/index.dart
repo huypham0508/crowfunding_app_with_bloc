@@ -6,7 +6,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:crowfunding_app_with_bloc/app/data/exceptions.dart';
 import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
 import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
-import 'package:crowfunding_app_with_bloc/app/data/store/store.dart';
+import 'package:crowfunding_app_with_bloc/app/data/store/events_store.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/scaffold_custom/app_bar_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_feature/camera_widget/camera_widget.dart';

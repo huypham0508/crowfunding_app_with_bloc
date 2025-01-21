@@ -3,8 +3,8 @@ import 'package:crowfunding_app_with_bloc/app/constants/app_string.dart';
 
 abstract class ConfigGraphQl {
   // httpLink
-  static const String httpLink = ConfigApi.GRAPH_QL_APIURL;
-  static const String baseUrl = ConfigApi.BASEURL;
+  static const String httpLink = ConfigApi.GRAPH_QL_API_URL;
+  static const String baseUrl = ConfigApi.URL;
 
   // query string
   static const String hello = r'''
@@ -41,21 +41,27 @@ abstract class ConfigGraphQl {
 
   static const String getAllPostsQuery = '''
     query AllPosts(\$pageNumber: Float!, \$pageSize: Float!) {
-        allPosts(pageNumber: \$pageNumber, pageSize: \$pageSize) {
-            code
-            message
-            success
-            data {
-                id
-                description
-                imageUrl
-                user {
-                    email
-                    avatar
-                    userName
-                }
-            }
+      allPosts(pageNumber: \$pageNumber, pageSize: \$pageSize) {
+        code
+        message
+        success
+        data {
+          id
+          imageUrl
+          description
+          user {
+              id
+              email
+              avatar
+              userName
+          }
+          reactions {
+            imageURL
+            count
+            name
+          }
         }
+      }
   }
   ''';
 
@@ -67,13 +73,18 @@ abstract class ConfigGraphQl {
         success
         data {
           id
-          description
           imageUrl
+          description
           user {
-            id
-            email
-            avatar
-            userName
+              id
+              email
+              avatar
+              userName
+          }
+          reactions {
+            imageURL
+            count
+            name
           }
         }
       }
@@ -90,6 +101,12 @@ abstract class ConfigGraphQl {
         id
         imageUrl
         description
+        user {
+            id
+            email
+            avatar
+            userName
+        }
         reactions {
           imageURL
           count
@@ -143,6 +160,40 @@ abstract class ConfigGraphQl {
         }
       }
   }
+  ''';
+
+  static const String getAllConversations = '''
+    query GetAllRooms {
+      getAllRooms {
+        code
+        message
+        success
+        data {
+          id
+          name
+          participants {
+            userName
+            id
+            email
+            avatar
+            role {
+              id
+              name
+              permissions
+            }
+          }
+          maxMessage {
+            id
+            content
+            createdAt
+            sender {
+              id
+              email
+            }
+          }
+        }
+      }
+    }
   ''';
 
   // mutation string

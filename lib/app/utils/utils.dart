@@ -5,6 +5,7 @@ import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Utils {
   static Timer setTimeout(callback, time) {
@@ -97,22 +98,13 @@ class Utils {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(
-              color: AppColors.black500,
-              strokeWidth: 1.8,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              loading,
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.whitish100,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w400,
+            Center(
+              child: LoadingAnimationWidget.flickr(
+                leftDotColor: AppColors.secondary500,
+                rightDotColor: AppColors.primary600,
+                size: 35,
               ),
-            )
+            ),
           ],
         ),
       ),

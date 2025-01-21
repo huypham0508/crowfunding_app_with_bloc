@@ -7,9 +7,10 @@ abstract class RoutePaths {
 
   static const LOTO = '/loto';
 
+  static const CONVERSATIONS = '/conversions';
+
   static const HOME = '/home';
   static const PROFILE = '/home/profile';
-  static const MESSAGES = '/home/messages';
 }
 
 abstract class Paths {
@@ -18,8 +19,8 @@ abstract class Paths {
   static const AUTH = '/';
   static const HOME = '/home';
   static const LOTO = '/loto';
+  static const CONVERSATIONS = '/conversions';
 
   // secondary path
   static const PROFILE = 'profile';
-  static const MESSAGES = 'messages';
 }

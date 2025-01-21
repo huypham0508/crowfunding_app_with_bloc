@@ -62,8 +62,6 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
         }
       }
     } catch (e) {
-      print('e.toString()');
-      print(e.toString());
       emit(state.copyWith(
         searchDynamicStatus: SearchDynamicStatus.nothing,
         status: AppBarStatus.searching,

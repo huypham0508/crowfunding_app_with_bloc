@@ -35,7 +35,6 @@ class GraphQlAPIClient extends ProviderWrapper {
         variables: variables,
       );
       final QueryResult result = await graphQLClient.mutate(options);
-
       return result.data;
     });
   }

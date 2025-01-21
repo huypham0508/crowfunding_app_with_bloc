@@ -129,6 +129,19 @@ class SignInView extends StatelessWidget {
   }
 
   List<Widget> _inputs(SignInState signInState, BuildContext context) {
+    _handleSubmitted(String value, BuildContext context, SignInState state) {
+      context.read<SignInBloc>().add(
+            StartedLoginEvent(
+              context: context,
+              type: StartedLoginEventEnum.submitted,
+              loginModel: LoginModel(
+                email: state.signInEmailSController.text,
+                password: state.signInPasswordController.text,
+              ),
+            ),
+          );
+    }
+
     return [
       GlobalStyles.sizedBoxHeight_24,
       ErrorMessage(errorMessage: signInState.errorMessage),
@@ -136,6 +149,7 @@ class SignInView extends StatelessWidget {
         textController: signInState.signInEmailSController,
         hinText: 'example@gmail.com',
         title: 'Email *',
+        onSubmitted: (value) => _handleSubmitted(value, context, signInState),
         onChange: (value) {
           context.read<SignInBloc>().add(
                 StartedLoginEvent(
@@ -155,6 +169,7 @@ class SignInView extends StatelessWidget {
         hinText: 'Enter password',
         title: 'Password *',
         obscureText: true,
+        onSubmitted: (value) => _handleSubmitted(value, context, signInState),
         onChange: (value) {
           context.read<SignInBloc>().add(
                 StartedLoginEvent(

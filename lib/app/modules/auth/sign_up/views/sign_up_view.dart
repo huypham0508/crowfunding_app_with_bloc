@@ -122,6 +122,21 @@ class SignUpView extends StatelessWidget {
     SignUpState signUpState,
     BuildContext context,
   ) {
+    _handleSubmitted(String value, BuildContext context, SignUpState state) {
+      context.read<SignUpBloc>().add(
+            StartedSignUpEvent(
+              context: context,
+              type: StartedSignUpEventEnum.submitted,
+              registerModel: RegisterModel(
+                username: state.signUpUsernameController.text,
+                email: state.signUpEmailSController.text,
+                password: state.signUpPasswordController.text,
+                confirmPw: state.signUpConfirmPwController.text,
+              ),
+            ),
+          );
+    }
+
     return [
       GlobalStyles.sizedBoxHeight_10,
       ErrorMessage(errorMessage: signUpState.errorMessage),
@@ -129,6 +144,7 @@ class SignUpView extends StatelessWidget {
         textController: signUpState.signUpUsernameController,
         hinText: 'Jhon Doe',
         title: FlutterI18n.translate(context, "auth.sign_up.full_name"),
+        onSubmitted: (value) => _handleSubmitted(value, context, signUpState),
         onChange: (value) {
           context.read<SignUpBloc>().add(
                 StartedSignUpEvent(
@@ -149,6 +165,7 @@ class SignUpView extends StatelessWidget {
         textController: signUpState.signUpEmailSController,
         hinText: 'example@gmail.com',
         title: FlutterI18n.translate(context, "auth.sign_up.email"),
+        onSubmitted: (value) => _handleSubmitted(value, context, signUpState),
         onChange: (value) {
           context.read<SignUpBloc>().add(
                 StartedSignUpEvent(
@@ -170,6 +187,7 @@ class SignUpView extends StatelessWidget {
         hinText: 'Create a password',
         title: FlutterI18n.translate(context, "auth.sign_up.password"),
         obscureText: true,
+        onSubmitted: (value) => _handleSubmitted(value, context, signUpState),
         onChange: (value) {
           context.read<SignUpBloc>().add(
                 StartedSignUpEvent(
@@ -194,6 +212,7 @@ class SignUpView extends StatelessWidget {
           "auth.sign_up.confirm_password",
         ),
         obscureText: true,
+        onSubmitted: (value) => _handleSubmitted(value, context, signUpState),
         onChange: (value) {
           context.read<SignUpBloc>().add(
                 StartedSignUpEvent(

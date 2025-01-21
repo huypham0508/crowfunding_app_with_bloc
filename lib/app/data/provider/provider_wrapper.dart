@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:crowfunding_app_with_bloc/app/constants/graph_query.dart';
 import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
 import 'package:crowfunding_app_with_bloc/app/models/response/refresh_token_response.dart';
@@ -9,6 +11,9 @@ abstract class ProviderWrapper {
   late GraphQLClient graphQLClient;
   final String _url = ConfigGraphQl.httpLink;
   late final LocalDataSource localDataSource;
+
+  static const int maxRetryAttempts = 1;
+  int _retryAttempts = 0;
 
   ProviderWrapper({required this.localDataSource}) {
     _init();
@@ -31,7 +36,7 @@ abstract class ProviderWrapper {
     _token = tokenParam;
     final authLink = await AuthLink(getToken: () async => 'Bearer $_token');
     final Link httpLink = await HttpLink(_url);
-    Link link = await authLink.concat(httpLink);
+    Link link = authLink.concat(httpLink);
     graphQLClient = GraphQLClient(
       defaultPolicies: DefaultPolicies(
         query: Policies(
@@ -61,30 +66,28 @@ abstract class ProviderWrapper {
         await setHeader(tokenParam: data.accessToken);
       }
     } catch (e) {
-      throw Error();
+      throw Exception('Failed to refresh token: $e');
     }
   }
 
-  Future executeWithRetry<T>(
+  Future<T?> executeWithRetry<T>(
     Future<T> Function() action, {
-    int retryCount = 3,
+    int retryCount = maxRetryAttempts,
   }) async {
     try {
       var result = await action();
-      if (result == null) {
-        throw Exception();
-      }
+      _retryAttempts = 0;
       return result;
     } catch (e) {
-      if (retryCount > 0) {
-        if (await localDataSource.getRefreshToken() == null) {
-          return null;
-        }
-        await _refreshToken();
-        return await executeWithRetry(action, retryCount: retryCount - 1);
-      } else {
+      _retryAttempts++;
+      if (_retryAttempts >= maxRetryAttempts) {
         return null;
       }
+      if (await localDataSource.getRefreshToken() == null) {
+        return null;
+      }
+      await _refreshToken();
+      return await executeWithRetry(action, retryCount: retryCount - 1);
     }
   }
 }

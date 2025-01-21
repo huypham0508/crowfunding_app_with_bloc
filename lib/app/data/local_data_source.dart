@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:crowfunding_app_with_bloc/app/constants/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDataSource {
@@ -8,92 +7,72 @@ class LocalDataSource {
   final SharedPreferences sf;
 
   Future<void> saveUserName(String userName) async {
-    await sf.setString('userName', userName);
+    await sf.setString(ConfigLocalData.USER_NAME, userName);
   }
 
   Future<String?> getUserName() async {
-    return sf.getString('userName');
+    return sf.getString(ConfigLocalData.USER_NAME);
   }
 
   Future<void> deleteUserName() async {
-    await sf.remove('userName');
+    await sf.remove(ConfigLocalData.USER_NAME);
   }
 
   Future<void> saveUserId(String userId) async {
-    await sf.setString('userId', userId);
+    await sf.setString(ConfigLocalData.USER_ID, userId);
   }
 
   Future<String?> getUserId() async {
-    return sf.getString('userId');
+    return sf.getString(ConfigLocalData.USER_ID);
   }
 
   Future<void> deleteUserId() async {
-    await sf.remove('userId');
+    await sf.remove(ConfigLocalData.USER_ID);
   }
 
   Future<void> saveToken(String token) async {
-    await sf.setString('token', token);
+    await sf.setString(ConfigLocalData.TOKEN, token);
   }
 
   Future<String?> getToken() async {
-    return sf.getString('token');
+    return sf.getString(ConfigLocalData.TOKEN);
   }
 
   Future<void> deleteToken() async {
-    await sf.remove('token');
+    await sf.remove(ConfigLocalData.TOKEN);
   }
 
   Future<void> saveRefreshToken(String token) async {
-    await sf.setString('refreshToken', token);
+    await sf.setString(ConfigLocalData.REFRESH_TOKEN, token);
   }
 
   Future<String?> getRefreshToken() async {
-    return sf.getString('refreshToken');
+    return sf.getString(ConfigLocalData.REFRESH_TOKEN);
   }
 
   Future<void> deleteRefreshToken() async {
-    await sf.remove('refreshToken');
+    await sf.remove(ConfigLocalData.REFRESH_TOKEN);
   }
 
-  Future<void> saveQueueId(String token) async {
-    await sf.setString('queueID', token);
-  }
+  // Future<void> saveEmailsOtp(Map emails) async {
+  //   String jsonEmails = jsonEncode(emails);
+  //   await sf.setString('EmailsOtp', jsonEmails);
+  // }
 
-  Future<String?> getQueueId() async {
-    return sf.getString('queueID');
-  }
+  // Future<Map?> getEmailsOtp() async {
+  //   String? emails = await sf.getString('EmailsOtp');
+  //   if (emails != null) {
+  //     Map<String, dynamic> map = jsonDecode(emails);
+  //     return map;
+  //   }
+  //   return null;
+  // }
 
-  Future<void> deleteQueueId() async {
-    await sf.remove('queueID');
-  }
+  // Future<void> deleteEmailsOtp() async {
+  //   await sf.remove('EmailsOtp');
+  // }
 
-  Future<void> saveLastEventId(int id) async {
-    await sf.setInt('LastEventId', id);
-  }
-
-  Future<int?> getLastEventId() async {
-    return sf.getInt('LastEventId');
-  }
-
-  Future<void> deleteLastEventId() async {
-    await sf.remove('LastEventId');
-  }
-
-  Future<void> saveEmailsOtp(Map emails) async {
-    String jsonEmails = jsonEncode(emails);
-    await sf.setString('EmailsOtp', jsonEmails);
-  }
-
-  Future<Map?> getEmailsOtp() async {
-    String? emails = await sf.getString('EmailsOtp');
-    if (emails != null) {
-      Map<String, dynamic> map = jsonDecode(emails);
-      return map;
-    }
-    return null;
-  }
-
-  Future<void> deleteEmailsOtp() async {
-    await sf.remove('EmailsOtp');
+  Future<void> clean() async {
+    sf.clear();
   }
 }

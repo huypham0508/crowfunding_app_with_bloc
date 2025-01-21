@@ -5,7 +5,8 @@ import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dar
 import 'package:crowfunding_app_with_bloc/app/data/provider/rest/rest.dart';
 import 'package:crowfunding_app_with_bloc/app/data/repository/graphql/post_repository.dart';
 import 'package:crowfunding_app_with_bloc/app/data/repository/rest/api_service_repository.dart';
-import 'package:crowfunding_app_with_bloc/app/data/store/store.dart';
+import 'package:crowfunding_app_with_bloc/app/data/store/events_store.dart';
+import 'package:crowfunding_app_with_bloc/app/data/store/sqlite_store.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/global_bloc/camera/camera_bloc.dart';
 import 'package:crowfunding_app_with_bloc/app/modules/lo_to/bloc/lo_to_bloc.dart';
@@ -100,17 +101,25 @@ class _MainAppState extends State<MainApp> {
         //Create a ApiServiceRepository
         RepositoryProvider(
           create: (context) => ApiServiceRepository(
-            RestAPIClient(httpClient: Dio(), localDataSource: localDataSource),
+            RestAPIClient.getInstance(
+              httpClient: Dio(),
+              localDataSource: localDataSource,
+            ),
           ),
         ),
         RepositoryProvider(
-          create: (context) => ServerEventsManager(
+          create: (context) => ServerEventsManager.getInstance(
             apiServiceRepository: ApiServiceRepository(
-              RestAPIClient(
+              RestAPIClient.getInstance(
                 httpClient: Dio(),
                 localDataSource: localDataSource,
               ),
             ),
+          ),
+        ),
+        RepositoryProvider(
+          create: (context) => DatabaseLocal.getInstance(
+            widget.sharedPreferences,
           ),
         ),
         //Create a firebaseDatabase

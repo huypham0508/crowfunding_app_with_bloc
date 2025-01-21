@@ -110,8 +110,9 @@ class _AuthViewState extends State<AuthView> {
           listener: (context, state) {
             switch (state.status) {
               case AuthStatus.loginSuccess:
-                context.canPop();
-                context.go(RoutePaths.HOME);
+                context.go(RoutePaths.CONVERSATIONS);
+                final serverEventsManager = context.read<ServerEventsManager>();
+                serverEventsManager.startListening();
                 break;
               default:
                 break;

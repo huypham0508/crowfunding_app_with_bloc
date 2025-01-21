@@ -7,6 +7,7 @@ class InputAuthCustom extends StatelessWidget {
   final bool obscureText;
   final EdgeInsets margin;
   final Function(String value)? onChange;
+  final Function(String value)? onSubmitted;
   const InputAuthCustom({
     super.key,
     this.title,
@@ -15,6 +16,7 @@ class InputAuthCustom extends StatelessWidget {
     this.obscureText = false,
     this.margin = const EdgeInsets.only(left: 16.0, right: 32.0),
     this.onChange,
+    this.onSubmitted,
   });
 
   @override
@@ -37,6 +39,7 @@ class InputAuthCustom extends StatelessWidget {
                 cursorColor: Colors.black,
                 obscureText: obscureText,
                 onChanged: onChange,
+                onFieldSubmitted: onSubmitted,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w300,

@@ -38,7 +38,6 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
   ) async {
     try {
       final response = await friendRepository.acceptRequest(event.requestId);
-      print(response.message);
       if (response.success == true) {
         final findRequest = state.friendsRequest.firstWhere(
           (element) => element.id == event.requestId,

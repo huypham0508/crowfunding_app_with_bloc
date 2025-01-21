@@ -34,23 +34,6 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // IconButton(
-              //   onPressed: () {
-              //     showToast(
-              //       context,
-              //       Toast(
-              //         child: CustomInfoToast(
-              //           title: 'Hello, Flutter dev! ${Random().nextInt(10)}',
-              //           description: 'This is a custom info toast. '
-              //               'It has button confirm to close toast and distroy all',
-              //         ),
-              //       ),
-              //       width: 420,
-              //     );
-              //   },
-              //   icon: Icon(Icons.edit_note_rounded),
-              // ),
-              GlobalStyles.sizedBoxHeight_10,
               GlobalStyles.sizedBoxHeight_10,
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
@@ -97,9 +80,9 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       //posts all
                       TabContent(
+                        showCam: true,
                         loading: state.loadingAllPosts,
                         listData: state.allPosts,
-                        showCam: true,
                         listCam: _cameraDesc,
                         onPageChanged: (index) {
                           if (index == state.allPosts.length - 3) {
@@ -200,3 +183,20 @@ class CustomInfoToast extends StatelessWidget {
     );
   }
 }
+
+ // IconButton(
+              //   onPressed: () {
+              //     showToast(
+              //       context,
+              //       Toast(
+              //         child: CustomInfoToast(
+              //           title: 'Hello, Flutter dev! ${Random().nextInt(10)}',
+              //           description: 'This is a custom info toast. '
+              //               'It has button confirm to close toast and distroy all',
+              //         ),
+              //       ),
+              //       width: 420,
+              //     );
+              //   },
+              //   icon: Icon(Icons.edit_note_rounded),
+              // ),
