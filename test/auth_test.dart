@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:crowfunding_app_with_bloc/app/data/local_data_source.dart';
-import 'package:crowfunding_app_with_bloc/app/data/provider/graphql/graph_QL.dart';
-import 'package:crowfunding_app_with_bloc/app/global_bloc/auth/auth_bloc.dart';
-import 'package:crowfunding_app_with_bloc/app/modules/auth/index.dart';
-import 'package:crowfunding_app_with_bloc/app/services/biometric_service.dart';
+import 'package:crowfunding_app_with_bloc/src/data/local_data_source.dart';
+import 'package:crowfunding_app_with_bloc/src/data/provider/graphql/graph_QL.dart';
+import 'package:crowfunding_app_with_bloc/src/global/blocs/auth/auth_bloc.dart';
+import 'package:crowfunding_app_with_bloc/src/modules/auth/index.dart';
+import 'package:crowfunding_app_with_bloc/src/services/biometric_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
